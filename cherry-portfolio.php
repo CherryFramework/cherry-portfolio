@@ -3,7 +3,7 @@
  * Plugin Name: Cherry Portfolio
  * Plugin URI:  http://www.cherryframework.com/
  * Description: A testimonials management plugin for WordPress.
- * Version:     1.0.0 beta1
+ * Version:     1.0.0 beta
  * Author:      Cherry Team
  * Author URI:  http://www.cherryframework.com/
  * Text Domain: cherry-portfolio
@@ -58,7 +58,9 @@ if ( !class_exists( 'Cherry_Portfolio' ) ) {
 			add_action( 'plugins_loaded', array( $this, 'admin' ),     4 );
 
 			// Load public-facing style sheet.
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+			add_action( 'wp_enqueue_scripts',         array( $this, 'enqueue_styles' ) );
+			add_filter( 'cherry_compiler_static_css', array( $this, 'add_style_to_compiler' ) );
+
 			// Load public-facing JavaScript.
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
@@ -165,10 +167,26 @@ if ( !class_exists( 'Cherry_Portfolio' ) ) {
 		 * @since 1.0.0
 		 */
 		public function enqueue_styles() {
-			wp_enqueue_style( 'magnific-popup-style', plugins_url( 'public/assets/css/magnific-popup.css', __FILE__ ), array(), CHERRY_PORTFOLIO_VERSION );
+			wp_enqueue_style( 'magnific-popup', plugins_url( 'public/assets/css/magnific-popup.css', __FILE__ ), array(), CHERRY_PORTFOLIO_VERSION );
 			//wp_enqueue_style( 'justified-gallery', plugins_url( 'public/assets/css/justified-gallery.css', __FILE__ ), array(), CHERRY_PORTFOLIO_VERSION );
 			wp_enqueue_style( 'swiper', plugins_url( 'public/assets/css/swiper.css', __FILE__ ), array(), CHERRY_PORTFOLIO_VERSION );
-			wp_enqueue_style( 'cherry-portfolio-style', plugins_url( 'public/assets/css/style.css', __FILE__ ), array(), CHERRY_PORTFOLIO_VERSION );
+			wp_enqueue_style( 'cherry-portfolio', plugins_url( 'public/assets/css/style.css', __FILE__ ), array(), CHERRY_PORTFOLIO_VERSION );
+		}
+
+		/**
+		 * Pass style handle to CSS compiler.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $handles CSS handles to compile.
+		 */
+		public function add_style_to_compiler( $handles ) {
+			$handles = array_merge(
+				array( 'cherry-portfolio' => plugins_url( 'public/assets/css/style.css', __FILE__ ) ),
+				$handles
+			);
+
+			return $handles;
 		}
 
 		/**
@@ -177,12 +195,12 @@ if ( !class_exists( 'Cherry_Portfolio' ) ) {
 		 * @since 1.0.0
 		 */
 		public function enqueue_scripts() {
-			wp_enqueue_script( 'magnific-popup-min-js', trailingslashit( CHERRY_PORTFOLIO_URI ) . 'public/assets/js/jquery.magnific-popup.min.js', array( 'jquery' ), CHERRY_PORTFOLIO_VERSION, true);
+			wp_enqueue_script( 'magnific-popup', trailingslashit( CHERRY_PORTFOLIO_URI ) . 'public/assets/js/jquery.magnific-popup.min.js', array( 'jquery' ), CHERRY_PORTFOLIO_VERSION, true);
 			wp_enqueue_script( 'imagesloaded', trailingslashit( CHERRY_PORTFOLIO_URI ) . 'public/assets/js/imagesloaded.pkgd.js', array( 'jquery' ), CHERRY_PORTFOLIO_VERSION, true);
 			//wp_enqueue_script( 'justified-gallery', trailingslashit( CHERRY_PORTFOLIO_URI ) . 'public/assets/js/justified-gallery.js', array( 'jquery' ), CHERRY_PORTFOLIO_VERSION, true);
 			wp_enqueue_script( 'isotope', trailingslashit( CHERRY_PORTFOLIO_URI ) . 'public/assets/js/isotope.pkgd.min.js', array( 'jquery' ), CHERRY_PORTFOLIO_VERSION, true);
 			wp_enqueue_script( 'cherry-portfolio-layout-plugin', trailingslashit( CHERRY_PORTFOLIO_URI ) . 'public/assets/js/cherry-portfolio-layout-plugin.js', array( 'jquery' ), CHERRY_PORTFOLIO_VERSION, true);
-			wp_enqueue_script( 'swiper-jquery', trailingslashit( CHERRY_PORTFOLIO_URI ) . 'public/assets/js/swiper.js', array( 'jquery' ), CHERRY_PORTFOLIO_VERSION, true);
+			wp_enqueue_script( 'swiper', trailingslashit( CHERRY_PORTFOLIO_URI ) . 'public/assets/js/swiper.js', array( 'jquery' ), CHERRY_PORTFOLIO_VERSION, true);
 			wp_enqueue_script( 'cherry-portfolio-script', trailingslashit( CHERRY_PORTFOLIO_URI ) . 'public/assets/js/cherry-portfolio-scripts.js', array( 'jquery' ), CHERRY_PORTFOLIO_VERSION, true);
 
 			//ajax js object portfolio_type_ajax
