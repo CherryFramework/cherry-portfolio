@@ -213,6 +213,37 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 				'description'	=> __('List content template', 'cherry-portfolio'),
 				'value'			=> 'list-default.tmpl',
 			);
+			$portfolio_options['portfolio-single-standart-template'] = array(
+				'type'			=> 'text',
+				'title'			=> __('Standart post template', 'cherry-portfolio'),
+				'description'	=> __('Standart post format template content', 'cherry-portfolio'),
+				'value'			=> 'post-format-standart-template.tmpl',
+			);
+			$portfolio_options['portfolio-single-image-template'] = array(
+				'type'			=> 'text',
+				'title'			=> __('Image post template', 'cherry-portfolio'),
+				'description'	=> __('Image post format template content', 'cherry-portfolio'),
+				'value'			=> 'post-format-image-template.tmpl',
+			);
+			$portfolio_options['portfolio-single-gallery-template'] = array(
+				'type'			=> 'text',
+				'title'			=> __('Gallery post template', 'cherry-portfolio'),
+				'description'	=> __('Gallery post format template content', 'cherry-portfolio'),
+				'value'			=> 'post-format-gallery-template.tmpl',
+			);
+			$portfolio_options['portfolio-single-audio-template'] = array(
+				'type'			=> 'text',
+				'title'			=> __('Audio post template', 'cherry-portfolio'),
+				'description'	=> __('Audio post format template content', 'cherry-portfolio'),
+				'value'			=> 'post-format-audio-template.tmpl',
+			);
+			$portfolio_options['portfolio-single-video-template'] = array(
+				'type'			=> 'text',
+				'title'			=> __('Video post template', 'cherry-portfolio'),
+				'description'	=> __('Video post format template content', 'cherry-portfolio'),
+				'value'			=> 'post-format-video-template.tmpl',
+			);
+
 			$portfolio_options = apply_filters( 'cherry_portfolio_default_settings', $portfolio_options );
 			$result_array['portfolio-options-section'] = array(
 				'name'			=> __('Cherry Portfolio', 'cherry-portfolio'),

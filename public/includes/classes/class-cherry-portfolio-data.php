@@ -73,11 +73,11 @@ class Cherry_Portfolio_Data {
 			'fixed_height'						=> true,
 			'filter_type'						=> 'category',
 			//////////////////////////////////////////////////
-			'post_format_standart_template'		=> 'post-format-standart-template.tmpl',
-			'post_format_image_template'		=> 'post-format-image-template.tmpl',
-			'post_format_gallery_template'		=> 'post-format-gallery-template.tmpl',
-			'post_format_audio_template'		=> 'post-format-audio-template.tmpl',
-			'post_format_video_template'		=> 'post-format-video-template.tmpl',
+			'post_format_standart_template'		=> self::cherry_portfolio_get_option('portfolio-single-standart-template', 'post-format-standart-template.tmpl'),
+			'post_format_image_template'		=> self::cherry_portfolio_get_option('portfolio-single-image-template', 'post-format-image-template.tmpl'),
+			'post_format_gallery_template'		=> self::cherry_portfolio_get_option('portfolio-single-gallery-template', 'post-format-gallery-template.tmpl'),
+			'post_format_audio_template'		=> self::cherry_portfolio_get_option('portfolio-single-audio-template', 'post-format-audio-template.tmpl'),
+			'post_format_video_template'		=> self::cherry_portfolio_get_option('portfolio-single-video-template', 'post-format-video-template.tmpl'),
 			'template'							=> '',
 		);
 
