@@ -8,7 +8,7 @@
  * @since   1.0.0
  */
 ?>
-<article <?php cherry_attr( 'post' ); ?>>
+<article <?php if ( function_exists( 'cherry_attr' ) ) cherry_attr( 'post' ); ?>>
 
 	<?php
 		$data = new Cherry_Portfolio_Data;

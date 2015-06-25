@@ -8,7 +8,7 @@ while ( have_posts() ) :
 
 		the_post(); ?>
 
-		<article <?php cherry_attr( 'post' ); ?>>
+		<article <?php if ( function_exists( 'cherry_attr' ) ) cherry_attr( 'post' ); ?>>
 
 		<?php
 
