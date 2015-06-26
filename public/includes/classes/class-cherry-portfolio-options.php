@@ -141,6 +141,18 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 					),
 				)
 			);
+			$portfolio_options['portfolio-filter-visible'] = array(
+				'type'			=> 'switcher',
+				'title'			=> __('Filters', 'cherry-portfolio'),
+				'description'	=> __('Enable/disable listing filters', 'cherry-portfolio'),
+				'value'			=> 'true'
+			);
+			$portfolio_options['portfolio-order-filter-visible'] = array(
+				'type'			=> 'switcher',
+				'title'			=> __('Order filters', 'cherry-portfolio'),
+				'description'	=> __('Enable/disable order filters', 'cherry-portfolio'),
+				'value'			=> 'true'
+			);
 			$portfolio_options['portfolio-column-number'] = array(
 				'type'			=> 'slider',
 				'title'			=> __('Column number', 'cherry-portfolio'),

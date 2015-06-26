@@ -36,7 +36,7 @@ if( !class_exists( 'Cherry_Base_Update' ) ) {
 				'sslverify'			=> true
 			);
 
-		protected function bace_init( $attr = array() ){
+		protected function base_init( $attr = array() ){
 			$this ->api = array_merge( $this ->api, $attr );
 
 			add_filter( 'upgrader_source_selection', array( $this, 'rename_github_folder' ), 11, 3 );
