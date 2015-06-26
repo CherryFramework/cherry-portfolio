@@ -50,6 +50,10 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 						'label'		=> __('Grid', 'cherry-portfolio'),
 						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/list-layout-grid.svg'
 					),
+					/*'justified-layout' => array(
+						'label'		=> __('Fustified', 'cherry-portfolio'),
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/list-layout-justified.svg'
+					),*/
 					'list-layout' => array(
 						'label'		=> __('List', 'cherry-portfolio'),
 						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/list-layout-listing.svg'
@@ -218,6 +222,12 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 				'title'			=> __('Grid template', 'cherry-portfolio'),
 				'description'	=> __('Grid content template', 'cherry-portfolio'),
 				'value'			=> 'grid-default.tmpl',
+			);
+			$portfolio_options['portfolio-justified-template'] = array(
+				'type'			=> 'text',
+				'title'			=> __('Justified template', 'cherry-portfolio'),
+				'description'	=> __('Justified content template', 'cherry-portfolio'),
+				'value'			=> 'justified-default.tmpl',
 			);
 			$portfolio_options['portfolio-list-template'] = array(
 				'type'			=> 'text',

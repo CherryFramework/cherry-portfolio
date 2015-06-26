@@ -53,6 +53,7 @@ class Cherry_Portfolio_Data {
 			'masonry_template'					=> self::cherry_portfolio_get_option('portfolio-masonry-template', 'masonry-default.tmpl'),
 			'grid_template'						=> self::cherry_portfolio_get_option('portfolio-grid-template', 'grid-default.tmpl'),
 			'list_template'						=> self::cherry_portfolio_get_option('portfolio-list-template', 'list-default.tmpl'),
+			'justified_template'				=> self::cherry_portfolio_get_option('portfolio-justified-template', 'justified-default.tmpl'),
 			'listing_layout'					=> self::cherry_portfolio_get_option('portfolio-listing-layout', 'masonry-layout'),
 			'grid_col'							=> self::cherry_portfolio_get_option('portfolio-column-number', 3),
 			'loading_mode'						=> self::cherry_portfolio_get_option('portfolio-loading-mode', 'portfolio-ajax-pagination-mode'),
@@ -99,6 +100,10 @@ class Cherry_Portfolio_Data {
 				//self::$default_options['template'] = self::$default_options['grid_template'];
 				self::$default_options['image_class'] = 'grid-image';
 				self::$default_options['is_image_crop'] = true;
+				break;
+			case 'justified-layout':
+				self::$default_options['image_class'] = 'justified-image';
+				self::$default_options['is_image_crop'] = false;
 				break;
 			case 'list-layout':
 				//self::$default_options['template'] = self::$default_options['list_template'];
@@ -267,10 +272,14 @@ class Cherry_Portfolio_Data {
 					case 'grid-layout':
 						$template = self::$default_options['grid_template'];
 						break;
+					case 'justified-layout':
+						$template = self::$default_options['justified_template'];
+						break;
 					case 'list-layout':
 						$template = self::$default_options['list_template'];
 						break;
 				}
+
 				//$template_file = self::get_template_path( $template, Cherry_Portfolio_Shortcode::$name );
 				$template = self::get_template_by_name( $template, Cherry_Portfolio_Shortcode::$name );
 
@@ -336,6 +345,7 @@ class Cherry_Portfolio_Data {
 				$thumb_id   = get_post_thumbnail_id();
 				$format = get_post_format( $post_id );
 				$format = (empty( $format )) ? 'post-format-standart' : 'post-format-' . $format;
+				$justified_attrs = '';
 				// Excerpt.
 				if ( post_type_supports( $post_type, 'excerpt' ) ) {
 					$excerpt = has_excerpt( $post_id ) ? apply_filters( 'the_excerpt', get_the_excerpt() ) : '';
@@ -344,12 +354,25 @@ class Cherry_Portfolio_Data {
 				if ( post_type_supports( $post_type, 'comments' ) ) {
 					$comments = ( comments_open() || get_comments_number() ) ? get_comments_number() : '';
 				}
+				// Image
 				if(	self::$default_options['is_image_crop'] == "true" ){
 					$img_url = wp_get_attachment_url( $thumb_id ,'full'); //get img URL
 					$image = $this->get_crop_image( $img_url, self::$default_options['image_crop_width' ], self::$default_options['image_crop_height' ] );
 				}else{
 					$image = $this->get_image( $post_id, 'large' );
 				}
+
+
+				if ( has_post_thumbnail( $post_id ) && $listing_layout === 'justified-layout' ) {
+					$attachment_image = wp_get_attachment_image_src( $thumb_id, 'large' );
+
+					$image_ratio = $attachment_image[1]/$attachment_image[2];
+					$justified_attrs = 'data-image-src="' . $attachment_image[0] . '"';
+					$justified_attrs .= ' data-image-width="' . $attachment_image[1] . '"';
+					$justified_attrs .= ' data-image-height="' . $attachment_image[2] . '"';
+					$justified_attrs .= ' data-image-ratio="' . $image_ratio . '"';
+				}
+
 				//check the attached image, if not attached - function replaces on the placeholder
 				if( !$image ){
 					$arg = apply_filters( 'cherry_portfolio_placeholder_args',
@@ -459,7 +482,7 @@ class Cherry_Portfolio_Data {
 				self::$default_options['tiles_mode']? $tile_item_class = 'tile-item' : $tile_item_class = '' ;
 
 				$list_item_attrs = '';
-				$list_item_attrs .= 'id="quote-' . $post_id . '" class="portfolio-item item-' . $count . ( ( $count++ % 2 ) ? ' odd' : ' even' ) . ' animate-cycle-show ' . $tile_item_class . ' ' . $listing_layout . '-item ' . self::$default_options['hover_layout'] . '-hover clearfix"';
+				$list_item_attrs .= 'id="quote-' . $post_id . '" class="portfolio-item item-' . $count . ( ( $count++ % 2 ) ? ' odd' : ' even' ) . ' animate-cycle-show ' . $tile_item_class . ' ' . $listing_layout . '-item ' . self::$default_options['hover_layout'] . '-hover clearfix"' . $justified_attrs ;
 
 				$output .= '<div ' . $list_item_attrs . '>';
 					$tpl = apply_filters( 'cherry_get_portfolio_loop', $tpl, $post_meta );
@@ -857,7 +880,7 @@ class Cherry_Portfolio_Data {
 	 * @param  array, string
 	 * @return string(HTML-formatted).
 	 */
-	public function get_image( $id, $size) {
+	public function get_image( $id, $size ) {
 		$image = '';
 
 		$attr = array(

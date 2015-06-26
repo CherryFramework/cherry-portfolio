@@ -208,27 +208,43 @@
 									}
 								}
 							}
-							&.masonry-layout-item{}
-							&.grid-layout-item{}
-							&.list-layout-item{
-								margin-bottom: 20px;
-								&:last-child{
-									margin-bottom: 0;
-								}
-								.inner-wrap{
-									margin: 0 0 20px 0;
-										.media-content{
-											width: 28%;
-											margin-right: 2%;
-											float: left;
-										}
-										.item-content{
-											width: 70%;
-											float: left;
-										}
-								}
+
+					}
+			}
+			&.masonry-layout{
+			}
+			&.grid-layout{
+			}
+			&.list-layout{
+				.list-layout-item{
+					margin-bottom: 20px;
+					&:last-child{
+						margin-bottom: 0;
+					}
+					.inner-wrap{
+						margin: 0 0 20px 0;
+							.media-content{
+								width: 28%;
+								margin-right: 2%;
+								float: left;
+							}
+							.item-content{
+								width: 70%;
+								float: left;
 							}
 					}
+				}
+			}
+			&.justified-layout{
+				.portfolio-list{
+					display: flex;
+					justify-content: space-between;
+					flex-wrap: wrap;
+						.justified-layout-item{
+							display: inline-block;
+							//width: 33.3%;
+						}
+				}
 			}
 			//---------------------------------------
 			//---------- animation layouts ----------
@@ -450,19 +466,6 @@
 							}
 					}
 			}
-			/*&.portfolio-justified-listing-layout{
-				.portfolio-list{
-					display: flex;
-					justify-content: space-between;
-					flex-direction: column;
-					flex-wrap: wrap;
-					height: 100vw;
-					max-height: 800px;
-						.portfolio-item{
-							width: 33.3%;
-						}
-				}
-			}*/
 		}
 }
 body.single-portfolio{

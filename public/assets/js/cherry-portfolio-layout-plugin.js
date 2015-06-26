@@ -215,6 +215,18 @@
 											});
 										})
 									break;
+									case 'justified-layout':
+										portfolioList.html('').append(elementsList);
+										portfolioContainer.append( pagePagination );
+										portfolioContainer.append( pageMoreButton );
+										console.log(elementsList);
+										portfolioList.imagesLoaded( function() {
+											showPortfolioList( beforeItemLength );
+											ajaxLoaderContainer.fadeTo(500, 0, function(){
+												$(this).css({"display":"none"});
+											});
+										} )
+									break;
 									case 'list-layout':
 										portfolioList.html('').append(elementsList);
 										portfolioContainer.append( pagePagination );
@@ -306,9 +318,9 @@
 											showPortfolioList( beforeItemLength );
 										});
 									break;
+									case 'justified-layout':
 									case 'list-layout':
 										portfolioList.append( elementsList );
-
 										portfolioList.imagesLoaded( function() {
 											showPortfolioList( beforeItemLength );
 											ajaxLoaderContainer.fadeTo(500, 0, function(){

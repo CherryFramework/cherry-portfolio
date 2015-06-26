@@ -1,28 +1,20 @@
-# Cherry Testimonials
-A testimonials management plugin for WordPress.
+# Cherry Portfolio
+A portfolio plugin for WordPress.
 __Сompatibility: *Cherry Framewokr v.4+*__
 
 ## Features
-* CPT Testimonials
-* Page template (named Testimonials) + single template
-* Widget (named Cherry Testimonials Widget)
-* Shortcode (named cherry_testimonials)
+* CPT Portfolio
+* Page template (named Portfolio) + single template
+* Shortcode (named cherry_portfolio)
 * 20+ custom hooks
 * Translation (Localization)
+* Ajax loading content
 
 ## How to use
 
 #### In a post/page
-Insert a shortcode `[cherry_testimonials]` to the post/page content.
+Insert a shortcode `[cherry_portfolio]` to the post/page content.
 
-#### In a page template
-Fire the action *'cherry_get_testimonials'*. Example:
-```
-	do_action( 'cherry_get_testimonials' );
-```
-
-#### In a sidebar
-Just drop widget to the your sidebar.
 
 ## Help
-Found a bug? Feature requests? [Create an issue - Thanks!](https://github.com/cheh/cherry-testimonials/issues/new)
+Found a bug? Feature requests? [Create an issue - Thanks!](https://github.com/CherryFramework/cherry-portfolio/issues)
