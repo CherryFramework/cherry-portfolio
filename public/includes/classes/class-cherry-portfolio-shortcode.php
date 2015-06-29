@@ -270,6 +270,18 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 				'open'  => '%%URL%%',
 				'close' => ''
 			),
+			'gallerythumbnails' => array(
+				'id'    => 'cherry_gallery_thumbnails',
+				'value' => __( 'Gallery thumbnail', 'cherry-portfolio' ),
+				'open'  => '%%GALLERYTHUMBNAILS%%',
+				'close' => ''
+			),
+			'thumbnailscount' => array(
+				'id'    => 'cherry_gallery_thumbnails_count',
+				'value' => __( 'Thumbnails count', 'cherry-portfolio' ),
+				'open'  => '%%THUMBNAILSCOUNT%%',
+				'close' => ''
+			),
 		);
 
 		return $macros_buttons;

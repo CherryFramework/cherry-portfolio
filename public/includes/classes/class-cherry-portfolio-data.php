@@ -53,13 +53,15 @@ class Cherry_Portfolio_Data {
 			'masonry_template'					=> self::cherry_portfolio_get_option('portfolio-masonry-template', 'masonry-default.tmpl'),
 			'grid_template'						=> self::cherry_portfolio_get_option('portfolio-grid-template', 'grid-default.tmpl'),
 			'list_template'						=> self::cherry_portfolio_get_option('portfolio-list-template', 'list-default.tmpl'),
+			'justified_template'				=> self::cherry_portfolio_get_option('portfolio-justified-template', 'justified-default.tmpl'),
 			'listing_layout'					=> self::cherry_portfolio_get_option('portfolio-listing-layout', 'masonry-layout'),
 			'grid_col'							=> self::cherry_portfolio_get_option('portfolio-column-number', 3),
 			'loading_mode'						=> self::cherry_portfolio_get_option('portfolio-loading-mode', 'portfolio-ajax-pagination-mode'),
 			'loading_animation'					=> self::cherry_portfolio_get_option('portfolio-loading-animation', 'loading-animation-fade'),
-			'hover_layout'						=> self::cherry_portfolio_get_option('portfolio-hover-animation', 'simple-fade') ,
+			'hover_layout'						=> self::cherry_portfolio_get_option('portfolio-hover-animation', 'simple-fade'),
 			'more_button_label'					=> apply_filters( 'cherry_text_translate', self::cherry_portfolio_get_option('portfolio-more-button-text', 'Read more'), 'portfolio_more_button_text' ) ,
-			'filter_visible'					=> true,
+			'filter_visible'					=> self::cherry_portfolio_get_option('portfolio-filter-visible', 'true'),
+			'order_filter_visible'				=> self::cherry_portfolio_get_option('portfolio-order-filter-visible', 'true'),
 			'is_image_crop'						=> self::cherry_portfolio_get_option('portfolio-is-crop-image', false),
 			'image_crop_width'					=> self::cherry_portfolio_get_option('portfolio-crop-image-width', 500),
 			'image_crop_height'					=> self::cherry_portfolio_get_option('portfolio-crop-image-height', 350),
@@ -98,6 +100,10 @@ class Cherry_Portfolio_Data {
 				//self::$default_options['template'] = self::$default_options['grid_template'];
 				self::$default_options['image_class'] = 'grid-image';
 				self::$default_options['is_image_crop'] = true;
+				break;
+			case 'justified-layout':
+				self::$default_options['image_class'] = 'justified-image';
+				self::$default_options['is_image_crop'] = false;
 				break;
 			case 'list-layout':
 				//self::$default_options['template'] = self::$default_options['list_template'];
@@ -160,15 +166,8 @@ class Cherry_Portfolio_Data {
 				$output .= $this->options['before_title'] . __( esc_html( $this->options['title'] ), 'cherry-portfolio' ) . $this->options['after_title'];
 			}
 
-			if( $this->options['filter_visible'] && $posts_query->have_posts() ){
-				switch ( $this->options['loading_mode'] ) {
-					case 'portfolio-ajax-pagination-mode':
-							$output .= $this->build_ajax_filter( $this->options['filter_type'] );
-						break;
-					case 'portfolio-more-button-mode':
-							$output .= $this->build_ajax_filter( $this->options['filter_type'] );
-						break;
-				}
+			if( $this->options['filter_visible'] === 'true' && $posts_query->have_posts() ){
+				$output .= $this->build_ajax_filter( $this->options['filter_type'] );
 			}
 			$this->options['fixed_height'] ? $fixed_height = "true" : $fixed_height = "false";
 
@@ -232,8 +231,8 @@ class Cherry_Portfolio_Data {
 			array(
 				'post_type'                       => CHERRY_PORTFOLIO_NAME,
 				CHERRY_PORTFOLIO_NAME.'_category' => '',
-				'orderby'                         => 'date',
 				'order'                           => 'DESC',
+				'orderby'                         => 'date',
 				'posts_per_page'                  => -1,
 				'paged'                           => $paged,
 				'offset'                          => 0,
@@ -273,21 +272,20 @@ class Cherry_Portfolio_Data {
 					case 'grid-layout':
 						$template = self::$default_options['grid_template'];
 						break;
+					case 'justified-layout':
+						$template = self::$default_options['justified_template'];
+						break;
 					case 'list-layout':
 						$template = self::$default_options['list_template'];
 						break;
 				}
+
 				//$template_file = self::get_template_path( $template, Cherry_Portfolio_Shortcode::$name );
 				$template = self::get_template_by_name( $template, Cherry_Portfolio_Shortcode::$name );
 
 				if ( false == $template ) {
 					return '<h4>' . __( 'Template file (*.tmpl) not found', 'tm' ) . '</h4>';
 				}
-
-				/*ob_start();
-				require( $template_file );
-				$template = ob_get_contents();
-				ob_end_clean();*/
 
 				// Temp array for post data.
 				$_postdata = array();
@@ -347,6 +345,7 @@ class Cherry_Portfolio_Data {
 				$thumb_id   = get_post_thumbnail_id();
 				$format = get_post_format( $post_id );
 				$format = (empty( $format )) ? 'post-format-standart' : 'post-format-' . $format;
+				$justified_attrs = '';
 				// Excerpt.
 				if ( post_type_supports( $post_type, 'excerpt' ) ) {
 					$excerpt = has_excerpt( $post_id ) ? apply_filters( 'the_excerpt', get_the_excerpt() ) : '';
@@ -355,12 +354,25 @@ class Cherry_Portfolio_Data {
 				if ( post_type_supports( $post_type, 'comments' ) ) {
 					$comments = ( comments_open() || get_comments_number() ) ? get_comments_number() : '';
 				}
+				// Image
 				if(	self::$default_options['is_image_crop'] == "true" ){
 					$img_url = wp_get_attachment_url( $thumb_id ,'full'); //get img URL
 					$image = $this->get_crop_image( $img_url, self::$default_options['image_crop_width' ], self::$default_options['image_crop_height' ] );
 				}else{
 					$image = $this->get_image( $post_id, 'large' );
 				}
+
+
+				if ( has_post_thumbnail( $post_id ) && $listing_layout === 'justified-layout' ) {
+					$attachment_image = wp_get_attachment_image_src( $thumb_id, 'large' );
+
+					$image_ratio = $attachment_image[1]/$attachment_image[2];
+					$justified_attrs = 'data-image-src="' . $attachment_image[0] . '"';
+					$justified_attrs .= ' data-image-width="' . $attachment_image[1] . '"';
+					$justified_attrs .= ' data-image-height="' . $attachment_image[2] . '"';
+					$justified_attrs .= ' data-image-ratio="' . $image_ratio . '"';
+				}
+
 				//check the attached image, if not attached - function replaces on the placeholder
 				if( !$image ){
 					$arg = apply_filters( 'cherry_portfolio_placeholder_args',
@@ -386,6 +398,10 @@ class Cherry_Portfolio_Data {
 
 				$category_name_list = $this->get_taxonomy_list( $post_id, 'category' );
 
+				$gallery_thumbnails = '';
+
+				$thumbnails_count = 0;
+
 				if ( !empty( $title_text ) ) {
 					$title = ( $linked_title ) ? sprintf( '<a href="%1$s" title="%2$s" class="%3$s">%4$s</a>', esc_url( $permalink ), esc_attr( $title_attr ), 'post-title-link', esc_attr( $title_text ) ) : sprintf( '%s', esc_attr( $title_text ) );
 				}
@@ -399,6 +415,19 @@ class Cherry_Portfolio_Data {
 						break;
 					case 'post-format-gallery':
 							$format = __('Gallery post', 'cherry-portfolio');
+							if ( isset( $post_meta['portfolio-gallery-attachments-ids'] ) ) {
+								$attachments_ids_array = explode( ",", $post_meta['portfolio-gallery-attachments-ids'] );
+								$gallery_thumbnails .= '<ul class="thumbnailset">';
+								$counter = 0;
+								foreach ( $attachments_ids_array as $attachment_id) {
+									$attachment_url = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
+									$gallery_thumbnails .= '<li class="item-' . $counter . '"><img src="' . $attachment_url[0] . '" width="' . $attachment_url[1] . '" height="' . $attachment_url[2] . '" alt="' . get_the_title( $attachment_id ) . '"></li>';
+									$counter++;
+								}
+								$gallery_thumbnails .= '</ul>';
+
+								$thumbnails_count = count( $attachments_ids_array );
+							}
 						break;
 					case 'post-format-audio':
 							$format = __('Audio post', 'cherry-portfolio');
@@ -418,6 +447,7 @@ class Cherry_Portfolio_Data {
 				$permalink  = sprintf( '<a class="item-link permalink" href="%1$s">%2$s</a>', $permalink, $permalink_text );
 				$zoomlink  = sprintf( '<a class="item-link zoomlink magnific-popup-link" href="%1$s">%2$s</a>', $attachment_image_data[0], $zoomlink_text );
 				$postformat = sprintf( '<span class="post-format">%s</span>', $format );
+				$thumbnails_count = apply_filters('cherry-portfolio-thumbnails-count-html', ( 0 !== $thumbnails_count ) ? sprintf( _n( '%s image', '%s images', $thumbnails_count, 'cherry-portfolio' ), $thumbnails_count ) : __('No image', 'cherry-portfolio') );
 
 				// Prepare a current post data array.
 				$_postdata['title']    = $title;
@@ -432,7 +462,8 @@ class Cherry_Portfolio_Data {
 				$_postdata['permalink']    = $permalink;
 				$_postdata['url']    = get_permalink();
 				$_postdata['postformat']    = $postformat;
-
+				$_postdata['gallerythumbnails']    = $gallery_thumbnails;
+				$_postdata['thumbnailscount']    = $thumbnails_count;
 				/**
 				 * Filters the array with a current post data.
 				 *
@@ -448,19 +479,14 @@ class Cherry_Portfolio_Data {
 
 				$tpl = preg_replace_callback( "/%%.+?%%/", array( $this, 'replace_callback' ), $tpl );
 
-
-
 				self::$default_options['tiles_mode']? $tile_item_class = 'tile-item' : $tile_item_class = '' ;
 
 				$list_item_attrs = '';
-				$list_item_attrs .= 'id="quote-' . $post_id . '" class="portfolio-item item-' . $count . ( ( $count++ % 2 ) ? ' odd' : ' even' ) . ' animate-cycle-show ' . $tile_item_class . ' ' . $listing_layout . '-item ' . self::$default_options['hover_layout'] . '-hover clearfix"';
-				//$list_item_attrs .= 'id="quote-' . $post_id . '" class="portfolio-item item-' . $count . ( ( $count++ % 2 ) ? ' odd' : ' even' ) . ' ' . $tile_item_class . ' ' . self::$default_options['listing_layout'] . '-item ' . self::$default_options['hover_layout'] . '-hover clearfix"';
+				$list_item_attrs .= 'id="quote-' . $post_id . '" class="portfolio-item item-' . $count . ( ( $count++ % 2 ) ? ' odd' : ' even' ) . ' animate-cycle-show ' . $tile_item_class . ' ' . $listing_layout . '-item ' . self::$default_options['hover_layout'] . '-hover clearfix"' . $justified_attrs ;
 
 				$output .= '<div ' . $list_item_attrs . '>';
-
 					$tpl = apply_filters( 'cherry_get_portfolio_loop', $tpl, $post_meta );
 					$output .= $tpl;
-
 				$output .= '</div>';
 
 				endwhile;
@@ -720,6 +746,9 @@ class Cherry_Portfolio_Data {
 					$post_taxonomy = is_wp_error( get_the_terms($post_id, CHERRY_PORTFOLIO_NAME.'_tag') ) ?'': get_the_terms($post_id, CHERRY_PORTFOLIO_NAME.'_tag');
 				break;
 		}
+
+		$taxonomy_name_list = apply_filters( 'cherry-portfolio-taxonomy-name-list', $taxonomy_name_list );
+
 		if( $post_taxonomy ){
 			$count = 1;
 				foreach ($post_taxonomy as $taxonomy => $taxonomy_value) {
@@ -743,13 +772,6 @@ class Cherry_Portfolio_Data {
 	public function build_ajax_filter( $filter_type ) {
 		$html = '';
 
-		switch ( $filter_type ) {
-			case 'category':
-				break;
-			case 'tag':
-				break;
-		}
-
 		$args = array(
 			'type'        => CHERRY_PORTFOLIO_NAME,
 			'orderby'     => 'name',
@@ -757,6 +779,7 @@ class Cherry_Portfolio_Data {
 			'taxonomy'    => CHERRY_PORTFOLIO_NAME . '_' . $filter_type,
 			'pad_counts'  => false
 		);
+
 		$categories = get_categories( $args );
 		$html .= '<div class="portfolio-filter with-ajax">';
 			$html .= '<ul class="filter filter-' . $filter_type . '">';
@@ -767,10 +790,34 @@ class Cherry_Portfolio_Data {
 				}
 			}
 			$html .= '</ul>';
+			if( 'true' === $this->options['order_filter_visible'] ){
+				$html .= '<ul class="order-filter">';
+					$html .= '<li data-order="order">';
+						$html .= __('Order', 'cherry-portfolio');
+						$html .= '<span class="current">' . __('DESC', 'cherry-portfolio') . '</span>';
+						$html .= '<ul class="order-list">';
+							$html .= '<li data-order="DESC">' . __('DESC', 'cherry-portfolio') . '</li>';
+							$html .= '<li data-order="ASC">' . __('ASC', 'cherry-portfolio') . '</li>';
+						$html .= '</ul>';
+						$html .= '<span class="marker"></span>';
+					$html .= '</li>';
+					$html .= '<li data-orderby="orderby">';
+						$html .= __('Order by', 'cherry-portfolio');
+						$html .= '<span class="current">' . __('Date', 'cherry-portfolio') . '</span>';
+						$html .= '<ul class="orderby-list">';
+							$html .= '<li data-orderby="date">' . __('Date', 'cherry-portfolio') . '</li>';
+							$html .= '<li data-orderby="name">' . __('Name', 'cherry-portfolio') . '</li>';
+							$html .= '<li data-orderby="modified">' . __('Modified', 'cherry-portfolio') . '</li>';
+							$html .= '<li data-orderby="comment_count">' . __('Comments', 'cherry-portfolio') . '</li>';
+						$html .= '</ul>';
+						$html .= '<span class="marker"></span>';
+					$html .= '</li>';
+				$html .= '</ul>';
+			}
+			$html .= '<div class="clear"></div>';
 		$html .= '</div>';
 		return $html;
 	}
-
 
 	/**
 	 * Get ajax pagination fot list items.
@@ -833,7 +880,7 @@ class Cherry_Portfolio_Data {
 	 * @param  array, string
 	 * @return string(HTML-formatted).
 	 */
-	public function get_image( $id, $size) {
+	public function get_image( $id, $size ) {
 		$image = '';
 
 		$attr = array(
@@ -1072,12 +1119,14 @@ function get_new_items() {
 		&& array_key_exists('post_per_page', $_POST)
 		&& array_key_exists('loading_mode', $_POST)
 		&& array_key_exists('list_layout', $_POST)
+		&& array_key_exists('order_settings', $_POST)
 		) {
 		$value_slug = $_POST['value_slug'];
 		$value_pagination_page = $_POST['value_pagination_page'];
 		$post_per_page = $_POST['post_per_page'];
 		$loading_mode = $_POST['loading_mode'];
 		$list_layout = $_POST['list_layout'];
+		$order_settings = $_POST['order_settings'];
 
 		($value_slug !== 'all') ? $_POST['value_slug'] : $value_slug = '';
 
@@ -1086,6 +1135,8 @@ function get_new_items() {
 		$query_args = array(
 			( Cherry_Portfolio_Data::$default_options['filter_type'] == 'category' ) ? CHERRY_PORTFOLIO_NAME.'_category' : CHERRY_PORTFOLIO_NAME.'_tag' => $value_slug,
 			'posts_per_page' => $post_per_page,
+			'order' => $order_settings['order'],
+			'orderby' => $order_settings['orderby'],
 			'paged' => $value_pagination_page,
 		);
 
@@ -1116,19 +1167,30 @@ add_action( 'wp_ajax_get_more_items', 'get_more_items' );
 add_action( 'wp_ajax_nopriv_get_more_items', 'get_more_items' );
 
 function get_more_items() {
-	if ( !empty($_POST) && array_key_exists('value_pagination_page', $_POST) && array_key_exists('value_slug', $_POST) && array_key_exists('post_per_page', $_POST) && array_key_exists('list_layout', $_POST) ) {
+	if (
+		!empty($_POST)
+		&& array_key_exists('value_pagination_page', $_POST)
+		&& array_key_exists('value_slug', $_POST)
+		&& array_key_exists('post_per_page', $_POST)
+		&& array_key_exists('list_layout', $_POST)
+		&& array_key_exists('order_settings', $_POST)
+		) {
 		$value_pagination_page = $_POST['value_pagination_page'];
 		$value_slug = $_POST['value_slug'];
 		$post_per_page = $_POST['post_per_page'];
 		$list_layout = $_POST['list_layout'];
+		$order_settings = $_POST['order_settings'];
 
 		$data = new Cherry_Portfolio_Data;
 		$query_args = array(
 			( Cherry_Portfolio_Data::$default_options['filter_type'] == 'category' ) ? CHERRY_PORTFOLIO_NAME.'_category' : CHERRY_PORTFOLIO_NAME.'_tag' => $value_slug,
 			'posts_per_page' => $post_per_page,
+			'order' => $order_settings['order'],
+			'orderby' => $order_settings['orderby'],
 			'paged' => intval( $value_pagination_page ),
 		);
-		$posts_query =  $data->get_query_portfolio_items( $query_args);
+		var_dump($query_args);
+		$posts_query =  $data->get_query_portfolio_items( $query_args );
 
 		$html = '<div class="response" data-all-posts-count="' . $posts_query->found_posts . '">';
 			$html .= $data->get_portfolio_items_loop( $posts_query, $list_layout );

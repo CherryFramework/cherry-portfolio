@@ -31,7 +31,9 @@ if( !class_exists( 'Cherry_Base_Update' ) ) {
 			);
 
 		protected function base_init( $attr = array() ){
+
 			$this->api = array_merge( $this->api, $attr );
+
 		}
 
 		protected function check_update() {

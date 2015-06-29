@@ -9,6 +9,7 @@
 					list-style: none;
 					margin: 0;
 					padding: 0;
+					float: left;
 						li{
 							float: left;
 							margin: 0 5px;
@@ -28,6 +29,61 @@
 										&:last-child{
 											margin: 0;
 										}
+								}
+						}
+				}
+				ul.order-filter{
+					display: inline-block;
+					list-style: none;
+					margin: 0;
+					padding: 0;
+					float: right;
+						>li{
+							float: left;
+							margin: 0 7px;
+							padding-right: 15px;
+							position: relative;
+							cursor: pointer;
+							color: #333333;
+								&:hover{
+									text-decoration: none;
+								}
+								ul{
+									display: none;
+									position: absolute;
+									top: 20px;
+									right: 0;
+									background: #fff;
+									list-style: none;
+									margin: 0;
+									padding: 10px 5px;
+									z-index: 99;
+										li{
+											white-space: nowrap;
+											&:hover{
+												color: #f62e46;
+												text-decoration: none;
+											}
+										}
+								}
+								span.current{
+									margin-left: 5px;
+								}
+								span.marker{
+									position: absolute;
+									display: block;
+									top: 6px;
+									right: 0;
+									width: 0;
+									height: 0;
+									border-style: solid;
+									border-width: 5px 5px 0 5px;
+									border-color: #f62e46 transparent transparent transparent;
+								}
+								&.dropdown-state{
+									ul{
+										display: block;
+									}
 								}
 						}
 				}
@@ -56,6 +112,21 @@
 									.item-content{
 										.item-meta-container{
 
+										}
+									}
+									.thumbnailset{
+										list-style: none;
+										margin: 0;
+										padding: 0;
+										position: absolute;
+										top: 0;
+										left: 0;
+										li{
+											float: left;
+											img{
+												width: auto;
+												height: auto;
+											}
 										}
 									}
 									.post-format{
@@ -109,9 +180,11 @@
 							}
 							&.simple-scale-hover{
 								.media-content{
-									img{
-										-webkit-transition: all 0.5s ease-out;
-												transition: all 0.5s ease-out;
+									.media-content{
+										img{
+											-webkit-transition: all 0.5s ease-out;
+													transition: all 0.5s ease-out;
+										}
 									}
 									.rollover-content{
 										opacity: 0;
@@ -121,9 +194,11 @@
 												transition: all 0.5s ease-out;
 									}
 									&:hover{
-										img{
-											-webkit-transform: scale(1.2);
-													transform: scale(1.2);
+										.media-content{
+											img{
+												-webkit-transform: scale(1.2);
+														transform: scale(1.2);
+											}
 										}
 										.rollover-content{
 											opacity: 1;
@@ -133,27 +208,43 @@
 									}
 								}
 							}
-							&.masonry-layout-item{}
-							&.grid-layout-item{}
-							&.list-layout-item{
-								margin-bottom: 20px;
-								&:last-child{
-									margin-bottom: 0;
-								}
-								.inner-wrap{
-									margin: 0 0 20px 0;
-										.media-content{
-											width: 28%;
-											margin-right: 2%;
-											float: left;
-										}
-										.item-content{
-											width: 70%;
-											float: left;
-										}
-								}
+
+					}
+			}
+			&.masonry-layout{
+			}
+			&.grid-layout{
+			}
+			&.list-layout{
+				.list-layout-item{
+					margin-bottom: 20px;
+					&:last-child{
+						margin-bottom: 0;
+					}
+					.inner-wrap{
+						margin: 0 0 20px 0;
+							.media-content{
+								width: 28%;
+								margin-right: 2%;
+								float: left;
+							}
+							.item-content{
+								width: 70%;
+								float: left;
 							}
 					}
+				}
+			}
+			&.justified-layout{
+				.portfolio-list{
+					display: flex;
+					justify-content: space-between;
+					flex-wrap: wrap;
+						.justified-layout-item{
+							display: inline-block;
+							//width: 33.3%;
+						}
+				}
 			}
 			//---------------------------------------
 			//---------- animation layouts ----------
@@ -375,19 +466,6 @@
 							}
 					}
 			}
-			/*&.portfolio-justified-listing-layout{
-				.portfolio-list{
-					display: flex;
-					justify-content: space-between;
-					flex-direction: column;
-					flex-wrap: wrap;
-					height: 100vw;
-					max-height: 800px;
-						.portfolio-item{
-							width: 33.3%;
-						}
-				}
-			}*/
 		}
 }
 body.single-portfolio{

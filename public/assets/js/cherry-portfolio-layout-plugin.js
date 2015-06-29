@@ -33,7 +33,11 @@
 					currentPaginationPage = 1,
 					allPageLenght = 0,
 					allPageLenght_temp = 0,
-					ajaxMoreClicked = false
+					ajaxMoreClicked = false,
+					orderSetting = {
+						order: 'DESC',
+						orderby: 'date'
+					}
 				;
 
 				_constructor();
@@ -48,7 +52,7 @@
 					ajaxLoaderContainer.css({"display":"block"}).fadeTo(500, 1);
 
 
-					ajaxGetNewContent( currentSlug, currentPaginationPage );
+					ajaxGetNewContent( currentSlug, currentPaginationPage, orderSetting );
 
 					allPageLenght = Math.ceil( parseInt($('.portfolio-list', portfolioContainer).data('all-posts-count'))/parseInt( postPerPage ) );
 					allPageLenght_temp = allPageLenght;
@@ -67,9 +71,48 @@
 							}
 							currentSlug = $(this).data('slug');
 
-							ajaxGetNewContent( currentSlug, currentPaginationPage );
+							ajaxGetNewContent( currentSlug, currentPaginationPage, orderSetting );
 						}
 					});
+
+					$('.portfolio-filter > .order-filter', _this).on('click', 'li', function(){
+						var $this = $(this);
+						$this.toggleClass('dropdown-state');
+					})
+
+					$('.portfolio-filter > .order-filter', _this).on('click', '.order-list > li', function(){
+						var
+							$this = $(this)
+						,	$parent = $(this).parents('[data-order="order"]')
+						,	$orderbyList = $parent.siblings('[data-orderby="orderby"]')
+						,	order = $this.data('order')
+						;
+
+						if( $orderbyList.hasClass('dropdown-state') ){
+							$orderbyList.removeClass('dropdown-state');
+						}
+
+						$('.current', $parent).html( $this.html() );
+						orderSetting.order = order;
+						ajaxGetNewContent( currentSlug, currentPaginationPage, orderSetting );
+					})
+
+					$('.portfolio-filter > .order-filter', _this).on('click', '.orderby-list > li', function(){
+						var
+							$this = $(this)
+						,	$parent = $(this).parents('[data-orderby="orderby"]')
+						,	$orderList = $parent.siblings('[data-order="order"]')
+						,	orderby = $this.data('orderby')
+						;
+
+						if( $orderList.hasClass('dropdown-state') ){
+							$orderList.removeClass('dropdown-state');
+						}
+						$('.current', $parent).html( $this.html() );
+						orderSetting.orderby = orderby;
+						ajaxGetNewContent( currentSlug, currentPaginationPage, orderSetting );
+					})
+
 					switch( loadingMode ){
 						case 'ajax-pagination':
 							$('.portfolio-pagination > ul > li a', _this).on('click', function(e){
@@ -95,7 +138,7 @@
 				}
 
 				// ajax filter
-				function ajaxGetNewContent( slug, page ){
+				function ajaxGetNewContent( slug, page, order ){
 					var data = {
 						action: 'get_new_items',
 						value_slug: slug,
@@ -103,6 +146,7 @@
 						post_per_page: postPerPage,
 						loading_mode: portfolioContainer.data('loading-mode'),
 						list_layout: portfolioContainer.data('list-layout'),
+						order_settings: order
 					};
 
 					hidePortfolioList();
@@ -150,7 +194,7 @@
 								;
 
 								allPageLenght = Math.ceil( parseInt( allPostsCount ) / parseInt( postPerPage ) );
-								//console.log("allPageLenght "+allPageLenght);
+
 								switch(listLayout){
 									case 'masonry-layout':
 									case 'grid-layout':
@@ -170,6 +214,18 @@
 												$(this).css({"display":"none"});
 											});
 										})
+									break;
+									case 'justified-layout':
+										portfolioList.html('').append(elementsList);
+										portfolioContainer.append( pagePagination );
+										portfolioContainer.append( pageMoreButton );
+										console.log(elementsList);
+										portfolioList.imagesLoaded( function() {
+											showPortfolioList( beforeItemLength );
+											ajaxLoaderContainer.fadeTo(500, 0, function(){
+												$(this).css({"display":"none"});
+											});
+										} )
 									break;
 									case 'list-layout':
 										portfolioList.html('').append(elementsList);
@@ -212,15 +268,16 @@
 				}
 
 				// ajax get more
-				function ajaxGetMore( page, slug ){
+				function ajaxGetMore( page, slug, order ){
 					var data = {
 						action: 'get_more_items',
 						value_pagination_page: page,
 						value_slug: slug,
 						post_per_page: postPerPage,
 						list_layout: portfolioContainer.data('list-layout'),
+						order_settings: order
 					};
-
+					console.log(order);
 					if( ajaxGetMoreRequest != null && ajaxRequestSuccess){
 						ajaxGetMoreRequest.abort();
 					}
@@ -261,9 +318,9 @@
 											showPortfolioList( beforeItemLength );
 										});
 									break;
+									case 'justified-layout':
 									case 'list-layout':
 										portfolioList.append( elementsList );
-
 										portfolioList.imagesLoaded( function() {
 											showPortfolioList( beforeItemLength );
 											ajaxLoaderContainer.fadeTo(500, 0, function(){
@@ -283,7 +340,7 @@
 						$('.portfolio-pagination > .page-link > li', _this).removeClass('active');
 						clicked.parent().addClass('active');
 						currentPaginationPage = clicked.parent().index() + 1;
-						ajaxGetNewContent( currentSlug, currentPaginationPage );
+						ajaxGetNewContent( currentSlug, currentPaginationPage, orderSetting );
 					}
 				}
 
@@ -291,11 +348,11 @@
 					switch(direction){
 						case 'next':
 							currentPaginationPage++;
-							ajaxGetNewContent( currentSlug, currentPaginationPage );
+							ajaxGetNewContent( currentSlug, currentPaginationPage, orderSetting );
 							break
 						case 'prev':
 							currentPaginationPage--;
-							ajaxGetNewContent( currentSlug, currentPaginationPage );
+							ajaxGetNewContent( currentSlug, currentPaginationPage, orderSetting );
 							break
 					}
 				}
@@ -309,7 +366,7 @@
 							//$('.portfolio-ajax-button .load-more-button', _this).addClass('disabled');
 							$('.portfolio-ajax-button .load-more-button', _this).slideUp();
 						}
-						ajaxGetMore( currentPaginationPage, currentSlug );
+						ajaxGetMore( currentPaginationPage, currentSlug, orderSetting );
 					}
 				}
 
