@@ -93,18 +93,22 @@ class Cherry_Portfolio_Data {
 		switch ( self::$default_options['listing_layout'] ) {
 			case 'masonry-layout':
 				self::$default_options['image_class'] = 'masonry-image';
+				self::$default_options['template'] = self::$default_options['masonry_template'];
 				break;
 			case 'grid-layout':
 				self::$default_options['image_class'] = 'grid-image';
 				self::$default_options['is_image_crop'] = true;
+				self::$default_options['template'] = self::$default_options['grid_template'];
 				break;
 			case 'justified-layout':
 				self::$default_options['image_class'] = 'justified-image';
 				self::$default_options['is_image_crop'] = false;
+				self::$default_options['template'] = self::$default_options['justified_template'];
 				break;
 			case 'list-layout':
 				self::$default_options['image_class'] = 'list-image';
 				self::$default_options['is_image_crop'] = true;
+				self::$default_options['template'] = self::$default_options['list_template'];
 				break;
 		}
 
@@ -175,7 +179,32 @@ class Cherry_Portfolio_Data {
 						$loading_mode = 'more-button';
 					break;
 			}
-			$output .= '<div class="portfolio-container ' . self::$options['listing_layout'] . ' ' . self::$options['loading_animation'] . '" data-post-per-page="' . self::$options['posts_per_page'] . '" data-list-layout="' . self::$options['listing_layout'] .'" data-column="' . self::$options['grid_col'] .'" data-loading-mode="' . $loading_mode .'" data-item-margin="' . self::$options['item_margin'] . '" data-fixed-height="' . self::$options['fixed_height'] . '">';
+
+			switch ( self::$options['listing_layout'] ) {
+				case 'masonry-layout':
+					$template = self::$options['masonry_template'];
+					break;
+				case 'grid-layout':
+					$template = self::$options['grid_template'];
+					break;
+				case 'justified-layout':
+					$template = self::$options['justified_template'];
+					break;
+				case 'list-layout':
+					$template = self::$options['list_template'];
+					break;
+			}
+
+			$container_attr = '';
+			$container_attr .= 'data-post-per-page="' . self::$options['posts_per_page'] . '"';
+			$container_attr .= 'data-column="' . self::$options['grid_col'] .'"';
+			$container_attr .= 'data-list-layout="' . self::$options['listing_layout'] .'"';
+			$container_attr .= 'data-loading-mode="' . $loading_mode .'"';
+			$container_attr .= 'data-item-margin="' . self::$options['item_margin'] . '"';
+			$container_attr .= 'data-fixed-height="' . self::$options['fixed_height'] . '"';
+			$container_attr .= 'data-template="' . self::$options['template'] . '"';
+
+			$output .= '<div class="portfolio-container ' . self::$options['listing_layout'] . ' ' . self::$options['loading_animation'] . '" ' . $container_attr . '>';
 				$output .= '<div class="portfolio-list"  data-all-posts-count="' . $this->posts_query->found_posts . '">';
 				$output .= '</div>';
 			$output .= '</div>';
@@ -255,13 +284,13 @@ class Cherry_Portfolio_Data {
 	 * @param  array         $posts_query      List of WP_Post objects.
 	 * @return string
 	 */
-	public function get_portfolio_items_loop( $posts_query, $listing_layout = 'masonry-layout' ) {
+	public function get_portfolio_items_loop( $posts_query, $listing_layout = 'masonry-layout', $template = 'masonry-default.tmpl' ) {
 		$count  = 1;
 		$output = '';
-			var_dump(self::$options);
+
 			if ( $posts_query->have_posts() ) {
 				// Item template's file.
-				switch ( $listing_layout ) {
+				/*switch ( $listing_layout ) {
 					case 'masonry-layout':
 						$template = self::$options['masonry_template'];
 						break;
@@ -275,7 +304,7 @@ class Cherry_Portfolio_Data {
 					case 'list-layout':
 						$template = self::$options['list_template'];
 						break;
-				}
+				}*/
 
 				$template = self::get_template_by_name( $template, Cherry_Portfolio_Shortcode::$name );
 
@@ -326,7 +355,7 @@ class Cherry_Portfolio_Data {
 					$number_trim_words = $_atts['content'];
 				}
 				// content
-				$number_gallery_thumbnails = 3;
+				$number_gallery_thumbnails = 99;
 				preg_match_all( '/GALLERYTHUMBNAILS=".+?"/', $template, $match, PREG_SET_ORDER );
 				if ( is_array( $match ) && !empty( $match ) ) {
 					$_atts       = shortcode_parse_atts( $match[0][0] );
@@ -428,7 +457,7 @@ class Cherry_Portfolio_Data {
 								$attachments_ids_array = explode( ",", $post_meta['portfolio-gallery-attachments-ids'] );
 								$gallery_thumbnails .= '<ul class="thumbnailset">';
 								$counter = 0;
-								foreach ( $attachments_ids_array as $attachment_id) {
+								foreach ( $attachments_ids_array as $attachment_id ) {
 									if( intval($number_gallery_thumbnails) == $counter ){
 										break;
 									}
@@ -1132,6 +1161,7 @@ function get_new_items() {
 		&& array_key_exists('loading_mode', $_POST)
 		&& array_key_exists('list_layout', $_POST)
 		&& array_key_exists('order_settings', $_POST)
+		&& array_key_exists('template', $_POST)
 		) {
 		$value_slug = $_POST['value_slug'];
 		$value_pagination_page = $_POST['value_pagination_page'];
@@ -1139,6 +1169,7 @@ function get_new_items() {
 		$loading_mode = $_POST['loading_mode'];
 		$list_layout = $_POST['list_layout'];
 		$order_settings = $_POST['order_settings'];
+		$template = $_POST['template'];
 
 		($value_slug !== 'all') ? $_POST['value_slug'] : $value_slug = '';
 
@@ -1157,7 +1188,7 @@ function get_new_items() {
 		$html = '';
 		$html .= '<div class="response">';
 			$html .= '<div class="portfolio-list " data-all-posts-count="' . $posts_query->found_posts . '">';
-				$html .= $data->get_portfolio_items_loop( $posts_query, $list_layout );
+				$html .= $data->get_portfolio_items_loop( $posts_query, $list_layout, $template );
 			$html .= '</div>';
 
 			switch ( $loading_mode ) {

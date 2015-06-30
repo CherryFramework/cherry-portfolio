@@ -159,25 +159,10 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 					'name'    => __( 'Gutter width', 'cherry-portfolio' ),
 					'desc'    => __( 'Set gutter width (in px)', 'cherry-portfolio' ),
 				),
-				'masonry_template' => array(
+				'template' => array(
 					'default' => 'masonry-default.tmpl',
-					'name'    => __( 'Masonry template', 'cherry-portfolio' ),
-					'desc'    => __( 'Masonry content template', 'cherry-portfolio' )
-				),
-				'grid_template' => array(
-					'default' => 'grid-default.tmpl',
-					'name'    => __( 'Grid template', 'cherry-portfolio' ),
-					'desc'    => __( 'Grid content template', 'cherry-portfolio' )
-				),
-				'justified_template' => array(
-					'default' => 'justified-default.tmpl',
-					'name'    => __( 'Justified template', 'cherry-portfolio' ),
-					'desc'    => __( 'Justified content template', 'cherry-portfolio' )
-				),
-				'list_template' => array(
-					'default' => 'list-default.tmpl',
-					'name'    => __( 'List template', 'cherry-portfolio' ),
-					'desc'    => __( 'List content template', 'cherry-portfolio' )
+					'name'    => __( 'Template', 'cherry-portfolio' ),
+					'desc'    => __( 'Content template', 'cherry-portfolio' )
 				),
 				'custom_class' => array(
 					'default' => '',
@@ -326,10 +311,7 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 			'grid_col'					=> 3,
 			'item_margin'				=> 4,
 			'echo'						=> false,
-			'masonry_template'			=> 'masonry-default.tmpl',
-			'grid_template'				=> 'grid-default.tmpl',
-			'justified_template'		=> 'justified-default.tmpl',
-			'list_template'				=> 'list-default.tmpl',
+			'template'					=> '',
 			'custom_class'				=> ''
 		);
 

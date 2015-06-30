@@ -20,12 +20,13 @@
 					portfolioContainer = $('.portfolio-container', _this),
 					portfolioList = $('.portfolio-list', portfolioContainer),
 					ajaxLoaderContainer = null,
-					column = $('.portfolio-container', this).data('column'),
-					postPerPage = $('.portfolio-container', this).data('post-per-page'),
-					itemMargin = parseInt( $('.portfolio-container', this).data('item-margin') ),
-					loadingMode = $('.portfolio-container', this).data('loading-mode'),
-					fixedHeight = $('.portfolio-container', this).data('fixed-height'),
-					listLayout = $('.portfolio-container', this).data('list-layout'),
+					column = portfolioContainer.data('column'),
+					postPerPage = portfolioContainer.data('post-per-page'),
+					itemMargin = parseInt( portfolioContainer.data('item-margin') ),
+					loadingMode = portfolioContainer.data('loading-mode'),
+					fixedHeight = portfolioContainer.data('fixed-height'),
+					listLayout = portfolioContainer.data('list-layout'),
+					template = portfolioContainer.data('template'),
 					isotopeOptions = {
 						itemSelector : '.portfolio-item',
 						resizable: false,
@@ -156,7 +157,8 @@
 						post_per_page: postPerPage,
 						loading_mode: portfolioContainer.data('loading-mode'),
 						list_layout: portfolioContainer.data('list-layout'),
-						order_settings: order
+						order_settings: order,
+						template: template
 					};
 
 					hidePortfolioList();
