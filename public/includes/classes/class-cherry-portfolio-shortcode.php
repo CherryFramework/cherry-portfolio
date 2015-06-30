@@ -89,6 +89,7 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 					'values'  => array(
 						'masonry-layout'	=> __('Masonry', 'cherry-portfolio'),
 						'grid-layout'		=> __('Grid', 'cherry-portfolio'),
+						'justified-layout'	=> __('Justified', 'cherry-portfolio'),
 						'list-layout'		=> __('List', 'cherry-portfolio'),
 					),
 					'default' => 'masonry-layout',
@@ -125,6 +126,12 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 					'name'    => __( 'Filter', 'cherry-portfolio' ),
 					'desc'    => __( 'Filter visible', 'cherry-portfolio' ),
 				),
+				'order_filter_visible' => array(
+					'type'    => 'bool',
+					'default' => 'yes',
+					'name'    => __( 'Order filter', 'cherry-portfolio' ),
+					'desc'    => __( 'Order filter visible', 'cherry-portfolio' ),
+				),
 				'posts_per_page' => array(
 					'type'    => 'number',
 					'min'     => 1,
@@ -152,15 +159,26 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 					'name'    => __( 'Gutter width', 'cherry-portfolio' ),
 					'desc'    => __( 'Set gutter width (in px)', 'cherry-portfolio' ),
 				),
-				/*'number_trim_words' => array(
-					'type'    => 'number',
-					'min'     => 0,
-					'max'     => 999,
-					'step'    => 1,
-					'default' => 25,
-					'name'    => __( 'Number words for trimmed text', 'cherry-portfolio' ),
-					'desc'    => __( 'Number of words from portfolio item content to be displayed in portfolio listing.', 'cherry-portfolio' ),
-				),*/
+				'masonry_template' => array(
+					'default' => 'masonry-default.tmpl',
+					'name'    => __( 'Masonry template', 'cherry-portfolio' ),
+					'desc'    => __( 'Masonry content template', 'cherry-portfolio' )
+				),
+				'grid_template' => array(
+					'default' => 'grid-default.tmpl',
+					'name'    => __( 'Grid template', 'cherry-portfolio' ),
+					'desc'    => __( 'Grid content template', 'cherry-portfolio' )
+				),
+				'justified_template' => array(
+					'default' => 'justified-default.tmpl',
+					'name'    => __( 'Justified template', 'cherry-portfolio' ),
+					'desc'    => __( 'Justified content template', 'cherry-portfolio' )
+				),
+				'list_template' => array(
+					'default' => 'list-default.tmpl',
+					'name'    => __( 'List template', 'cherry-portfolio' ),
+					'desc'    => __( 'List content template', 'cherry-portfolio' )
+				),
 				'custom_class' => array(
 					'default' => '',
 					'name'    => __( 'Class', 'cherry-portfolio' ),
@@ -285,8 +303,8 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 		);
 
 		return $macros_buttons;
-
 	}
+
 	/**
 	 * The shortcode function.
 	 *
@@ -297,19 +315,21 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 	 * @return string
 	 */
 	public function do_shortcode( $atts, $content = null, $shortcode = '' ) {
-
 		// Set up the default arguments.
-
 		$defaults = array(
 			'listing_layout'			=> 'masonry-layout',
 			'loading_mode'				=> 'portfolio-ajax-pagination-mode',
 			'loading_animation'			=> 'loading-animation-move-up',
 			'filter_visible'			=> 'yes',
+			'order_filter_visible'		=> 'yes',
 			'posts_per_page'			=> 9,
 			'grid_col'					=> 3,
 			'item_margin'				=> 4,
-			//'number_trim_words'			=> 25,
 			'echo'						=> false,
+			'masonry_template'			=> 'masonry-default.tmpl',
+			'grid_template'				=> 'grid-default.tmpl',
+			'justified_template'		=> 'justified-default.tmpl',
+			'list_template'				=> 'list-default.tmpl',
 			'custom_class'				=> ''
 		);
 

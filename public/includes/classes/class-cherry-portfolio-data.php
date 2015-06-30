@@ -22,7 +22,7 @@ class Cherry_Portfolio_Data {
 	 * @since 1.0.0
 	 * @var   array
 	 */
-	public $options = array();
+	public static $options = array();
 
 	public static $default_options = array();
 
@@ -72,9 +72,8 @@ class Cherry_Portfolio_Data {
 			'image_class'						=> '',
 			'echo'								=> true,
 			'item_margin'						=> self::cherry_portfolio_get_option('portfolio-item-margin', 4),
-			'fixed_height'						=> true,
+			'fixed_height'						=> self::cherry_portfolio_get_option('portfolio-justified-fixed-height', 300),
 			'filter_type'						=> 'category',
-			//////////////////////////////////////////////////
 			'post_format_standart_template'		=> self::cherry_portfolio_get_option('portfolio-single-standart-template', 'post-format-standart-template.tmpl'),
 			'post_format_image_template'		=> self::cherry_portfolio_get_option('portfolio-single-image-template', 'post-format-image-template.tmpl'),
 			'post_format_gallery_template'		=> self::cherry_portfolio_get_option('portfolio-single-gallery-template', 'post-format-gallery-template.tmpl'),
@@ -93,11 +92,9 @@ class Cherry_Portfolio_Data {
 		}
 		switch ( self::$default_options['listing_layout'] ) {
 			case 'masonry-layout':
-				//self::$default_options['template'] = self::$default_options['masonry_template'];
 				self::$default_options['image_class'] = 'masonry-image';
 				break;
 			case 'grid-layout':
-				//self::$default_options['template'] = self::$default_options['grid_template'];
 				self::$default_options['image_class'] = 'grid-image';
 				self::$default_options['is_image_crop'] = true;
 				break;
@@ -106,12 +103,12 @@ class Cherry_Portfolio_Data {
 				self::$default_options['is_image_crop'] = false;
 				break;
 			case 'list-layout':
-				//self::$default_options['template'] = self::$default_options['list_template'];
 				self::$default_options['image_class'] = 'list-image';
 				self::$default_options['is_image_crop'] = true;
 				break;
 		}
 
+		self::$options = wp_parse_args( self::$options, self::$default_options );
 		/**
 		 * Fires when you need to display portfolio.
 		 *
@@ -139,39 +136,38 @@ class Cherry_Portfolio_Data {
 		$default_options = apply_filters( 'cherry_the_portfolio_default_options', self::$default_options );
 
 		// default options marge
-		$this->options = wp_parse_args( $options, $default_options );
+		self::$options = wp_parse_args( $options, $default_options );
 
 		$output = '';
 
 		// The Query.
-		$posts_query = $this->get_query_portfolio_items( $this->options );
+		$posts_query = $this->get_query_portfolio_items( self::$options );
 
 		// The Display.
 		if ( !is_wp_error( $posts_query ) ) {
 
 			$css_class = '';
 
-			if ( !empty( $this->options['wrap_class'] ) ) {
-				$css_class .= sanitize_html_class( $this->options['wrap_class'] ) . ' ';
+			if ( !empty( self::$options['wrap_class'] ) ) {
+				$css_class .= sanitize_html_class( self::$options['wrap_class'] ) . ' ';
 			}
 
-			if ( !empty( $this->options['custom_class'] ) ) {
-				$css_class .= sanitize_html_class( $this->options['custom_class'] );
+			if ( !empty( self::$options['custom_class'] ) ) {
+				$css_class .= sanitize_html_class( self::$options['custom_class'] );
 			}
 
 			// Open wrapper.
 			$output .= sprintf( '<div class="%s">', trim( $css_class ) );
 
-			if ( !empty( $this->options['title'] ) ) {
-				$output .= $this->options['before_title'] . __( esc_html( $this->options['title'] ), 'cherry-portfolio' ) . $this->options['after_title'];
+			if ( !empty( self::$options['title'] ) ) {
+				$output .= self::$options['before_title'] . __( esc_html( self::$options['title'] ), 'cherry-portfolio' ) . self::$options['after_title'];
 			}
 
-			if( $this->options['filter_visible'] === 'true' && $posts_query->have_posts() ){
-				$output .= $this->build_ajax_filter( $this->options['filter_type'] );
+			if( self::$options['filter_visible'] == 'true' && $posts_query->have_posts() ){
+				$output .= $this->build_ajax_filter( self::$options['filter_type'] );
 			}
-			$this->options['fixed_height'] ? $fixed_height = "true" : $fixed_height = "false";
 
-			switch ( $this->options['loading_mode'] ) {
+			switch ( self::$options['loading_mode'] ) {
 				case 'portfolio-ajax-pagination-mode':
 						$loading_mode = 'ajax-pagination';
 					break;
@@ -179,7 +175,7 @@ class Cherry_Portfolio_Data {
 						$loading_mode = 'more-button';
 					break;
 			}
-			$output .= '<div class="portfolio-container ' . $this->options['listing_layout'] . ' ' . $this->options['loading_animation'] . '" data-post-per-page="' . $this->options['posts_per_page'] . '" data-list-layout="' . $this->options['listing_layout'] .'" data-column="' . $this->options['grid_col'] .'" data-loading-mode="' . $loading_mode .'" data-item-margin="' . $this->options['item_margin'] . '" data-fixed-height="' . $fixed_height . '">';
+			$output .= '<div class="portfolio-container ' . self::$options['listing_layout'] . ' ' . self::$options['loading_animation'] . '" data-post-per-page="' . self::$options['posts_per_page'] . '" data-list-layout="' . self::$options['listing_layout'] .'" data-column="' . self::$options['grid_col'] .'" data-loading-mode="' . $loading_mode .'" data-item-margin="' . self::$options['item_margin'] . '" data-fixed-height="' . self::$options['fixed_height'] . '">';
 				$output .= '<div class="portfolio-list"  data-all-posts-count="' . $this->posts_query->found_posts . '">';
 				$output .= '</div>';
 			$output .= '</div>';
@@ -198,7 +194,7 @@ class Cherry_Portfolio_Data {
 		 */
 		$output = apply_filters( 'cherry_portfolio_html', $output, $posts_query, $options );
 
-		if ( $this->options['echo'] != true ) {
+		if ( self::$options['echo'] != true ) {
 			return $output;
 		}
 
@@ -260,31 +256,31 @@ class Cherry_Portfolio_Data {
 	 * @return string
 	 */
 	public function get_portfolio_items_loop( $posts_query, $listing_layout = 'masonry-layout' ) {
-
 		$count  = 1;
 		$output = '';
+			var_dump(self::$options);
 			if ( $posts_query->have_posts() ) {
 				// Item template's file.
 				switch ( $listing_layout ) {
 					case 'masonry-layout':
-						$template = self::$default_options['masonry_template'];
+						$template = self::$options['masonry_template'];
 						break;
 					case 'grid-layout':
-						$template = self::$default_options['grid_template'];
+						$template = self::$options['grid_template'];
 						break;
 					case 'justified-layout':
-						$template = self::$default_options['justified_template'];
+
+						$template = self::$options['justified_template'];
 						break;
 					case 'list-layout':
-						$template = self::$default_options['list_template'];
+						$template = self::$options['list_template'];
 						break;
 				}
 
-				//$template_file = self::get_template_path( $template, Cherry_Portfolio_Shortcode::$name );
 				$template = self::get_template_by_name( $template, Cherry_Portfolio_Shortcode::$name );
 
 				if ( false == $template ) {
-					return '<h4>' . __( 'Template file (*.tmpl) not found', 'tm' ) . '</h4>';
+					return '<h4>' . __( 'Template file (*.tmpl) not found', 'cherry-portfolio' ) . '</h4>';
 				}
 
 				// Temp array for post data.
@@ -322,30 +318,47 @@ class Cherry_Portfolio_Data {
 					$_atts       = shortcode_parse_atts( $match[0][0] );
 					$permalink_text= $_atts['permalink'];
 				}
-
+				// content
 				$number_trim_words = 25;
 				preg_match_all( '/CONTENT=".+?"/', $template, $match, PREG_SET_ORDER );
 				if ( is_array( $match ) && !empty( $match ) ) {
 					$_atts       = shortcode_parse_atts( $match[0][0] );
 					$number_trim_words = $_atts['content'];
 				}
+				// content
+				$number_gallery_thumbnails = 3;
+				preg_match_all( '/GALLERYTHUMBNAILS=".+?"/', $template, $match, PREG_SET_ORDER );
+				if ( is_array( $match ) && !empty( $match ) ) {
+					$_atts       = shortcode_parse_atts( $match[0][0] );
+					$number_gallery_thumbnails = $_atts['gallerythumbnails'];
+				}
 
 				while ( $posts_query->have_posts() ) : $posts_query->the_post();
 
-				$tpl        = $template;
-				$post_id    = $posts_query->post->ID;
-				$post_meta  = get_post_meta( $post_id, CHERRY_PORTFOLIO_POSTMETA, true );
+				$tpl          = $template;
+				$post_id      = $posts_query->post->ID;
+				$post_meta    = get_post_meta( $post_id, CHERRY_PORTFOLIO_POSTMETA, true );
 				$externallink = isset( $post_meta['external-link-url'] ) ? $post_meta['external-link-url'] : '' ;
-				$date       = get_the_date( $date_format );
-				$post_type  = get_post_type( $post_id );
-				$permalink  = get_permalink();
-				$title      = get_the_title( $post_id );
-				$author     = get_the_author();
-				$author_url = get_author_posts_url( get_the_author_meta( 'ID' ) );
-				$thumb_id   = get_post_thumbnail_id();
-				$format = get_post_format( $post_id );
-				$format = (empty( $format )) ? 'post-format-standart' : 'post-format-' . $format;
+				$date         = get_the_date( $date_format );
+				$post_type    = get_post_type( $post_id );
+				$permalink    = get_permalink();
+				$title        = get_the_title( $post_id );
+				$author       = get_the_author();
+				$author_url   = get_author_posts_url( get_the_author_meta( 'ID' ) );
+				$thumb_id     = get_post_thumbnail_id();
+				$format       = get_post_format( $post_id );
+				$format       = (empty( $format )) ? 'post-format-standart' : 'post-format-' . $format;
 				$justified_attrs = '';
+				$placeholder_arg = apply_filters( 'cherry_portfolio_placeholder_args',
+					array(
+						'width'			=> self::$default_options['image_crop_width' ],
+						'height'		=> self::$default_options['image_crop_height'],
+						'background'	=> '282828',
+						'foreground'	=> 'EAE0D0',
+						'title'			=> $title,
+						'class'			=> self::$default_options['image_class'],
+					)
+				);
 				// Excerpt.
 				if ( post_type_supports( $post_type, 'excerpt' ) ) {
 					$excerpt = has_excerpt( $post_id ) ? apply_filters( 'the_excerpt', get_the_excerpt() ) : '';
@@ -361,31 +374,27 @@ class Cherry_Portfolio_Data {
 				}else{
 					$image = $this->get_image( $post_id, 'large' );
 				}
-
-
-				if ( has_post_thumbnail( $post_id ) && $listing_layout === 'justified-layout' ) {
-					$attachment_image = wp_get_attachment_image_src( $thumb_id, 'large' );
-
-					$image_ratio = $attachment_image[1]/$attachment_image[2];
-					$justified_attrs = 'data-image-src="' . $attachment_image[0] . '"';
-					$justified_attrs .= ' data-image-width="' . $attachment_image[1] . '"';
-					$justified_attrs .= ' data-image-height="' . $attachment_image[2] . '"';
-					$justified_attrs .= ' data-image-ratio="' . $image_ratio . '"';
-				}
-
 				//check the attached image, if not attached - function replaces on the placeholder
 				if( !$image ){
-					$arg = apply_filters( 'cherry_portfolio_placeholder_args',
-						array(
-							'width'			=> self::$default_options['image_crop_width' ],
-							'height'		=> self::$default_options['image_crop_height'],
-							'background'	=> 'f62e46',
-							'foreground'	=> 'fff',
-							'title'			=> $title,
-							'class'			=> self::$default_options['image_class'],
-						)
-					);
-					$image = $this->get_placeholder( $arg );
+					$image = $this->get_placeholder( $placeholder_arg );
+				}
+
+				if( $listing_layout === 'justified-layout' ){
+					if ( has_post_thumbnail( $post_id ) ) {
+						$attachment_image = wp_get_attachment_image_src( $thumb_id, 'large' );
+						$image_ratio = $attachment_image[1] / $attachment_image[2];
+						$justified_attrs = 'data-image-src="' . $attachment_image[0] . '"';
+						$justified_attrs .= ' data-image-width="' . $attachment_image[1] . '"';
+						$justified_attrs .= ' data-image-height="' . $attachment_image[2] . '"';
+						$justified_attrs .= ' data-image-ratio="' . $image_ratio . '"';
+					}else{
+						$placeholder_link = 'http://fakeimg.pl/' . $placeholder_arg['width'] . 'x' . $placeholder_arg['height'] . '/'. $placeholder_arg['background'] .'/'. $placeholder_arg['foreground'] ;
+						$image_ratio = $placeholder_arg['width'] / $placeholder_arg['height'];
+						$justified_attrs = 'data-image-src="' . $placeholder_link . '"';
+						$justified_attrs .= ' data-image-width="' . $placeholder_arg['width'] . '"';
+						$justified_attrs .= ' data-image-height="' . $placeholder_arg['height'] . '"';
+						$justified_attrs .= ' data-image-ratio="' . $image_ratio . '"';
+					}
 				}
 
 				$attachment_image_data = wp_get_attachment_image_src( get_post_thumbnail_id($post_id), self::$default_options['image_size' ], false );
@@ -420,7 +429,10 @@ class Cherry_Portfolio_Data {
 								$gallery_thumbnails .= '<ul class="thumbnailset">';
 								$counter = 0;
 								foreach ( $attachments_ids_array as $attachment_id) {
-									$attachment_url = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
+									if( intval($number_gallery_thumbnails) == $counter ){
+										break;
+									}
+									$attachment_url = wp_get_attachment_image_src( $attachment_id, apply_filters('cherry-portfolio-thumbnails-size', 'thumbnail' ) );
 									$gallery_thumbnails .= '<li class="item-' . $counter . '"><img src="' . $attachment_url[0] . '" width="' . $attachment_url[1] . '" height="' . $attachment_url[2] . '" alt="' . get_the_title( $attachment_id ) . '"></li>';
 									$counter++;
 								}
@@ -784,13 +796,13 @@ class Cherry_Portfolio_Data {
 		$html .= '<div class="portfolio-filter with-ajax">';
 			$html .= '<ul class="filter filter-' . $filter_type . '">';
 			if( $categories ){
-				$html .= '<li class="active"><a href="javascript:void(0)" data-cat-id="" data-slug="all">'. __( 'Show all', 'cherry-portfolio' ) .'</a></li>';
+				$html .= '<li class="active"><a href="javascript:void(0)" data-cat-id="" data-slug="">'. __( 'Show all', 'cherry-portfolio' ) .'</a></li>';
 				foreach( $categories as $category ){
 					$html .= '<li><a href="javascript:void(0)" data-cat-id="' .  $category->cat_ID . '" data-slug="' .  $category->slug . '">'. $category->name .'</a></li>';
 				}
 			}
 			$html .= '</ul>';
-			if( 'true' === $this->options['order_filter_visible'] ){
+			if( 'true' === self::$options['order_filter_visible'] ){
 				$html .= '<ul class="order-filter">';
 					$html .= '<li data-order="order">';
 						$html .= __('Order', 'cherry-portfolio');
@@ -1189,7 +1201,7 @@ function get_more_items() {
 			'orderby' => $order_settings['orderby'],
 			'paged' => intval( $value_pagination_page ),
 		);
-		var_dump($query_args);
+
 		$posts_query =  $data->get_query_portfolio_items( $query_args );
 
 		$html = '<div class="response" data-all-posts-count="' . $posts_query->found_posts . '">';

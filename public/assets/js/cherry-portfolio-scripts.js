@@ -13,6 +13,10 @@ jQuery(document).ready(function() {
 
 	jQuery('.portfolio-wrap').cherryPortfolioLayoutPlugin();
 
+		jQuery('.portfolio-wrap').on('ajax_success', function(){
+		console.log('fuck off');
+	})
+
 	jQuery('.swiper-container').each(function(){
 		var
 			swiper

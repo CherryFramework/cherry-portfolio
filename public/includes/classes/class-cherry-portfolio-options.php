@@ -50,10 +50,10 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 						'label'		=> __('Grid', 'cherry-portfolio'),
 						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/list-layout-grid.svg'
 					),
-					/*'justified-layout' => array(
+					'justified-layout' => array(
 						'label'		=> __('Fustified', 'cherry-portfolio'),
 						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/list-layout-justified.svg'
-					),*/
+					),
 					'list-layout' => array(
 						'label'		=> __('List', 'cherry-portfolio'),
 						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/list-layout-listing.svg'
@@ -128,6 +128,10 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 						'label'		=> __('Scale', 'cherry-portfolio'),
 						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/inherit.svg'
 					),
+					'custom-hover' => array(
+						'label'		=> __('Custom', 'cherry-portfolio'),
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/inherit.svg'
+					),
 				)
 			);
 			$portfolio_options['portfolio-filter-type'] = array(
@@ -180,6 +184,14 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 				'max_value'		=> 50,
 				'min_value'		=> 0,
 				'value'			=> 4
+			);
+			$portfolio_options['portfolio-justified-fixed-height'] = array(
+				'type'			=> 'slider',
+				'title'			=> __('Justified fixed height', 'cherry-portfolio'),
+				'description'	=> __('Select portfolio item justified height value.', 'cherry-portfolio'),
+				'max_value'		=> 1000,
+				'min_value'		=> 50,
+				'value'			=> 300
 			);
 			$portfolio_options['portfolio-is-crop-image'] = array(
 				'type'			=> 'switcher',

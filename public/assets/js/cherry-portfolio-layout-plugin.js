@@ -3,7 +3,9 @@
 	var methods = {
 		init : function( options ) {
 
-			var settings = { somevar: true }
+			var settings = {
+				call: function(){}
+			}
 
 			return this.each(function(){
 				if ( options ){
@@ -94,6 +96,10 @@
 
 						$('.current', $parent).html( $this.html() );
 						orderSetting.order = order;
+
+						if( 'more-button' == loadingMode ){
+							currentPaginationPage = 1;
+						}
 						ajaxGetNewContent( currentSlug, currentPaginationPage, orderSetting );
 					})
 
@@ -110,6 +116,10 @@
 						}
 						$('.current', $parent).html( $this.html() );
 						orderSetting.orderby = orderby;
+
+						if( 'more-button' == loadingMode ){
+							currentPaginationPage = 1;
+						}
 						ajaxGetNewContent( currentSlug, currentPaginationPage, orderSetting );
 					})
 
@@ -167,13 +177,11 @@
 							success: function( response ){
 								ajaxRequestSuccess = true;
 
-
 								$('.portfolio-pagination > ul > li a', _this).off('click');
 								$('.portfolio-pagination .page-nav .next-page', _this).off('click');
 								$('.portfolio-pagination .page-nav .prev-page', _this).off('click');
 								$('.portfolio-ajax-button .load-more-button a', _this).off('click')
-								$('.portfolio-pagination', portfolioContainer ).remove();
-								$('.portfolio-ajax-button', portfolioContainer ).remove();
+								$('.portfolio-pagination, .portfolio-ajax-button', portfolioContainer ).remove();
 
 								beforeItemLength = 0;
 
@@ -219,7 +227,32 @@
 										portfolioList.html('').append(elementsList);
 										portfolioContainer.append( pagePagination );
 										portfolioContainer.append( pageMoreButton );
-										console.log(elementsList);
+
+										$(elementsList).each(function( index ){
+											var
+												$this = $(this)
+											,	image_src = $this.data('image-src')
+											,	image_width = $this.data('image-width')
+											,	image_height = $this.data('image-height')
+											,	image_ratio = $this.data('image-ratio')
+											,	flex_value = Math.round( image_ratio*100 )
+											,	new_width = Math.round( fixedHeight * image_ratio )
+											;
+
+											$this.css({
+												'width': new_width + 'px'
+											,	'height': fixedHeight
+											,	'-webkit-flex': flex_value + ' 1 ' + new_width + 'px'
+											,	'-ms-flex': flex_value + ' 1 ' + new_width + 'px'
+											,	'flex': flex_value + ' 1 ' + new_width + 'px'
+											,	margin: Math.ceil(itemMargin*0.5) + 'px'
+											});
+
+											$('.inner-wrap', $this).css({
+												'background-image': 'url(' + image_src + ')'
+											})
+										})
+
 										portfolioList.imagesLoaded( function() {
 											showPortfolioList( beforeItemLength );
 											ajaxLoaderContainer.fadeTo(500, 0, function(){
@@ -261,6 +294,8 @@
 									break
 								}
 
+								// ajax_success - trigger
+								_this.trigger( 'ajax_success' );
 								Call_Cherry_Portfolio_Magnific();
 							},
 							dataType: 'html'
@@ -277,7 +312,6 @@
 						list_layout: portfolioContainer.data('list-layout'),
 						order_settings: order
 					};
-					console.log(order);
 					if( ajaxGetMoreRequest != null && ajaxRequestSuccess){
 						ajaxGetMoreRequest.abort();
 					}
@@ -319,6 +353,40 @@
 										});
 									break;
 									case 'justified-layout':
+										portfolioList.append( elementsList );
+
+										$(elementsList).each(function(index){
+											var
+												$this = $(this)
+											,	image_src = $this.data('image-src')
+											,	image_width = $this.data('image-width')
+											,	image_height = $this.data('image-height')
+											,	image_ratio = $this.data('image-ratio')
+											,	flex_value = Math.round( image_ratio * 100 )
+											,	new_width = Math.round( fixedHeight * image_ratio )
+											;
+
+											$this.css({
+												'width': new_width + 'px'
+											,	'height': fixedHeight
+											,	'-webkit-flex': flex_value + ' 1 ' + new_width + 'px'
+											,	'-ms-flex': flex_value + ' 1 ' + new_width + 'px'
+											,	'flex': flex_value + ' 1 ' + new_width + 'px'
+											,	margin: Math.ceil(itemMargin*0.5) + 'px'
+											});
+
+											$('.inner-wrap', $this).css({
+												'background-image': 'url(' + image_src + ')'
+											})
+										})
+
+										portfolioList.imagesLoaded( function() {
+											showPortfolioList( beforeItemLength );
+											ajaxLoaderContainer.fadeTo(500, 0, function(){
+												$(this).css({"display":"none"});
+											});
+										} )
+									break;
 									case 'list-layout':
 										portfolioList.append( elementsList );
 										portfolioList.imagesLoaded( function() {
@@ -329,6 +397,10 @@
 										} )
 									break;
 								}
+
+								// ajax_success - trigger
+								_this.trigger( 'ajax_success' );
+
 								Call_Cherry_Portfolio_Magnific();
 							},
 							dataType: 'html'
@@ -358,12 +430,11 @@
 				}
 
 				function ajaxMoreButtonClickEventFunction(){
-					if(currentPaginationPage < allPageLenght){
+					if( currentPaginationPage < allPageLenght ){
 						currentPaginationPage++;
 						ajaxMoreClicked = true;
 
 						if( currentPaginationPage == allPageLenght){
-							//$('.portfolio-ajax-button .load-more-button', _this).addClass('disabled');
 							$('.portfolio-ajax-button .load-more-button', _this).slideUp();
 						}
 						ajaxGetMore( currentPaginationPage, currentSlug, orderSetting );
