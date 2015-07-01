@@ -180,21 +180,6 @@ class Cherry_Portfolio_Data {
 					break;
 			}
 
-			switch ( self::$options['listing_layout'] ) {
-				case 'masonry-layout':
-					$template = self::$options['masonry_template'];
-					break;
-				case 'grid-layout':
-					$template = self::$options['grid_template'];
-					break;
-				case 'justified-layout':
-					$template = self::$options['justified_template'];
-					break;
-				case 'list-layout':
-					$template = self::$options['list_template'];
-					break;
-			}
-
 			$container_attr = '';
 			$container_attr .= 'data-post-per-page="' . self::$options['posts_per_page'] . '"';
 			$container_attr .= 'data-column="' . self::$options['grid_col'] .'"';
@@ -289,23 +274,8 @@ class Cherry_Portfolio_Data {
 		$output = '';
 
 			if ( $posts_query->have_posts() ) {
+
 				// Item template's file.
-				/*switch ( $listing_layout ) {
-					case 'masonry-layout':
-						$template = self::$options['masonry_template'];
-						break;
-					case 'grid-layout':
-						$template = self::$options['grid_template'];
-						break;
-					case 'justified-layout':
-
-						$template = self::$options['justified_template'];
-						break;
-					case 'list-layout':
-						$template = self::$options['list_template'];
-						break;
-				}*/
-
 				$template = self::get_template_by_name( $template, Cherry_Portfolio_Shortcode::$name );
 
 				if ( false == $template ) {
@@ -1217,12 +1187,14 @@ function get_more_items() {
 		&& array_key_exists('post_per_page', $_POST)
 		&& array_key_exists('list_layout', $_POST)
 		&& array_key_exists('order_settings', $_POST)
+		&& array_key_exists('template', $_POST)
 		) {
 		$value_pagination_page = $_POST['value_pagination_page'];
 		$value_slug = $_POST['value_slug'];
 		$post_per_page = $_POST['post_per_page'];
 		$list_layout = $_POST['list_layout'];
 		$order_settings = $_POST['order_settings'];
+		$template = $_POST['template'];
 
 		$data = new Cherry_Portfolio_Data;
 		$query_args = array(
@@ -1236,7 +1208,7 @@ function get_more_items() {
 		$posts_query =  $data->get_query_portfolio_items( $query_args );
 
 		$html = '<div class="response" data-all-posts-count="' . $posts_query->found_posts . '">';
-			$html .= $data->get_portfolio_items_loop( $posts_query, $list_layout );
+			$html .= $data->get_portfolio_items_loop( $posts_query, $list_layout, $template );
 		$html .= '</div>';
 
 		echo $html;

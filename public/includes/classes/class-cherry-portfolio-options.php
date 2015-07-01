@@ -51,7 +51,7 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/list-layout-grid.svg'
 					),
 					'justified-layout' => array(
-						'label'		=> __('Fustified', 'cherry-portfolio'),
+						'label'		=> __('Justified', 'cherry-portfolio'),
 						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/list-layout-justified.svg'
 					),
 					'list-layout' => array(

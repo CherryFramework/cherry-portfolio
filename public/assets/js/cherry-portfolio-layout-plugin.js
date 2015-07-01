@@ -312,7 +312,8 @@
 						value_slug: slug,
 						post_per_page: postPerPage,
 						list_layout: portfolioContainer.data('list-layout'),
-						order_settings: order
+						order_settings: order,
+						template: template
 					};
 					if( ajaxGetMoreRequest != null && ajaxRequestSuccess){
 						ajaxGetMoreRequest.abort();
