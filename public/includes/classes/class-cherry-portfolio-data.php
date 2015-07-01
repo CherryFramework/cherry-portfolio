@@ -801,7 +801,7 @@ class Cherry_Portfolio_Data {
 				}
 			}
 			$html .= '</ul>';
-			if( 'true' === self::$options['order_filter_visible'] ){
+			if( 'true' == self::$options['order_filter_visible'] ){
 				$html .= '<ul class="order-filter">';
 					$html .= '<li data-order="order">';
 						$html .= __('Order', 'cherry-portfolio');

@@ -324,6 +324,8 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 		$atts = shortcode_atts( $defaults, $atts, $shortcode );
 
 		$atts['filter_visible']	= ( bool ) ( $atts['filter_visible'] === 'yes' ) ? true : false;
+		$atts['order_filter_visible']	= ( bool ) ( $atts['order_filter_visible'] === 'yes' ) ? true : false;
+
 		// Make sure we return and don't echo.
 		$atts['echo'] = false;
 
