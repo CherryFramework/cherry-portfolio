@@ -128,7 +128,7 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 						'label'		=> __('Scale', 'cherry-portfolio'),
 						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/inherit.svg'
 					),
-					'custom-hover' => array(
+					'custom' => array(
 						'label'		=> __('Custom', 'cherry-portfolio'),
 						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/inherit.svg'
 					),
@@ -159,7 +159,7 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 				'type'			=> 'switcher',
 				'title'			=> __('Order filters', 'cherry-portfolio'),
 				'description'	=> __('Enable/disable order filters', 'cherry-portfolio'),
-				'value'			=> 'true'
+				'value'			=> 'false'
 			);
 			$portfolio_options['portfolio-column-number'] = array(
 				'type'			=> 'slider',
@@ -174,7 +174,7 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 				'title'			=> __('Post per page', 'cherry-portfolio'),
 				'description'	=> __('Select how many posts per page do you want to display', 'cherry-portfolio'),
 				'max_value'		=> 50,
-				'min_value'		=> 1,
+				'min_value'		=> -1,
 				'value'			=> 9
 			);
 			$portfolio_options['portfolio-item-margin'] = array(

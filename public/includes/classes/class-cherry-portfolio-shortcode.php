@@ -128,13 +128,13 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 				),
 				'order_filter_visible' => array(
 					'type'    => 'bool',
-					'default' => 'yes',
+					'default' => 'no',
 					'name'    => __( 'Order filter', 'cherry-portfolio' ),
 					'desc'    => __( 'Order filter visible', 'cherry-portfolio' ),
 				),
 				'posts_per_page' => array(
 					'type'    => 'number',
-					'min'     => 1,
+					'min'     => -1,
 					'max'     => 50,
 					'step'    => 1,
 					'default' => 9,

@@ -90,6 +90,7 @@ class Cherry_Portfolio_Data {
 				self::$default_options['filter_type'] = 'tag';
 				break;
 		}
+
 		switch ( self::$default_options['listing_layout'] ) {
 			case 'masonry-layout':
 				self::$default_options['image_class'] = 'masonry-image';
@@ -97,17 +98,17 @@ class Cherry_Portfolio_Data {
 				break;
 			case 'grid-layout':
 				self::$default_options['image_class'] = 'grid-image';
-				self::$default_options['is_image_crop'] = true;
+				//self::$default_options['is_image_crop'] = true;
 				self::$default_options['template'] = self::$default_options['grid_template'];
 				break;
 			case 'justified-layout':
 				self::$default_options['image_class'] = 'justified-image';
-				self::$default_options['is_image_crop'] = false;
+				//self::$default_options['is_image_crop'] = false;
 				self::$default_options['template'] = self::$default_options['justified_template'];
 				break;
 			case 'list-layout':
 				self::$default_options['image_class'] = 'list-image';
-				self::$default_options['is_image_crop'] = true;
+				//self::$default_options['is_image_crop'] = true;
 				self::$default_options['template'] = self::$default_options['list_template'];
 				break;
 		}
@@ -367,7 +368,7 @@ class Cherry_Portfolio_Data {
 					$comments = ( comments_open() || get_comments_number() ) ? get_comments_number() : '';
 				}
 				// Image
-				if(	self::$default_options['is_image_crop'] == "true" ){
+				if(	"true" == self::$default_options['is_image_crop'] || 'grid-layout' == $listing_layout ){
 					$img_url = wp_get_attachment_url( $thumb_id ,'full'); //get img URL
 					$image = $this->get_crop_image( $img_url, self::$default_options['image_crop_width' ], self::$default_options['image_crop_height' ] );
 				}else{
@@ -795,7 +796,8 @@ class Cherry_Portfolio_Data {
 		$html .= '<div class="portfolio-filter with-ajax">';
 			$html .= '<ul class="filter filter-' . $filter_type . '">';
 			if( $categories ){
-				$html .= '<li class="active"><a href="javascript:void(0)" data-cat-id="" data-slug="">'. __( 'Show all', 'cherry-portfolio' ) .'</a></li>';
+
+				$html .= '<li class="active"><a href="javascript:void(0)" data-cat-id="" data-slug="">'. apply_filters( 'cherry_portfolio_show_all_text', __( 'Show all', 'cherry-portfolio' ) ) .'</a></li>';
 				foreach( $categories as $category ){
 					$html .= '<li><a href="javascript:void(0)" data-cat-id="' .  $category->cat_ID . '" data-slug="' .  $category->slug . '">'. $category->name .'</a></li>';
 				}
@@ -837,32 +839,37 @@ class Cherry_Portfolio_Data {
 	 * @param  int $arg $current page index value.
 	 * @return string(HTML-formatted).
 	 */
-	public function build_ajax_pagination( $current_page_index = 1 ) {
-		$page_count = intval( ceil( $this->posts_query->found_posts / self::$default_options['posts_per_page'] ) );
-		$dom_part = '';
-			$dom_part .= '<div class="portfolio-pagination with-ajax">';
-				if( $page_count > 1 ){
-					$dom_part .= '<ul class="page-link">';
-						for ($i=0; $i < $page_count; $i++) {
-							$counter = $i+1;
-							if( $i != $current_page_index-1 ){
-								$dom_part .= '<li><a href="javascript:void(0)">' . $counter . '</a></li>';
-							}else{
-								$dom_part .= '<li class="active"><a href="javascript:void(0)">' . $counter . '</a></li>';
+	public function build_ajax_pagination( $current_page_index = 1, $post_per_page = -1 ) {
+		if( -1 !== $post_per_page ){
+			$page_count = intval( ceil( $this->posts_query->found_posts / $post_per_page ) );
+			$dom_part = '';
+				$dom_part .= '<div class="portfolio-pagination with-ajax">';
+					if( $page_count > 1 ){
+						$dom_part .= '<ul class="page-link">';
+							for ($i=0; $i < $page_count; $i++) {
+								$counter = $i+1;
+								if( $i != $current_page_index-1 ){
+									$dom_part .= '<li><a href="javascript:void(0)">' . $counter . '</a></li>';
+								}else{
+									$dom_part .= '<li class="active"><a href="javascript:void(0)">' . $counter . '</a></li>';
+								}
 							}
-						}
-					$dom_part .= '</ul>';
-					$dom_part .= '<div class="page-nav">';
-						if( $current_page_index != 1){
-							$dom_part .= '<a class="prev-page" href="javascript:void(0)">' . __( 'Prev page', 'cherry-portfolio' ) . '</a>';
-						}
-						if( $current_page_index < $page_count){
-							$dom_part .= '<a class="next-page" href="javascript:void(0)">' . __( 'Next page', 'cherry-portfolio' ) . '</a>';
-						}
-					$dom_part .= '</div>';
-				}
-			$dom_part .= '</div>';
-		return $dom_part;
+						$dom_part .= '</ul>';
+						$dom_part .= '<div class="page-nav">';
+							if( $current_page_index != 1){
+								$dom_part .= '<a class="prev-page" href="javascript:void(0)">' . __( 'Prev page', 'cherry-portfolio' ) . '</a>';
+							}
+							if( $current_page_index < $page_count){
+								$dom_part .= '<a class="next-page" href="javascript:void(0)">' . __( 'Next page', 'cherry-portfolio' ) . '</a>';
+							}
+						$dom_part .= '</div>';
+					}
+				$dom_part .= '<div class="clear"></div>';
+				$dom_part .= '</div>';
+			return $dom_part;
+		}else{
+			return '';
+		}
 	}
 
 	/**
@@ -872,15 +879,19 @@ class Cherry_Portfolio_Data {
 	 * @param  int $arg $current page index value.
 	 * @return string(HTML-formatted).
 	 */
-	public function build_ajax_more_button( $current_page_index = 1 ){
-		$page_count = intval( ceil( $this->posts_query->found_posts / self::$default_options['posts_per_page'] ) );
-		$dom_part = '';
-			if( $page_count > 1 ){
-				$dom_part .= '<div class="portfolio-ajax-button">';
-					$dom_part .= '<div class="load-more-button"><a href="javascript:void(0)">' . __( self::$default_options['more_button_label'], 'cherry-portfolio' )  . '</a></div>';
-				$dom_part .= '</div>';
-			}
-		return $dom_part;
+	public function build_ajax_more_button( $current_page_index = 1, $post_per_page = -1 ){
+		if( -1 !== $post_per_page ){
+			$page_count = intval( ceil( $this->posts_query->found_posts / $post_per_page ) );
+			$dom_part = '';
+				if( $page_count > 1 ){
+					$dom_part .= '<div class="portfolio-ajax-button">';
+						$dom_part .= '<div class="load-more-button"><a href="javascript:void(0)">' . __( self::$default_options['more_button_label'], 'cherry-portfolio' )  . '</a></div>';
+					$dom_part .= '</div>';
+				}
+			return $dom_part;
+		}else{
+			return '';
+		}
 	}
 
 	/**
@@ -1163,10 +1174,10 @@ function get_new_items() {
 
 			switch ( $loading_mode ) {
 				case 'ajax-pagination':
-						$html .= $data->build_ajax_pagination( $posts_query->query_vars['paged'] );
+						$html .= $data->build_ajax_pagination( $posts_query->query_vars['paged'], $post_per_page );
 					break;
 				case 'more-button':
-						$html .= $data->build_ajax_more_button( $posts_query->query_vars['paged']  );
+						$html .= $data->build_ajax_more_button( $posts_query->query_vars['paged'], $post_per_page );
 					break;
 			}
 		$html .= '</div>';

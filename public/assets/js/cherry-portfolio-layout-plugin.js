@@ -30,7 +30,7 @@
 					isotopeOptions = {
 						itemSelector : '.portfolio-item',
 						resizable: false,
-						masonry: { columnWidth: Math.floor($('.portfolio-list', portfolioContainer).width() / column) }
+						masonry: { columnWidth: Math.floor( $('.portfolio-list', portfolioContainer).width() / column ) }
 					},
 					currentSlug = '',
 					currentPaginationPage = 1,
@@ -143,7 +143,7 @@
 						break
 					}
 					// update columnWidth on window resize
-					jQuery(window).resize(function(){
+					jQuery(window).on('resize', function(){
 						mainResizer();
 					}).trigger("resize");
 				}
@@ -211,7 +211,6 @@
 
 										$('.inner-wrap', elementsList).css({ "margin": Math.floor( itemMargin * 0.5 ) });
 										$(elementsList).css({ "width": Math.floor( $('.portfolio-list', portfolioContainer).width() / widthLayoutChanger() ) });
-
 
 										portfolioList.html('').isotope( isotopeOptions ).isotope( 'insert', elementsList );
 										portfolioContainer.append( pagePagination );
@@ -476,6 +475,7 @@
 							var
 								newWidth = Math.floor( $('.portfolio-list', portfolioContainer).width() / widthLayoutChanger() )
 							;
+
 							$('.portfolio-list .portfolio-item', portfolioContainer).css({ "width": newWidth });
 							$('.portfolio-list', portfolioContainer).isotope({
 								masonry: { columnWidth: newWidth }
