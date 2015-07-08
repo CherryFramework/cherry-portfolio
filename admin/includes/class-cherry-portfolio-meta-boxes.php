@@ -235,19 +235,15 @@ class Cherry_Portfolio_Meta_Boxes {
 							'options'		=> array(
 								'swiper-effect-slide' => array(
 									'label' => __('Slide', 'cherry-portfolio'),
-									'img_src' => CHERRY_PORTFOLIO_URI.'/public/assets/images/inherit.png'
-								),
-								'swiper-effect-fade' => array(
-									'label' => __('Fade', 'cherry-portfolio'),
-									'img_src' => CHERRY_PORTFOLIO_URI.'/public/assets/images/inherit.png'
+									'img_src' => CHERRY_PORTFOLIO_URI.'/admin/assets/images/svg/inherit.svg'
 								),
 								'swiper-effect-cube' => array(
 									'label' => __('Cube', 'cherry-portfolio'),
-									'img_src' => CHERRY_PORTFOLIO_URI.'/public/assets/images/inherit.png'
+									'img_src' => CHERRY_PORTFOLIO_URI.'/admin/assets/images/svg/inherit.svg'
 								),
 								'swiper-effect-coverflow' => array(
 									'label' => __('Coverflow', 'cherry-portfolio'),
-									'img_src' => CHERRY_PORTFOLIO_URI.'/public/assets/images/inherit.png'
+									'img_src' => CHERRY_PORTFOLIO_URI.'/admin/assets/images/svg/inherit.svg'
 								),
 							)
 						),

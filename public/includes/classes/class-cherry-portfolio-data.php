@@ -399,7 +399,7 @@ class Cherry_Portfolio_Data {
 
 				$attachment_image_data = wp_get_attachment_image_src( get_post_thumbnail_id($post_id), self::$default_options['image_size' ], false );
 
-				$figure_image = $image;
+				$figure_image = ( 'justified-layout' == $listing_layout ) ? '<div class="justified-image"></div>' : $image ;
 
 				$content = apply_filters( 'cherry_portfolio_content', get_the_content(), $posts_query->post );
 

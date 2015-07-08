@@ -48,10 +48,19 @@ div.portfolio-wrap .portfolio-container.justified-layout .portfolio-list .justif
   -webkit-column-gap: 2em;
   -moz-column-gap: 2em;
   column-gap: 2em;
+  -webkit-align-self: stretch;
+  -ms-flex-item-align: stretch;
+  align-self: stretch;
 }
 div.portfolio-wrap .portfolio-container.justified-layout .portfolio-list .justified-layout-item .inner-wrap {
   width: 100%;
   height: 100%;
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+div.portfolio-wrap .portfolio-container.justified-layout .portfolio-list .justified-layout-item .justified-image {
   position: relative;
   background-repeat: no-repeat;
   background-size: cover;

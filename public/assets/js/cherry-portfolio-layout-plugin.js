@@ -143,9 +143,9 @@
 						break
 					}
 					// update columnWidth on window resize
-					jQuery(window).on('resize', function(){
+					jQuery(window).on('resize.portfolio_layout_resize', function(){
 						mainResizer();
-					}).trigger("resize");
+					});
 				}
 
 				// ajax filter
@@ -219,6 +219,9 @@
 										portfolioList.imagesLoaded( function() {
 											portfolioList.isotope( isotopeOptions )
 											showPortfolioList( beforeItemLength );
+
+											jQuery(window).trigger('resize.portfolio_layout_resize');
+
 											ajaxLoaderContainer.fadeTo(500, 0, function(){
 												$(this).css({"display":"none"});
 											});
@@ -240,18 +243,28 @@
 											,	new_width = Math.round( fixedHeight * image_ratio )
 											;
 
+											if( $('.justified-image', $this)[0] ){
+												new_height = 'auto';
+												$('.justified-image', $this).css({
+													'width': '100%'
+												,	'height': fixedHeight
+												,	'background-image': 'url(' + image_src + ')'
+												})
+											}else{
+												new_height = fixedHeight;
+												$('.inner-wrap', $this).css({
+													'background-image': 'url(' + image_src + ')'
+												})
+											}
+
 											$this.css({
 												'width': new_width + 'px'
-											,	'height': fixedHeight
+											,	'height': new_height
 											,	'-webkit-flex': flex_value + ' 1 ' + new_width + 'px'
 											,	'-ms-flex': flex_value + ' 1 ' + new_width + 'px'
 											,	'flex': flex_value + ' 1 ' + new_width + 'px'
 											,	margin: Math.ceil(itemMargin*0.5) + 'px'
 											});
-
-											$('.inner-wrap', $this).css({
-												'background-image': 'url(' + image_src + ')'
-											})
 										})
 
 										portfolioList.imagesLoaded( function() {
@@ -259,7 +272,7 @@
 											ajaxLoaderContainer.fadeTo(500, 0, function(){
 												$(this).css({"display":"none"});
 											});
-										} )
+										})
 									break;
 									case 'list-layout':
 										portfolioList.html('').append(elementsList);
@@ -468,6 +481,7 @@
 					}
 				}
 				function mainResizer(){
+					console.log(123);
 					switch(listLayout){
 						case 'masonry-layout':
 						case 'grid-layout':
