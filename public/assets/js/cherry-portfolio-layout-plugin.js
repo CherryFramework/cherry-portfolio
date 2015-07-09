@@ -310,7 +310,8 @@
 
 								// ajax_success - trigger
 								_this.trigger( 'ajax_success' );
-								Call_Cherry_Portfolio_Magnific();
+
+								CHERRY_API.cherry_portfolio.magnific_popap_init();
 							},
 							dataType: 'html'
 					});
@@ -416,7 +417,7 @@
 								// ajax_success - trigger
 								_this.trigger( 'ajax_success' );
 
-								Call_Cherry_Portfolio_Magnific();
+								CHERRY_API.cherry_portfolio.magnific_popap_init();
 							},
 							dataType: 'html'
 					});

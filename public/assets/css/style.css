@@ -279,9 +279,6 @@ div.portfolio-wrap div.portfolio-item .inner-wrap .thumbnailset {
   list-style: none;
   margin: 0;
   padding: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 div.portfolio-wrap div.portfolio-item .inner-wrap .thumbnailset li {
   float: left;
@@ -613,4 +610,30 @@ body.single-portfolio article.type-portfolio .cherry-portfolio-single-post.cherr
     -webkit-transform: scale(1);
     transform: scale(1);
   }
+}
+/*
+====== Popap zoom effect ======
+*/
+.mfp-zoom-in .mfp-with-anim {
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+  transform: scale(0.8);
+}
+.mfp-zoom-in.mfp-bg {
+  opacity: 0;
+  transition: all 0.3s ease-out;
+}
+.mfp-zoom-in.mfp-ready .mfp-with-anim {
+  opacity: 1;
+  transform: scale(1);
+}
+.mfp-zoom-in.mfp-ready.mfp-bg {
+  opacity: 0.8;
+}
+.mfp-zoom-in.mfp-removing .mfp-with-anim {
+  transform: scale(0.8);
+  opacity: 0;
+}
+.mfp-zoom-in.mfp-removing.mfp-bg {
+  opacity: 0;
 }

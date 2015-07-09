@@ -248,9 +248,6 @@ div.portfolio-wrap{
 						list-style: none;
 						margin: 0;
 						padding: 0;
-						position: absolute;
-						top: 0;
-						left: 0;
 						li{
 							float: left;
 							img{
@@ -623,5 +620,39 @@ body.single-portfolio{
 	50% {
 		-webkit-transform: scale(1);
 				transform: scale(1);
+	}
+}
+
+
+/*
+====== Popap zoom effect ======
+*/
+.mfp-zoom-in {
+	.mfp-with-anim {
+		opacity: 0;
+		transition: all 0.2s ease-in-out;
+		transform: scale(0.8);
+	}
+	&.mfp-bg {
+		opacity: 0;
+		transition: all 0.3s ease-out;
+	}
+	&.mfp-ready {
+		.mfp-with-anim {
+			opacity: 1;
+			transform: scale(1);
+		}
+		&.mfp-bg {
+			opacity: 0.8;
+		}
+	}
+	&.mfp-removing {
+		.mfp-with-anim {
+			transform: scale(0.8);
+			opacity: 0;
+		}
+		&.mfp-bg {
+			opacity: 0;
+		}
 	}
 }

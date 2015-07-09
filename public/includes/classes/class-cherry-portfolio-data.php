@@ -436,12 +436,13 @@ class Cherry_Portfolio_Data {
 									$attachment_url = wp_get_attachment_image_src( $attachment_id, apply_filters('cherry-portfolio-thumbnails-size', 'thumbnail' ) );
 									$attachment_full_url = wp_get_attachment_image_src( $attachment_id, apply_filters('cherry-portfolio-attachment-full-size', 'cherry-thumb-xl' ) );
 									$thumbnail_classes =  apply_filters('cherry-portfolio-thumbnail-classes', 'thumbnail-link');
-									$before_thumbnail = apply_filters('cherry-portfolio-before-thumbnail', '<a class="' . $thumbnail_classes . '" href="' . $attachment_full_url[0] .'">');
+									$before_thumbnail = apply_filters('cherry-portfolio-before-thumbnail', '<a class="' . $thumbnail_classes . '" href="' . $attachment_full_url[0] .'" data-effect="mfp-zoom-in">');
 									$after_thumbnail = '</a>';
 									$thumbnail = sprintf( '%5$s<img src="%1$s" width="%2$s" height="%3$s" alt="%4$s">%6$s', $attachment_url[0], $attachment_url[1], $attachment_url[2], get_the_title( $attachment_id ), $before_thumbnail, $after_thumbnail );
 									$gallery_thumbnails .= '<li class="item-' . $counter . '">' . $thumbnail . '</li>';
 									$counter++;
 								}
+								$gallery_thumbnails .= '<div class="clear"></div>';
 								$gallery_thumbnails .= '</ul>';
 
 								$thumbnails_count = count( $attachments_ids_array );
