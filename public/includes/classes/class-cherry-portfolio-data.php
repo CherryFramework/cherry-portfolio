@@ -814,7 +814,7 @@ class Cherry_Portfolio_Data {
 			if( 'true' == self::$options['order_filter_visible'] ){
 				$html .= '<ul class="order-filter">';
 					$html .= '<li data-order="order">';
-						$html .= __('Order', 'cherry-portfolio');
+						$html .= apply_filters( 'cherry-portfolio-order-filter-label', __('Order', 'cherry-portfolio') );
 						$html .= '<span class="current">' . __('DESC', 'cherry-portfolio') . '</span>';
 						$html .= '<ul class="order-list">';
 							$html .= '<li data-order="DESC">' . __('DESC', 'cherry-portfolio') . '</li>';
@@ -823,7 +823,7 @@ class Cherry_Portfolio_Data {
 						$html .= '<span class="marker"></span>';
 					$html .= '</li>';
 					$html .= '<li data-orderby="orderby">';
-						$html .= __('Order by', 'cherry-portfolio');
+						$html .=  apply_filters( 'cherry-portfolio-orderby-filter-label', __('Order by', 'cherry-portfolio') );
 						$html .= '<span class="current">' . __('Date', 'cherry-portfolio') . '</span>';
 						$html .= '<ul class="orderby-list">';
 							$html .= '<li data-orderby="date">' . __('Date', 'cherry-portfolio') . '</li>';
