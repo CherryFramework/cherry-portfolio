@@ -608,6 +608,7 @@ class Cherry_Portfolio_Data {
 		// get post meta
 		$post_meta  = get_post_meta( $post_id, CHERRY_PORTFOLIO_POSTMETA, true );
 
+		$gallery_type = isset( $post_meta['portfolio-gallery-type'] ) ? $post_meta['portfolio-gallery-type'] : 'slider' ;
 		$video_type = isset( $post_meta['portfolio-video-type'] ) ? $post_meta['portfolio-video-type'] : false;
 		$embed_video_src = isset( $post_meta['portfolio-embed-video-src'] ) ? $post_meta['portfolio-embed-video-src'] : false;
 
@@ -653,42 +654,84 @@ class Cherry_Portfolio_Data {
 			$swiper_crop_height = isset( $post_meta['portfolio-gallery-swiper-crop-height'] ) ? $post_meta['portfolio-gallery-swiper-crop-height'] : 576 ;
 			$swiper_effect = isset( $post_meta['portfolio-gallery-swiper-effect'] ) ? $post_meta['portfolio-gallery-swiper-effect'] : 'slide' ;
 
-			$uniqId = 'swiper-carousel-' . uniqid() . '';
+			$thumbnail_classes =  apply_filters('cherry-portfolio-gallery-image-classes', 'image-link');
+
 			$slider_html = '';
-				$data_attr_line = '';
-				$data_attr_line .= 'data-slides-per-view="' . $slides_per_view . '"';
-				$data_attr_line .= 'data-slides-per-column="' . $slides_per_column . '"';
-				$data_attr_line .= 'data-space-between-slides="' . $space_between_slides . '"';
-				$data_attr_line .= 'data-duration-speed="' . $swiper_duration_speed . '"';
-				$data_attr_line .= 'data-swiper-loop="' . $swiper_loop . '"';
-				$data_attr_line .= 'data-free-mode="' . $swiper_free_mode . '"';
-				$data_attr_line .= 'data-grab-cursor="' . $swiper_grab_cursor . '"';
-				$data_attr_line .= 'data-mouse-wheel="' . $swiper_mouse_wheel . '"';
-				$data_attr_line .= 'data-swiper-effect="' . $swiper_effect . '"';
-				$data_attr_line .= 'data-uniq-id="' . $uniqId . '"';
+
+				switch ( $gallery_type ) {
+					case 'slider':
+						$uniqId = 'swiper-carousel-' . uniqid() . '';
+						$data_attr_line = '';
+						$data_attr_line .= 'data-slides-per-view="' . $slides_per_view . '"';
+						$data_attr_line .= 'data-slides-per-column="' . $slides_per_column . '"';
+						$data_attr_line .= 'data-space-between-slides="' . $space_between_slides . '"';
+						$data_attr_line .= 'data-duration-speed="' . $swiper_duration_speed . '"';
+						$data_attr_line .= 'data-swiper-loop="' . $swiper_loop . '"';
+						$data_attr_line .= 'data-free-mode="' . $swiper_free_mode . '"';
+						$data_attr_line .= 'data-grab-cursor="' . $swiper_grab_cursor . '"';
+						$data_attr_line .= 'data-mouse-wheel="' . $swiper_mouse_wheel . '"';
+						$data_attr_line .= 'data-swiper-effect="' . $swiper_effect . '"';
+						$data_attr_line .= 'data-uniq-id="' . $uniqId . '"';
 
 
-			$slider_html .= '<div id="' . $uniqId . '" class="swiper-container" ' . $data_attr_line . ' >';
-				$slider_html .= '<div class="swiper-wrapper">';
-					foreach ( $attachments_ids_array as $attachment_id) {
-						if ( $swiper_crop_image == 'false'){
-							$attachment_url = wp_get_attachment_image_src( $attachment_id, 'large' );
-							$slider_html .= '<div class="swiper-slide"><img class="swiper-slide-image" src="' . $attachment_url[0] . '" width="' . $attachment_url[1] . '" height="' . $attachment_url[2] . '" alt="' . get_the_title( $attachment_id ) . '"></div>';
-						}else{
-							$attachment_url = wp_get_attachment_image_src( $attachment_id, 'full' );
-							$croped_image = $this->get_crop_image( $attachment_url[0], $swiper_crop_width, $swiper_crop_height, 'swiper-slide-image', get_the_title( $attachment_id ) );
-							$slider_html .= '<div class="swiper-slide">' . $croped_image . '</div>';
-						}
-					}
-				$slider_html .= '</div>';
-				if( 'true' == $swiper_pagination ){
-					$slider_html .= '<div id="' . $uniqId . '-pagination" class="swiper-pagination"></div>';
+						$slider_html .= '<div id="' . $uniqId . '" class="swiper-container" ' . $data_attr_line . ' >';
+							$slider_html .= '<div class="swiper-wrapper">';
+								foreach ( $attachments_ids_array as $attachment_id) {
+									if ( $swiper_crop_image == 'false'){
+										$attachment_url = wp_get_attachment_image_src( $attachment_id, 'large' );
+										$slider_html .= '<div class="swiper-slide"><img class="swiper-slide-image" src="' . $attachment_url[0] . '" width="' . $attachment_url[1] . '" height="' . $attachment_url[2] . '" alt="' . get_the_title( $attachment_id ) . '"></div>';
+									}else{
+										$attachment_url = wp_get_attachment_image_src( $attachment_id, 'full' );
+										$croped_image = $this->get_crop_image( $attachment_url[0], $swiper_crop_width, $swiper_crop_height, 'swiper-slide-image', get_the_title( $attachment_id ) );
+										$slider_html .= '<div class="swiper-slide">' . $croped_image . '</div>';
+									}
+								}
+							$slider_html .= '</div>';
+							if( 'true' == $swiper_pagination ){
+								$slider_html .= '<div id="' . $uniqId . '-pagination" class="swiper-pagination"></div>';
+							}
+							if( 'true' == $swiper_navigation ){
+								$slider_html .= '<div id="' . $uniqId . '-next" class="swiper-button-next"></div>';
+								$slider_html .= '<div id="' . $uniqId . '-prev" class="swiper-button-prev"></div>';
+							}
+						$slider_html .= '</div>';
+						break;
+					case 'masonry':
+						$data_attr_line = '';
+						$data_attr_line = 'data-columns="' . apply_filters('cherry-portfolio-gallery-masonry-column', 3 ) . '"';
+						$data_attr_line .= 'data-gutter="' . apply_filters('cherry-portfolio-gallery-masonry-gutter', 10 ) . '"';
+						$slider_html .= '<section class="gallery-list masonry-list" ' . $data_attr_line . ' >';
+							if( !empty($attachments_ids_array) ){
+								foreach ( $attachments_ids_array as $attachment_id) {
+									$slider_html .= '<section class="gallery-item masonry-item">';
+										$attachment_image = wp_get_attachment_image_src( $attachment_id, 'large' );
+										$slider_html .= sprintf('<a class="' . $thumbnail_classes . '" href="' . $attachment_image[0] .'" data-effect="mfp-zoom-in">%1$s<img class="masonry-image" src="' . $attachment_image[0] . '" width="' . $attachment_image[1] . '" height="' . $attachment_image[2] . '" alt="' . get_the_title( $attachment_id ) . '"></a>', '<span class="cover"></span>');
+									$slider_html .= '</section>';
+								}
+							}
+						$slider_html .= '</section>';
+						break;
+
+					case 'justified':
+						$slider_html .= '<section class="gallery-list justified-list">';
+							if( !empty($attachments_ids_array) ){
+								foreach ( $attachments_ids_array as $attachment_id) {
+									$attachment_image = wp_get_attachment_image_src( $attachment_id, 'large' );
+									$image_ratio = $attachment_image[1] / $attachment_image[2];
+									$justified_attrs = 'data-image-src="' . $attachment_image[0] . '"';
+									$justified_attrs .= ' data-image-width="' . $attachment_image[1] . '"';
+									$justified_attrs .= ' data-image-height="' . $attachment_image[2] . '"';
+									$justified_attrs .= ' data-image-ratio="' . $image_ratio . '"';
+
+									$slider_html .= '<section class="gallery-item justified-item" ' . $justified_attrs . '>';
+										$slider_html .= sprintf('<a class="' . $thumbnail_classes . '" href="' . $attachment_image[0] .'" data-effect="mfp-zoom-in">%1$s<div class="justified-image"></div></a>', '<span class="cover"></span>');
+									$slider_html .= '</section>';
+								}
+							}
+						$slider_html .= '</section>';
+						break;
 				}
-				if( 'true' == $swiper_navigation ){
-					$slider_html .= '<div id="' . $uniqId . '-next" class="swiper-button-next"></div>';
-					$slider_html .= '<div id="' . $uniqId . '-prev" class="swiper-button-prev"></div>';
-				}
-			$slider_html .= '</div>';
+
 		}
 
 		$image = $this->get_image( $post_id, 'large' );
@@ -804,7 +847,6 @@ class Cherry_Portfolio_Data {
 		$html .= '<div class="portfolio-filter with-ajax">';
 			$html .= '<ul class="filter filter-' . $filter_type . '">';
 			if( $categories ){
-
 				$html .= '<li class="active"><a href="javascript:void(0)" data-cat-id="" data-slug="">'. apply_filters( 'cherry_portfolio_show_all_text', __( 'Show all', 'cherry-portfolio' ) ) .'</a></li>';
 				foreach( $categories as $category ){
 					$html .= '<li><a href="javascript:void(0)" data-cat-id="' .  $category->cat_ID . '" data-slug="' .  $category->slug . '">'. $category->name .'</a></li>';
@@ -815,10 +857,10 @@ class Cherry_Portfolio_Data {
 				$html .= '<ul class="order-filter">';
 					$html .= '<li data-order="order">';
 						$html .= apply_filters( 'cherry-portfolio-order-filter-label', __('Order', 'cherry-portfolio') );
-						$html .= '<span class="current">' . __('DESC', 'cherry-portfolio') . '</span>';
+						$html .= '<span class="current">' . __('Desc', 'cherry-portfolio') . '</span>';
 						$html .= '<ul class="order-list">';
-							$html .= '<li data-order="DESC">' . __('DESC', 'cherry-portfolio') . '</li>';
-							$html .= '<li data-order="ASC">' . __('ASC', 'cherry-portfolio') . '</li>';
+							$html .= '<li data-order="DESC">' . __('Desc', 'cherry-portfolio') . '</li>';
+							$html .= '<li data-order="ASC">' . __('Asc', 'cherry-portfolio') . '</li>';
 						$html .= '</ul>';
 						$html .= '<span class="marker"></span>';
 					$html .= '</li>';

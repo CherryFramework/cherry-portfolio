@@ -43,7 +43,7 @@ div.portfolio-wrap{
 					-ms-flex-flow: row wrap;
 					flex-flow: row wrap;
 					justify-content: space-between;
-					 -webkit-align-items: stretch;
+					-webkit-align-items: stretch;
 						.justified-layout-item{
 							position: relative;
 							-webkit-flex: 1 1 auto;
@@ -401,6 +401,10 @@ ul.order-filter{
 					border-color: #282828 transparent transparent transparent;
 				}
 				&.dropdown-state{
+					span.marker{
+						border-width: 0 5px 5px 5px;
+						border-color: transparent transparent #282828 transparent;
+					}
 					ul{
 						display: block;
 					}
@@ -559,6 +563,77 @@ body.single-portfolio{
 		}
 	}
 
+}
+
+section.gallery-list{
+	.gallery-item{
+		span.cover{
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			display: block;
+			top: 0;
+			left: 0;
+			z-index: 1;
+			-webkit-box-shadow: inset 0px 0px 25px 3px rgba(0,0,0,0);
+			box-shadow: inset 0px 0px 25px 3px rgba(0,0,0,0);
+			transition: all 300ms ease-in-out;
+		}
+		&:hover{
+			span.cover{
+
+				-webkit-box-shadow: inset 0px 0px 25px 3px rgba(0,0,0,0.75);
+				box-shadow: inset 0px 0px 25px 3px rgba(0,0,0,0.75);
+			}
+		}
+	}
+}
+section.masonry-list{
+	margin-bottom: 30px;
+	section.masonry-item{
+		display: inline-block;
+		position: relative;
+		margin-bottom: 10px;
+	}
+}
+section.justified-list{
+	margin-bottom: 30px;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: flex;
+	-webkit-flex-direction: row;
+	-moz-flex-direction: row;
+	-ms-flex-direction: row;
+	flex-direction: row;
+	-webkit-flex-flow: row wrap;
+	-moz-flex-flow: row wrap;
+	-ms-flex-flow: row wrap;
+	flex-flow: row wrap;
+	justify-content: space-between;
+	-webkit-align-items: stretch;
+		section.justified-item{
+			position: relative;
+			-webkit-flex: 1 1 auto;
+			-ms-flex: 1 1 auto;
+			flex: 1 1 auto;
+			-webkit-column-gap: 2em;
+			-moz-column-gap: 2em;
+			column-gap: 2em;
+			-webkit-align-self: stretch;
+			-ms-flex-item-align: stretch;
+			align-self: stretch;
+			height: 300px;
+			margin: 5px;
+				.justified-image{
+					position: relative;
+					width: 100%;
+					height: 100%;
+					background-repeat: no-repeat;
+					background-size: cover;
+					background-position: 50% 50%;
+				}
+		}
 }
 
 .cherry-portfolio-ajax-loader{

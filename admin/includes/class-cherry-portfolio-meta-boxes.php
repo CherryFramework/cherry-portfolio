@@ -226,9 +226,31 @@ class Cherry_Portfolio_Meta_Boxes {
 							'library_type'		=> 'image'
 						),
 						array(
+							'id'			=> 'portfolio-gallery-type',
+							'type'			=> 'radio',
+							'label'			=> __('Gallery type', 'cherry-portfolio'),
+							'description'	=> __('Select gallery type', 'cherry-portfolio'),
+							'value'			=> 'slider',
+							'display_input'	=> false,
+							'options'		=> array(
+								'slider' => array(
+									'label' => __('Slider', 'cherry-portfolio'),
+									'img_src' => CHERRY_PORTFOLIO_URI.'/admin/assets/images/svg/slider.svg'
+								),
+								'masonry' => array(
+									'label' => __('Masonry', 'cherry-portfolio'),
+									'img_src' => CHERRY_PORTFOLIO_URI.'/admin/assets/images/svg/list-layout-masonry.svg'
+								),
+								'justified' => array(
+									'label' => __('Justified', 'cherry-portfolio'),
+									'img_src' => CHERRY_PORTFOLIO_URI.'/admin/assets/images/svg/list-layout-justified.svg'
+								),
+							)
+						),
+						array(
 							'id'			=> 'portfolio-gallery-swiper-effect',
 							'type'			=> 'radio',
-							'label'			=> __('Effect Layout', 'cherry-portfolio'),
+							'label'			=> __('Slider effect Layout', 'cherry-portfolio'),
 							'description'	=> __('Could be "slide", "fade", "cube" or "coverflow"', 'cherry-portfolio'),
 							'value'			=> 'swiper-effect-slide',
 							'display_input'	=> false,

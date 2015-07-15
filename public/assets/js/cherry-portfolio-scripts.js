@@ -15,6 +15,7 @@
 			}
 		},
 		render: function () {
+			var self = this;
 			jQuery('.portfolio-wrap').cherryPortfolioLayoutPlugin();
 
 			jQuery('.swiper-container').each(function(){
@@ -66,6 +67,9 @@
 					}
 				);
 			})
+
+			self.single_gallery_init();
+			self.magnific_popap_init();
 		},// end render
 		magnific_popap_init: function () {
 			if( $('.magnific-popup-link')[0] ){
@@ -106,6 +110,72 @@
 						}
 					});
 				});
+			}
+			if( $('.gallery-list')[0] ){
+				$('.gallery-list').each(function() { // the containers for all your galleries
+					$(this).magnificPopup({
+						delegate: 'a'// the selector for gallery item
+					,	type: 'image'
+					,	removalDelay: 500
+					,	callbacks: {
+						beforeOpen: function() {
+							this.st.image.markup = this.st.image.markup.replace('mfp-figure', 'mfp-figure mfp-with-anim');
+							this.st.mainClass = this.st.el.attr('data-effect');
+						}
+					}
+					,	closeOnContentClick: true
+					,	midClick: true
+					,	gallery: {
+							enabled: true
+						}
+					});
+				});
+			}
+		},// end magnific_popap_init
+		single_gallery_init: function () {
+			var
+				$masonry_list = $('.masonry-list')
+			,	$grid_list = $('.grid-list')
+			,	$grid_items = $('.grid-item', $grid_list)
+			,	$justified_list = $('.justified-list')
+			,	$justified_items = $('.justified-item', $justified_list)
+			,	masonry_columns = parseInt( $masonry_list.data('columns') )
+			,	masonry_gutter = parseInt( $masonry_list.data('gutter') )
+			;
+
+			if( $masonry_list[0] ){
+				$masonry_list.css({
+					'column-count': masonry_columns,
+					'-webkit-column-count': masonry_columns,
+					'-moz-column-count': masonry_columns,
+					'column-gap': masonry_gutter,
+					'-webkit-column-gap': masonry_gutter,
+					'-moz-column-gap': masonry_gutter,
+				});
+			}
+
+			if( $justified_list[0] ){
+				$justified_items.each(function(){
+					var
+						$this = $(this)
+					,	image_src = $this.data('image-src')
+					,	image_width = $this.data('image-width')
+					,	image_height = $this.data('image-height')
+					,	image_ratio = $this.data('image-ratio')
+					,	flex_value = Math.round( image_ratio * 100 )
+					,	new_width = Math.round( $this.height() * image_ratio )
+					;
+
+					$this.css({
+						'width': new_width + 'px'
+					,	'-webkit-flex': flex_value + ' 1 ' + new_width + 'px'
+					,	'-ms-flex': flex_value + ' 1 ' + new_width + 'px'
+					,	'flex': flex_value + ' 1 ' + new_width + 'px'
+					});
+					$('.justified-image', $this).css({
+						'background-image': 'url(' + image_src + ')'
+					})
+				})
 			}
 		}
 	}

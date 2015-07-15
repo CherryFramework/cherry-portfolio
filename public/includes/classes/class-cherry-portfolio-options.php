@@ -44,19 +44,19 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 				'options'	=> array(
 					'masonry-layout' => array(
 						'label'		=> __('Masonry', 'cherry-portfolio'),
-						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/list-layout-masonry.svg'
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'public/assets/images/svg/list-layout-masonry.svg'
 					),
 					'grid-layout' => array(
 						'label'		=> __('Grid', 'cherry-portfolio'),
-						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/list-layout-grid.svg'
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'public/assets/images/svg/list-layout-grid.svg'
 					),
 					'justified-layout' => array(
 						'label'		=> __('Justified', 'cherry-portfolio'),
-						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/list-layout-justified.svg'
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'public/assets/images/svg/list-layout-justified.svg'
 					),
 					'list-layout' => array(
 						'label'		=> __('List', 'cherry-portfolio'),
-						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/list-layout-listing.svg'
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'public/assets/images/svg/list-layout-listing.svg'
 					)
 				)
 			);
@@ -70,11 +70,11 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 				'options'	=> array(
 					'portfolio-ajax-pagination-mode' => array(
 						'label'		=> __('Ajax pagination', 'cherry-portfolio'),
-						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/loading-mode-ajax-pagination.svg'
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'public/assets/images/svg/loading-mode-ajax-pagination.svg'
 					),
 					'portfolio-more-button-mode' => array(
 						'label'		=> __('More button', 'cherry-portfolio'),
-						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/loading-mode-ajax-more-button.svg'
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'public/assets/images/svg/loading-mode-ajax-more-button.svg'
 					),
 				)
 			);
@@ -88,27 +88,27 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 				'options'	=> array(
 					'loading-animation-fade' => array(
 						'label'		=> __('Fade animation', 'cherry-portfolio'),
-						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/animation-fade.svg'
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'public/assets/images/svg/animation-fade.svg'
 					),
 					'loading-animation-scale' => array(
 						'label'		=> __('Scale animation', 'cherry-portfolio'),
-						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/animation-scale.svg'
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'public/assets/images/svg/animation-scale.svg'
 					),
 					'loading-animation-move-up' => array(
 						'label'		=> __('Move Up animation', 'cherry-portfolio'),
-						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/animation-move-up.svg'
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'public/assets/images/svg/animation-move-up.svg'
 					),
 					'loading-animation-flip' => array(
 						'label'		=> __('Flip animation', 'cherry-portfolio'),
-						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/animation-flip.svg'
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'public/assets/images/svg/animation-flip.svg'
 					),
 					'loading-animation-helix' => array(
 						'label'		=> __('Helix animation', 'cherry-portfolio'),
-						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/animation-helix.svg'
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'public/assets/images/svg/animation-helix.svg'
 					),
 					'loading-animation-fall-perspective' => array(
 						'label'		=> __('Fall perspective animation', 'cherry-portfolio'),
-						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/animation-fall-perspective.svg'
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'public/assets/images/svg/animation-fall-perspective.svg'
 					),
 				)
 			);
@@ -122,15 +122,15 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 				'options'	=> array(
 					'simple-fade' => array(
 						'label'		=> __('Fade', 'cherry-portfolio'),
-						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/inherit.svg'
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'public/assets/images/svg/inherit.svg'
 					),
 					'simple-scale' => array(
 						'label'		=> __('Scale', 'cherry-portfolio'),
-						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/inherit.svg'
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'public/assets/images/svg/inherit.svg'
 					),
 					'custom' => array(
 						'label'		=> __('Custom', 'cherry-portfolio'),
-						'img_src'	=> CHERRY_PORTFOLIO_URI.'/public/assets/images/svg/inherit.svg'
+						'img_src'	=> CHERRY_PORTFOLIO_URI.'public/assets/images/svg/inherit.svg'
 					),
 				)
 			);
