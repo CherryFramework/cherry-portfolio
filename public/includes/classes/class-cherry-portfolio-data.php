@@ -44,6 +44,7 @@ class Cherry_Portfolio_Data {
 			'posts_per_page'					=> self::cherry_portfolio_get_option('portfolio-post-per-page', 6),
 			'offset'							=> 0,
 			'suppress_filters'					=> false,
+			'posts_format'						=> 'post-format-all',
 			//////////////////////////////////////////////
 			'image_size'						=> 'full',
 			'title'								=> '',
@@ -144,10 +145,8 @@ class Cherry_Portfolio_Data {
 		self::$options = wp_parse_args( $options, $default_options );
 
 		$output = '';
-
 		// The Query.
 		$posts_query = $this->get_query_portfolio_items( self::$options );
-
 		// The Display.
 		if ( !is_wp_error( $posts_query ) ) {
 
@@ -189,6 +188,7 @@ class Cherry_Portfolio_Data {
 			$container_attr .= 'data-item-margin="' . self::$options['item_margin'] . '"';
 			$container_attr .= 'data-fixed-height="' . self::$options['fixed_height'] . '"';
 			$container_attr .= 'data-template="' . self::$options['template'] . '"';
+			$container_attr .= 'data-posts-format="' . self::$options['posts_format'] . '"';
 
 			$output .= '<div class="portfolio-container ' . self::$options['listing_layout'] . ' ' . self::$options['loading_animation'] . '" ' . $container_attr . '>';
 				$output .= '<div class="portfolio-list"  data-all-posts-count="' . $this->posts_query->found_posts . '">';
@@ -568,10 +568,6 @@ class Cherry_Portfolio_Data {
 		if ( false == $template ) {
 			return '<h4>' . __( 'Template file (*.tmpl) not found', 'tm' ) . '</h4>';
 		}
-		/*ob_start();
-			require( $template_file );
-			$template = ob_get_contents();
-		ob_end_clean();*/
 
 		// Temp array for post data.
 		$_postdata = array();
@@ -1193,6 +1189,7 @@ function get_new_items() {
 		&& array_key_exists('list_layout', $_POST)
 		&& array_key_exists('order_settings', $_POST)
 		&& array_key_exists('template', $_POST)
+		&& array_key_exists('posts_format', $_POST)
 		) {
 		$value_slug = $_POST['value_slug'];
 		$value_pagination_page = $_POST['value_pagination_page'];
@@ -1201,6 +1198,7 @@ function get_new_items() {
 		$list_layout = $_POST['list_layout'];
 		$order_settings = $_POST['order_settings'];
 		$template = $_POST['template'];
+		$posts_format = $_POST['posts_format'];
 
 		($value_slug !== 'all') ? $_POST['value_slug'] : $value_slug = '';
 
@@ -1213,6 +1211,25 @@ function get_new_items() {
 			'orderby' => $order_settings['orderby'],
 			'paged' => $value_pagination_page,
 		);
+
+		if( 'post-format-all' !== $posts_format ){
+			$terms = array( $posts_format );
+			$operator = 'IN';
+
+			if( 'post-format-standard' == $posts_format ){
+				$terms = array( 'post-format-gallery', 'post-format-image', 'post-format-audio', 'post-format-video');
+				$operator = 'NOT IN';
+			}
+
+			$query_args['tax_query'] = array(
+				array(
+					'taxonomy'	=> 'post_format',
+					'field'		=> 'slug',
+					'terms'		=> $terms,
+					'operator'	=> $operator,
+				)
+			);
+		}
 
 		$posts_query =  $data->get_query_portfolio_items( $query_args );
 
@@ -1249,6 +1266,7 @@ function get_more_items() {
 		&& array_key_exists('list_layout', $_POST)
 		&& array_key_exists('order_settings', $_POST)
 		&& array_key_exists('template', $_POST)
+		&& array_key_exists('posts_format', $_POST)
 		) {
 		$value_pagination_page = $_POST['value_pagination_page'];
 		$value_slug = $_POST['value_slug'];
@@ -1256,6 +1274,7 @@ function get_more_items() {
 		$list_layout = $_POST['list_layout'];
 		$order_settings = $_POST['order_settings'];
 		$template = $_POST['template'];
+		$posts_format = $_POST['posts_format'];
 
 		$data = new Cherry_Portfolio_Data;
 		$query_args = array(
@@ -1265,6 +1284,25 @@ function get_more_items() {
 			'orderby' => $order_settings['orderby'],
 			'paged' => intval( $value_pagination_page ),
 		);
+
+		if( 'post-format-all' !== $posts_format ){
+			$terms = array( $posts_format );
+			$operator = 'IN';
+
+			if( 'post-format-standard' == $posts_format ){
+				$terms = array( 'post-format-gallery', 'post-format-image', 'post-format-audio', 'post-format-video');
+				$operator = 'NOT IN';
+			}
+
+			$query_args['tax_query'] = array(
+				array(
+					'taxonomy'	=> 'post_format',
+					'field'		=> 'slug',
+					'terms'		=> $terms,
+					'operator'	=> $operator,
+				)
+			);
+		}
 
 		$posts_query =  $data->get_query_portfolio_items( $query_args );
 

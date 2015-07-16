@@ -120,6 +120,20 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 					'name'    => __( 'Portfolio items animation type', 'cherry-portfolio' ),
 					'desc'    => __( '', 'cherry-portfolio' ),
 				),
+				'posts_format' => array(
+					'type'    => 'select',
+					'values'  => array(
+						'post-format-all'		=> __('All formats', 'cherry-portfolio'),
+						'post-format-standard'	=> __('Standard format', 'cherry-portfolio'),
+						'post-format-image'		=> __('Image format', 'cherry-portfolio'),
+						'post-format-gallery'	=> __('Gallery format', 'cherry-portfolio'),
+						'post-format-audio'		=> __('Audio format', 'cherry-portfolio'),
+						'post-format-video'		=> __('Video format', 'cherry-portfolio'),
+					),
+					'default' => 'post-format-all',
+					'name'    => __( 'Post format', 'cherry-portfolio' ),
+					'desc'    => __( 'Select post format', 'cherry-portfolio' ),
+				),
 				'filter_visible' => array(
 					'type'    => 'bool',
 					'default' => 'yes',
@@ -312,6 +326,7 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 			'item_margin'				=> 4,
 			'echo'						=> false,
 			'template'					=> '',
+			'posts_format'				=> 'post-format-all',
 			'custom_class'				=> ''
 		);
 

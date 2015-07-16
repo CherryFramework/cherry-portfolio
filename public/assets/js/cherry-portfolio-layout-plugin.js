@@ -1,4 +1,6 @@
 // cherryPortfolioLayoutPlugin plugin
+
+
 (function($){
 	var methods = {
 		init : function( options ) {
@@ -27,6 +29,7 @@
 					fixedHeight = portfolioContainer.data('fixed-height'),
 					listLayout = portfolioContainer.data('list-layout'),
 					template = portfolioContainer.data('template'),
+					postsFormat = portfolioContainer.data('posts-format'),
 					isotopeOptions = {
 						itemSelector : '.portfolio-item',
 						resizable: false,
@@ -158,7 +161,8 @@
 						loading_mode: portfolioContainer.data('loading-mode'),
 						list_layout: portfolioContainer.data('list-layout'),
 						order_settings: order,
-						template: template
+						template: template,
+						posts_format: postsFormat
 					};
 
 					hidePortfolioList();
@@ -326,7 +330,8 @@
 						post_per_page: postPerPage,
 						list_layout: portfolioContainer.data('list-layout'),
 						order_settings: order,
-						template: template
+						template: template,
+						posts_format: postsFormat
 					};
 					if( ajaxGetMoreRequest != null && ajaxRequestSuccess){
 						ajaxGetMoreRequest.abort();
@@ -482,7 +487,7 @@
 					}
 				}
 				function mainResizer(){
-					console.log(123);
+
 					switch(listLayout){
 						case 'masonry-layout':
 						case 'grid-layout':
