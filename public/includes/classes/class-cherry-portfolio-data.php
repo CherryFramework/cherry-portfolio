@@ -650,7 +650,7 @@ class Cherry_Portfolio_Data {
 			$swiper_crop_height = isset( $post_meta['portfolio-gallery-swiper-crop-height'] ) ? $post_meta['portfolio-gallery-swiper-crop-height'] : 576 ;
 			$swiper_effect = isset( $post_meta['portfolio-gallery-swiper-effect'] ) ? $post_meta['portfolio-gallery-swiper-effect'] : 'slide' ;
 
-			$thumbnail_classes =  apply_filters('cherry-portfolio-gallery-image-classes', 'image-link');
+			$thumbnail_classes = apply_filters('cherry-portfolio-gallery-image-classes', 'image-link');
 
 			$slider_html = '';
 
@@ -841,6 +841,7 @@ class Cherry_Portfolio_Data {
 
 		$categories = get_categories( $args );
 		$html .= '<div class="portfolio-filter with-ajax">';
+			$html .= apply_filters('cherry-portfolio-before-filters-html', '');
 			$html .= '<ul class="filter filter-' . $filter_type . '">';
 			if( $categories ){
 				$html .= '<li class="active"><a href="javascript:void(0)" data-cat-id="" data-slug="">'. apply_filters( 'cherry_portfolio_show_all_text', __( 'Show all', 'cherry-portfolio' ) ) .'</a></li>';
@@ -849,6 +850,7 @@ class Cherry_Portfolio_Data {
 				}
 			}
 			$html .= '</ul>';
+			$html .= apply_filters('cherry-portfolio-after-filters-html', '');
 			if( 'true' == self::$options['order_filter_visible'] ){
 				$html .= '<ul class="order-filter">';
 					$html .= '<li data-order="order">';
