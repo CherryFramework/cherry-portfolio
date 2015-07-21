@@ -94,7 +94,7 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 					),
 					'default' => 'masonry-layout',
 					'name'    => __( 'Portfolio listing layout', 'cherry-portfolio' ),
-					'desc'    => __( '', 'cherry-portfolio' ),
+					// 'desc'    => __( '', 'cherry-portfolio' ),
 				),
 				'loading_mode' => array(
 					'type'    => 'select',
@@ -104,7 +104,7 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 					),
 					'default' => 'portfolio-ajax-pagination-mode',
 					'name'    => __( 'Portfolio pagination type', 'cherry-portfolio' ),
-					'desc'    => __( '', 'cherry-portfolio' ),
+					// 'desc'    => __( '', 'cherry-portfolio' ),
 				),
 				'loading_animation' => array(
 					'type'    => 'select',
@@ -118,7 +118,7 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 					),
 					'default' => 'loading-animation-move-up',
 					'name'    => __( 'Portfolio items animation type', 'cherry-portfolio' ),
-					'desc'    => __( '', 'cherry-portfolio' ),
+					// 'desc'    => __( '', 'cherry-portfolio' ),
 				),
 				'posts_format' => array(
 					'type'    => 'select',
