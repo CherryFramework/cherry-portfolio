@@ -3,7 +3,7 @@
  * Plugin Name: Cherry Portfolio
  * Plugin URI:  http://www.cherryframework.com/
  * Description: A testimonials management plugin for WordPress.
- * Version:     1.0.0 beta
+ * Version:     1.0.1
  * Author:      Cherry Team
  * Author URI:  http://www.cherryframework.com/
  * Text Domain: cherry-portfolio
@@ -88,7 +88,7 @@ if ( !class_exists( 'Cherry_Portfolio' ) ) {
 			 *
 			 * @since 1.0.0
 			 */
-			define( 'CHERRY_PORTFOLIO_VERSION', '1.0.0' );
+			define( 'CHERRY_PORTFOLIO_VERSION', '1.0.1' );
 
 			/**
 			 * Set the slug of the plugin.
