@@ -62,7 +62,7 @@ class Cherry_Portfolio_Data {
 			'hover_layout'						=> self::cherry_portfolio_get_option('portfolio-hover-animation', 'simple-fade'),
 			'more_button_label'					=> apply_filters( 'cherry_text_translate', self::cherry_portfolio_get_option('portfolio-more-button-text', 'Read more'), 'portfolio_more_button_text' ) ,
 			'filter_visible'					=> self::cherry_portfolio_get_option('portfolio-filter-visible', 'true'),
-			'order_filter_visible'				=> self::cherry_portfolio_get_option('portfolio-order-filter-visible', 'true'),
+			'order_filter_visible'				=> self::cherry_portfolio_get_option('portfolio-order-filter-visible', 'false'),
 			'is_image_crop'						=> self::cherry_portfolio_get_option('portfolio-is-crop-image', false),
 			'image_crop_width'					=> self::cherry_portfolio_get_option('portfolio-crop-image-width', 500),
 			'image_crop_height'					=> self::cherry_portfolio_get_option('portfolio-crop-image-height', 350),

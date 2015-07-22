@@ -320,7 +320,7 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 			'loading_mode'				=> 'portfolio-ajax-pagination-mode',
 			'loading_animation'			=> 'loading-animation-move-up',
 			'filter_visible'			=> 'yes',
-			'order_filter_visible'		=> 'yes',
+			'order_filter_visible'		=> 'no',
 			'posts_per_page'			=> 9,
 			'grid_col'					=> 3,
 			'item_margin'				=> 4,
