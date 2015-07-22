@@ -274,6 +274,23 @@ class Cherry_Portfolio_Data {
 		$count  = 1;
 		$output = '';
 
+			if( empty( $template ) ){
+				switch ( $listing_layout ) {
+					case 'masonry-layout':
+						$template = self::$options['masonry_template'];
+						break;
+					case 'grid-layout':
+						$template = self::$options['grid_template'];
+						break;
+					case 'justified-layout':
+						$template = self::$options['justified_template'];
+						break;
+					case 'list-layout':
+						$template = self::$options['list_template'];
+						break;
+				}
+			}
+
 			if ( $posts_query->have_posts() ) {
 
 				// Item template's file.
