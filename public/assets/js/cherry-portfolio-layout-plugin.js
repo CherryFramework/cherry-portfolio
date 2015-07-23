@@ -86,7 +86,28 @@
 						$this.toggleClass('dropdown-state');
 					})
 
-					$('.portfolio-filter > .order-filter', _this).on('click', '.order-list > li', function(){
+					$('.portfolio-filter > .order-filter', _this).on('click', '[data-order="order"]', function(){
+						var
+							$this = $(this)
+						,	desc_label = $this.data('desc-label')
+						,	asc_label = $this.data('asc-label')
+						;
+
+						if( $this.hasClass('dropdown-state') ){
+							$('.current', $this).html( asc_label );
+							orderSetting.order = 'ASC';
+						}else{
+							$('.current', $this).html( desc_label );
+							orderSetting.order = 'DESC';
+						}
+
+						if( 'more-button' == loadingMode ){
+							currentPaginationPage = 1;
+						}
+						ajaxGetNewContent( currentSlug, currentPaginationPage, orderSetting );
+					})
+
+					/*$('.portfolio-filter > .order-filter', _this).on('click', '.order-list > li', function(){
 						var
 							$this = $(this)
 						,	$parent = $(this).parents('[data-order="order"]')
@@ -105,7 +126,7 @@
 							currentPaginationPage = 1;
 						}
 						ajaxGetNewContent( currentSlug, currentPaginationPage, orderSetting );
-					})
+					})*/
 
 					$('.portfolio-filter > .order-filter', _this).on('click', '.orderby-list > li', function(){
 						var

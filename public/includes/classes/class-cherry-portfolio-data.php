@@ -870,13 +870,13 @@ class Cherry_Portfolio_Data {
 			$html .= apply_filters('cherry-portfolio-after-filters-html', '');
 			if( 'true' == self::$options['order_filter_visible'] ){
 				$html .= '<ul class="order-filter">';
-					$html .= '<li data-order="order">';
+					$html .= '<li data-order="order" data-desc-label="' . __('Desc', 'cherry-portfolio') . '" data-asc-label="' . __('Asc', 'cherry-portfolio') . '">';
 						$html .= apply_filters( 'cherry-portfolio-order-filter-label', __('Order', 'cherry-portfolio') );
 						$html .= '<span class="current">' . __('Desc', 'cherry-portfolio') . '</span>';
-						$html .= '<ul class="order-list">';
+						/*$html .= '<ul class="order-list">';
 							$html .= '<li data-order="DESC">' . __('Desc', 'cherry-portfolio') . '</li>';
 							$html .= '<li data-order="ASC">' . __('Asc', 'cherry-portfolio') . '</li>';
-						$html .= '</ul>';
+						$html .= '</ul>';*/
 						$html .= '<span class="marker"></span>';
 					$html .= '</li>';
 					$html .= '<li data-orderby="orderby">';
@@ -888,7 +888,6 @@ class Cherry_Portfolio_Data {
 							$html .= '<li data-orderby="modified">' . __('Modified', 'cherry-portfolio') . '</li>';
 							$html .= '<li data-orderby="comment_count">' . __('Comments', 'cherry-portfolio') . '</li>';
 						$html .= '</ul>';
-						$html .= '<span class="marker"></span>';
 					$html .= '</li>';
 				$html .= '</ul>';
 			}
