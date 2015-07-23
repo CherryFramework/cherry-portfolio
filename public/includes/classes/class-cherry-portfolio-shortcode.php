@@ -67,7 +67,7 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 
 		$tag = apply_filters( self::$name . '_shortcode_name', self::$name );
 
-		add_shortcode( $tag, array( $this, 'do_shortcode' ) );
+		add_shortcode( 'cherry_' . $tag, array( $this, 'do_shortcode' ) );
 	}
 
 	/**
