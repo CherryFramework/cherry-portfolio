@@ -195,6 +195,7 @@
 								isotopeOptions = {
 									itemSelector : '.portfolio-item',
 									resizable: false,
+									layoutMode: ( 'masonry-layout' == listLayout ) ? 'masonry' : 'fitRows' ,
 									masonry: {
 										columnWidth: Math.floor( $('.portfolio-list', portfolioContainer).width() / widthLayoutChanger() )
 									}
@@ -209,7 +210,7 @@
 
 								allPageLenght = Math.ceil( parseInt( allPostsCount ) / parseInt( postPerPage ) );
 
-								switch(listLayout){
+								switch( listLayout ){
 									case 'masonry-layout':
 									case 'grid-layout':
 
