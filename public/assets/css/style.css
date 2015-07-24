@@ -408,6 +408,9 @@ ul.order-filter > li ul li {
 ul.order-filter > li ul li:hover {
   text-decoration: underline;
 }
+ul.order-filter > li ul li.active {
+  display: none;
+}
 ul.order-filter > li span.current {
   margin-left: 5px;
 }

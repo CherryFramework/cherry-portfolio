@@ -384,6 +384,9 @@ ul.order-filter{
 							&:hover{
 								text-decoration: underline;
 							}
+							&.active{
+								display: none;
+							}
 						}
 				}
 				span.current{

@@ -136,10 +136,14 @@
 						,	orderby = $this.data('orderby')
 						;
 
-						if( $orderList.hasClass('dropdown-state') ){
-							$orderList.removeClass('dropdown-state');
+						if( $parent.hasClass('dropdown-state') ){
+							$parent.removeClass('dropdown-state');
 						}
 						$('.current', $parent).html( $this.html() );
+
+						$('li', $parent).removeClass('active');
+						$this.addClass('active');
+
 						orderSetting.orderby = orderby;
 
 						if( 'more-button' == loadingMode ){

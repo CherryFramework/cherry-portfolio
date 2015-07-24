@@ -883,7 +883,7 @@ class Cherry_Portfolio_Data {
 						$html .=  apply_filters( 'cherry-portfolio-orderby-filter-label', __('Order by', 'cherry-portfolio') );
 						$html .= '<span class="current">' . __('Date', 'cherry-portfolio') . '</span>';
 						$html .= '<ul class="orderby-list">';
-							$html .= '<li data-orderby="date">' . __('Date', 'cherry-portfolio') . '</li>';
+							$html .= '<li class="active" data-orderby="date">' . __('Date', 'cherry-portfolio') . '</li>';
 							$html .= '<li data-orderby="name">' . __('Name', 'cherry-portfolio') . '</li>';
 							$html .= '<li data-orderby="modified">' . __('Modified', 'cherry-portfolio') . '</li>';
 							$html .= '<li data-orderby="comment_count">' . __('Comments', 'cherry-portfolio') . '</li>';
