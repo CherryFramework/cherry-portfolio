@@ -387,7 +387,7 @@ class Cherry_Portfolio_Data {
 				// Image
 				if(	"true" == self::$default_options['is_image_crop'] || 'grid-layout' == $listing_layout ){
 					$img_url = wp_get_attachment_url( $thumb_id ,'full'); //get img URL
-					$image = $this->get_crop_image( $img_url, self::$default_options['image_crop_width' ], self::$default_options['image_crop_height' ] );
+					$image = $this->get_crop_image( $img_url, $thumb_id, self::$default_options['image_crop_width' ], self::$default_options['image_crop_height' ] );
 				}else{
 					$image = $this->get_image( $post_id, 'large' );
 				}
@@ -695,7 +695,7 @@ class Cherry_Portfolio_Data {
 										$slider_html .= '<div class="swiper-slide"><img class="swiper-slide-image" src="' . $attachment_url[0] . '" width="' . $attachment_url[1] . '" height="' . $attachment_url[2] . '" alt="' . get_the_title( $attachment_id ) . '"></div>';
 									}else{
 										$attachment_url = wp_get_attachment_image_src( $attachment_id, 'full' );
-										$croped_image = $this->get_crop_image( $attachment_url[0], $swiper_crop_width, $swiper_crop_height, 'swiper-slide-image', get_the_title( $attachment_id ) );
+										$croped_image = $this->get_crop_image( $attachment_url[0], $attachment_id, $swiper_crop_width, $swiper_crop_height, 'swiper-slide-image', get_the_title( $attachment_id ) );
 										$slider_html .= '<div class="swiper-slide">' . $croped_image . '</div>';
 									}
 								}
@@ -1013,9 +1013,7 @@ class Cherry_Portfolio_Data {
 	 * @param  string|int|int|string|string $args image url, cropped width value, cropped height value, custom class name, image alt name.
 	 * @return string(HTML-formatted).
 	 */
-	public function get_crop_image( $img_url = '', $width = 100, $height = 100, $custom_class = "", $alt_value="" ) {
-		$attachment_id = $this->get_attachment_id_from_src( $img_url );
-
+	public function get_crop_image( $img_url = '', $attachment_id = null, $width = 100, $height = 100, $custom_class = "", $alt_value="" ) {
 		// check if $attachment_id exist
 		if($attachment_id == null){
 			return false;
@@ -1042,13 +1040,6 @@ class Cherry_Portfolio_Data {
 		$ratio_value = $height / $width;
 		$image .= '<img class="image croped-image ' . $custom_class . '" data-ratio="' . $ratio_value . '" width="' . $width . '" height="' . $height .'" src="' . $croped_image_url . '" alt="'. $alt_value .'">';
 		return $image;
-	}
-
-	public function get_attachment_id_from_src ( $image_src ) {
-		global $wpdb;
-		$query = "SELECT ID FROM {$wpdb->posts} WHERE guid='$image_src'";
-		$id = $wpdb->get_var($query);
-		return $id;
 	}
 
 	/**
