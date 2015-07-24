@@ -1034,9 +1034,8 @@ class Cherry_Portfolio_Data {
 			'mime-type'		=> get_post_mime_type($attachment_id)
 		);
 		// wp update attachment metadata
-		if( wp_update_attachment_metadata( $attachment_id, $attachment_metadata ) ){
+		wp_update_attachment_metadata( $attachment_id, $attachment_metadata );
 
-		}
 		$ratio_value = $height / $width;
 		$image .= '<img class="image croped-image ' . $custom_class . '" data-ratio="' . $ratio_value . '" width="' . $width . '" height="' . $height .'" src="' . $croped_image_url . '" alt="'. $alt_value .'">';
 		return $image;
