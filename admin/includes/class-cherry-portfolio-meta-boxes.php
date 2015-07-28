@@ -363,8 +363,8 @@ class Cherry_Portfolio_Meta_Boxes {
 						array(
 							'id'			=> 'portfolio-gallery-swiper-grab-cursor',
 							'type'			=> 'switcher',
-							'label'			=> __('Grab Cusor', 'cherry-portfolio'),
-							'description'	=> __('Using Grab Cusor for slider', 'cherry-portfolio'),
+							'label'			=> __('Grab Cursor', 'cherry-portfolio'),
+							'description'	=> __('Using Grab Cursor for slider', 'cherry-portfolio'),
 							'value'			=> 'true',
 							'toggle'		=> array(
 								'true_toggle'	=> __( 'Enabled', 'cherry-portfolio' ),
