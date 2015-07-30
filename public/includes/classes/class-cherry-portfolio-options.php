@@ -137,7 +137,7 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 			$portfolio_options['portfolio-filter-type'] = array(
 				'type'			=> 'radio',
 				'title'			=> 'Filter type',
-				'description'	=> __('Select if you want to folter posts by tag or by category.', 'cherry-portfolio'),
+				'description'	=> __('Select if you want to filter posts by tag or by category.', 'cherry-portfolio'),
 				'value'			=> 'portfolio-filter-type-category',
 				'display-input'	=> true,
 				'options'		=> array(
@@ -171,7 +171,7 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 			);
 			$portfolio_options['portfolio-post-per-page'] = array(
 				'type'			=> 'slider',
-				'title'			=> __('Post per page', 'cherry-portfolio'),
+				'title'			=> __('Posts per page', 'cherry-portfolio'),
 				'description'	=> __('Select how many posts per page do you want to display', 'cherry-portfolio'),
 				'max_value'		=> 50,
 				'min_value'		=> -1,
@@ -196,13 +196,13 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 			$portfolio_options['portfolio-is-crop-image'] = array(
 				'type'			=> 'switcher',
 				'title'			=> __('Crop image', 'cherry-portfolio'),
-				'description'	=> __('Choose if you want activate images crop.', 'cherry-portfolio'),
+				'description'	=> __('Choose if you want to activate images crop.', 'cherry-portfolio'),
 				'value'			=> 'false'
 			);
 			$portfolio_options['portfolio-crop-image-width'] = array(
 				'type'			=> 'stepper',
 				'title'			=> __('Cropped image width', 'cherry-portfolio'),
-				'description'	=> __('Set with of the cropped image.', 'cherry-portfolio'),
+				'description'	=> __('Set width of the cropped image.', 'cherry-portfolio'),
 				'value'			=> '500',
 				'value_step'	=> '1',
 				'max_value'		=> '9999',
