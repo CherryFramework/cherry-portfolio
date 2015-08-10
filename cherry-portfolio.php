@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Cherry Portfolio
  * Plugin URI:  http://www.cherryframework.com/
- * Description: A testimonials management plugin for WordPress.
+ * Description: A portfolio plugin for WordPress.
  * Version:     1.0.1
  * Author:      Cherry Team
  * Author URI:  http://www.cherryframework.com/
