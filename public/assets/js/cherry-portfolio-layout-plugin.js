@@ -536,11 +536,12 @@
 					var
 						windowWidth = $(window).width()
 					,	columnPerView
+					,	widthLayout = 'large'
 					;
 
-					if ( windowWidth > 1200 ) { widthLayout = 'large'; }
-					if ( windowWidth <= 1199 && windowWidth > 768 ) { widthLayout = 'medium'; }
-					if ( windowWidth <= 767 && windowWidth > 481) { widthLayout = 'small'; }
+					if ( windowWidth >= 1200 ) { widthLayout = 'large'; }
+					if ( windowWidth <= 1199 && windowWidth >= 768 ) { widthLayout = 'medium'; }
+					if ( windowWidth <= 767 && windowWidth >= 481) { widthLayout = 'small'; }
 					if ( windowWidth <= 480 ) { widthLayout = 'extra-small'; }
 					switch ( widthLayout ) {
 						case 'large':
