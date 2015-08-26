@@ -152,7 +152,7 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 					'max'     => 50,
 					'step'    => 1,
 					'default' => 9,
-					'name'    => __( 'Post per page', 'cherry-portfolio' ),
+					'name'    => __( 'Posts per page', 'cherry-portfolio' ),
 					'desc'    => __( 'Specify number of posts that you want to show. Enter -1 to get all posts', 'cherry-portfolio' ),
 				),
 				'grid_col' => array(
