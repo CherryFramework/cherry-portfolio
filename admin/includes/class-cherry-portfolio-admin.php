@@ -175,7 +175,10 @@ class Cherry_Portfolio_Admin {
 	public function enqueue_scripts() {
 		$screen = get_current_screen();
 		if ( !empty( $screen->post_type ) && 'portfolio' === $screen->post_type ) {
-			wp_enqueue_script( 'cherry-portfolio-admin-scripts', trailingslashit( CHERRY_PORTFOLIO_URI ) . 'admin/assets/js/cherry-portfolio-admin-scripts.js', array( 'jquery' ), CHERRY_PORTFOLIO_VERSION);
+			wp_enqueue_script( 'cherry-portfolio-admin-scripts', trailingslashit( CHERRY_PORTFOLIO_URI ) . 'admin/assets/js/cherry-portfolio-admin-scripts.js', array( 'jquery' ), CHERRY_PORTFOLIO_VERSION );
+			$option_inteface_builder = new Cherry_Interface_Builder();
+			$option_inteface_builder->enqueue_builder_scripts();
+
 			//ajax js object portfolio_type_ajax
 			wp_localize_script( 'cherry-portfolio-admin-scripts', 'portfolio_post_format_ajax', array( 'url' => admin_url('admin-ajax.php') ) );
 		}
@@ -184,6 +187,9 @@ class Cherry_Portfolio_Admin {
 	public function enqueue_styles() {
 		$screen = get_current_screen();
 		if ( !empty( $screen->post_type ) && 'portfolio' === $screen->post_type ) {
+			$option_inteface_builder = new Cherry_Interface_Builder();
+			$option_inteface_builder->enqueue_builder_styles();
+
 			wp_enqueue_style( 'portfolio-admin-style', trailingslashit( CHERRY_PORTFOLIO_URI ) . 'admin/assets/css/admin-style.css', array(), CHERRY_PORTFOLIO_VERSION );
 		}
 	}
