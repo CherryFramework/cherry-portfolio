@@ -754,7 +754,6 @@ class Cherry_Portfolio_Data {
 							}
 						$slider_html .= '</section>';
 						break;
-
 					case 'justified':
 						$slider_html .= '<section class="gallery-list justified-list">';
 							if( !empty($attachments_ids_array) ){
@@ -780,6 +779,10 @@ class Cherry_Portfolio_Data {
 		$image = $this->get_image( $post_id, 'large' );
 
 		$full_image_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id) , 'full', false );
+
+		if( 'post-format-image' === $format && 'true' === $post_meta['portfolio-image-format-crop-image'] ){
+			$image = $this->get_crop_image( $full_image_url[0], get_post_thumbnail_id( $post_id), $post_meta['portfolio-image-format-crop-width'], $post_meta['portfolio-image-format-crop-height'] );
+		}
 
 		$audio_ids = explode(',', $audio_id);
 		$audioplayer = '';
