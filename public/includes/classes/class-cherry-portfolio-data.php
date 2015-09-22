@@ -277,6 +277,7 @@ class Cherry_Portfolio_Data {
 				'posts_per_page'                  => -1,
 				'paged'                           => $paged,
 				'offset'                          => 0,
+				'post_status'                     => 'publish',
 			)
 		);
 
@@ -1080,23 +1081,23 @@ class Cherry_Portfolio_Data {
 	}
 
 	/**
-		 * Get option by name from theme options
-		 *
-		 * @since  1.0.0
-		 *
-		 * @uses   cherry_get_option  use cherry_get_option from Cherry framework if exist
-		 *
-		 * @param  string  $name    option name to get
-		 * @param  mixed   $default default option value
-		 * @return mixed            option value
-		 */
-		public static function cherry_portfolio_get_option( $name , $default = false ) {
-			if ( function_exists( 'cherry_get_option' ) ) {
-				$result = cherry_get_option( $name , $default );
-			return $result;
-			}
-			return $default;
+	 * Get option by name from theme options
+	 *
+	 * @since  1.0.0
+	 *
+	 * @uses   cherry_get_option  use cherry_get_option from Cherry framework if exist
+	 *
+	 * @param  string  $name    option name to get
+	 * @param  mixed   $default default option value
+	 * @return mixed            option value
+	 */
+	public static function cherry_portfolio_get_option( $name , $default = false ) {
+		if ( function_exists( 'cherry_get_option' ) ) {
+			$result = cherry_get_option( $name , $default );
+		return $result;
 		}
+		return $default;
+	}
 
 	/**
 	 * Callback-function for `preg_replace_callback`.

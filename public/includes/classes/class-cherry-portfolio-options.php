@@ -249,8 +249,8 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 			);
 			$portfolio_options['portfolio-single-standart-template'] = array(
 				'type'			=> 'text',
-				'title'			=> __('Standart post template', 'cherry-portfolio'),
-				'description'	=> __('Standart post format template content', 'cherry-portfolio'),
+				'title'			=> __('Standard post template', 'cherry-portfolio'),
+				'description'	=> __('Standard post format template content', 'cherry-portfolio'),
 				'value'			=> 'post-format-standart-template.tmpl',
 			);
 			$portfolio_options['portfolio-single-image-template'] = array(
