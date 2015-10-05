@@ -63,6 +63,8 @@ class Cherry_Portfolio_Data {
 			'more_button_label'					=> apply_filters( 'cherry_text_translate', self::cherry_portfolio_get_option('portfolio-more-button-text', 'Read more'), 'portfolio_more_button_text' ) ,
 			'filter_visible'					=> self::cherry_portfolio_get_option('portfolio-filter-visible', 'true'),
 			'order_filter_visible'				=> self::cherry_portfolio_get_option('portfolio-order-filter-visible', 'false'),
+			'order_filter_default'				=> self::cherry_portfolio_get_option('portfolio-order-filter-default-value', 'desc'),
+			'orderby_filter_default'			=> self::cherry_portfolio_get_option('portfolio-orderby-filter-default-value', 'date'),
 			'is_image_crop'						=> self::cherry_portfolio_get_option('portfolio-is-crop-image', false),
 			'image_crop_width'					=> self::cherry_portfolio_get_option('portfolio-crop-image-width', 500),
 			'image_crop_height'					=> self::cherry_portfolio_get_option('portfolio-crop-image-height', 350),
@@ -75,6 +77,8 @@ class Cherry_Portfolio_Data {
 			'item_margin'						=> self::cherry_portfolio_get_option('portfolio-item-margin', 4),
 			'fixed_height'						=> self::cherry_portfolio_get_option('portfolio-justified-fixed-height', 300),
 			'filter_type'						=> 'category',
+			'category_list'						=> self::cherry_portfolio_get_option('portfolio-category-list', array()),
+			'tag_list'							=> self::cherry_portfolio_get_option('portfolio-tags-list', array()),
 			'post_format_standart_template'		=> self::cherry_portfolio_get_option('portfolio-single-standart-template', 'post-format-standart-template.tmpl'),
 			'post_format_image_template'		=> self::cherry_portfolio_get_option('portfolio-single-image-template', 'post-format-image-template.tmpl'),
 			'post_format_gallery_template'		=> self::cherry_portfolio_get_option('portfolio-single-gallery-template', 'post-format-gallery-template.tmpl'),
@@ -171,7 +175,7 @@ class Cherry_Portfolio_Data {
 			}
 
 			if( self::$options['filter_visible'] == 'true' && $posts_query->have_posts() ){
-				$output .= $this->build_ajax_filter( self::$options['filter_type'] );
+				$output .= $this->build_ajax_filter( self::$options );
 			}
 
 			switch ( self::$options['loading_mode'] ) {
@@ -879,8 +883,10 @@ class Cherry_Portfolio_Data {
 	 * @param  string $arg taxonomy type(category).
 	 * @return string.
 	 */
-	public function build_ajax_filter( $filter_type ) {
+	public function build_ajax_filter( $options ) {
 		$html = '';
+
+		$filter_type = $options['filter_type'];
 
 		$args = array(
 			'type'        => CHERRY_PORTFOLIO_NAME,
@@ -890,37 +896,49 @@ class Cherry_Portfolio_Data {
 			'pad_counts'  => false
 		);
 
+		$order_array = array(
+			'desc'	=> __('Desc', 'cherry-portfolio'),
+			'asc'	=> __('Asc', 'cherry-portfolio'),
+		);
+		$order_by_array = array(
+			'date'			=> __('Date', 'cherry-portfolio'),
+			'name'			=> __('Name', 'cherry-portfolio'),
+			'modified'		=> __('Modified', 'cherry-portfolio'),
+			'comment_count'	=> __('Comments', 'cherry-portfolio'),
+		);
+
 		$categories = get_categories( $args );
-		$html .= '<div class="portfolio-filter with-ajax">';
+		$tax_list = ( 'category' === $filter_type ) ? $options['category_list'] : $options['tag_list'];
+		$html .= '<div class="portfolio-filter with-ajax" data-order-default="' . $options['order_filter_default'] . '" data-orderby-default="' . $options['orderby_filter_default'] . '">';
 			$html .= apply_filters('cherry-portfolio-before-filters-html', '');
 			$html .= '<ul class="filter filter-' . $filter_type . '">';
 			if( $categories ){
 				$html .= '<li class="active"><a href="javascript:void(0)" data-cat-id="" data-slug="">'. apply_filters( 'cherry_portfolio_show_all_text', __( 'Show all', 'cherry-portfolio' ) ) .'</a></li>';
 				foreach( $categories as $category ){
-					$html .= '<li><a href="javascript:void(0)" data-cat-id="' .  $category->cat_ID . '" data-slug="' .  $category->slug . '">'. $category->name .'</a></li>';
+					if( in_array($category->slug, $tax_list) ){
+						$html .= '<li><a href="javascript:void(0)" data-cat-id="' .  $category->cat_ID . '" data-slug="' .  $category->slug . '">'. $category->name .'</a></li>';
+					}
 				}
 			}
 			$html .= '</ul>';
+
 			$html .= apply_filters('cherry-portfolio-after-filters-html', '');
 			if( 'true' == self::$options['order_filter_visible'] ){
 				$html .= '<ul class="order-filter">';
-					$html .= '<li data-order="order" data-desc-label="' . __('Desc', 'cherry-portfolio') . '" data-asc-label="' . __('Asc', 'cherry-portfolio') . '">';
+					$class = ( $options['order_filter_default'] == 'asc' ) ? 'class="dropdown-state"' : '' ;
+					$html .= '<li data-order="order" data-desc-label="' . __('Desc', 'cherry-portfolio') . '" data-asc-label="' . __('Asc', 'cherry-portfolio') . '" ' . $class . '>';
 						$html .= apply_filters( 'cherry-portfolio-order-filter-label', __('Order', 'cherry-portfolio') );
-						$html .= '<span class="current">' . __('Desc', 'cherry-portfolio') . '</span>';
-						/*$html .= '<ul class="order-list">';
-							$html .= '<li data-order="DESC">' . __('Desc', 'cherry-portfolio') . '</li>';
-							$html .= '<li data-order="ASC">' . __('Asc', 'cherry-portfolio') . '</li>';
-						$html .= '</ul>';*/
+						$html .= '<span class="current">' . $order_array[ $options['order_filter_default'] ] . '</span>';
 						$html .= '<span class="marker"></span>';
 					$html .= '</li>';
 					$html .= '<li data-orderby="orderby">';
 						$html .=  apply_filters( 'cherry-portfolio-orderby-filter-label', __('Order by', 'cherry-portfolio') );
-						$html .= '<span class="current">' . __('Date', 'cherry-portfolio') . '</span>';
+						$html .= '<span class="current">' . $order_by_array[ $options['orderby_filter_default'] ] . '</span>';
 						$html .= '<ul class="orderby-list">';
-							$html .= '<li class="active" data-orderby="date">' . __('Date', 'cherry-portfolio') . '</li>';
-							$html .= '<li data-orderby="name">' . __('Name', 'cherry-portfolio') . '</li>';
-							$html .= '<li data-orderby="modified">' . __('Modified', 'cherry-portfolio') . '</li>';
-							$html .= '<li data-orderby="comment_count">' . __('Comments', 'cherry-portfolio') . '</li>';
+							foreach ( $order_by_array as $key => $value ) {
+								$class = ( $key == $options['orderby_filter_default'] ) ? 'class="active"' : '';
+								$html .= '<li data-orderby="' . $key . '" ' . $class . '>' . $value . '</li>';
+							}
 						$html .= '</ul>';
 					$html .= '</li>';
 				$html .= '</ul>';

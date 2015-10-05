@@ -57,6 +57,10 @@
 
 					ajaxLoaderContainer.css({"display":"block"}).fadeTo(500, 1);
 
+					orderSetting = {
+						order: $('.portfolio-filter', _this).data('order-default').toUpperCase(),
+						orderby: $('.portfolio-filter', _this).data('orderby-default')
+					}
 
 					ajaxGetNewContent( currentSlug, currentPaginationPage, orderSetting );
 
@@ -107,26 +111,6 @@
 						ajaxGetNewContent( currentSlug, currentPaginationPage, orderSetting );
 					})
 
-					/*$('.portfolio-filter > .order-filter', _this).on('click', '.order-list > li', function(){
-						var
-							$this = $(this)
-						,	$parent = $(this).parents('[data-order="order"]')
-						,	$orderbyList = $parent.siblings('[data-orderby="orderby"]')
-						,	order = $this.data('order')
-						;
-
-						if( $orderbyList.hasClass('dropdown-state') ){
-							$orderbyList.removeClass('dropdown-state');
-						}
-
-						$('.current', $parent).html( $this.html() );
-						orderSetting.order = order;
-
-						if( 'more-button' == loadingMode ){
-							currentPaginationPage = 1;
-						}
-						ajaxGetNewContent( currentSlug, currentPaginationPage, orderSetting );
-					})*/
 
 					$('.portfolio-filter > .order-filter', _this).on('click', '.orderby-list > li', function(){
 						var
@@ -189,7 +173,7 @@
 						template: template,
 						posts_format: postsFormat
 					};
-
+					console.log(order);
 					hidePortfolioList();
 
 					if( ajaxGetNewRequest != null && ajaxRequestSuccess){

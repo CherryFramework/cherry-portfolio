@@ -31,7 +31,14 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 			add_filter( 'cherry_get_single_post_layout', array( $this, 'get_single_option' ),  11, 2 );
 		}
 
-		function cherry_portfolio_settings($result_array) {
+		public function get_terms( $tax = 'category', $key = 'id' ) {
+			$terms = array();
+			if ( $key === 'id' ) foreach ( (array) get_terms( $tax, array( 'hide_empty' => false ) ) as $term ) $terms[$term->term_id] = $term->name;
+				elseif ( $key === 'slug' ) foreach ( (array) get_terms( $tax, array( 'hide_empty' => false ) ) as $term ) $terms[$term->slug] = $term->name;
+					return $terms;
+		}
+
+		function cherry_portfolio_settings( $result_array ) {
 			$portfolio_options = array();
 
 			$portfolio_options['portfolio-listing-layout'] = array(
@@ -143,11 +150,35 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 				'options'		=> array(
 					'portfolio-filter-type-category' => array(
 						'label' => __('Category', 'cherry-portfolio'),
+						'slave'		=> 'portfolio-filter-type-category'
 					),
 					'portfolio-filter-type-tag' => array(
 						'label' => __('Tag', 'cherry-portfolio'),
+						'slave'		=> 'portfolio-filter-type-tag'
 					),
 				)
+			);
+			$portfolio_options['portfolio-category-list'] = array(
+				'type'			=> 'select',
+				'title'			=> __('Portfolio filter categories list', 'cherry'),
+				'label'			=> '',
+				'description'	=> '',
+				'multiple'		=> true,
+				'value'			=> array('select-1','select-2'),
+				'class'			=> 'cherry-multi-select',
+				'options'		=> $this->get_terms( CHERRY_PORTFOLIO_NAME.'_category', 'slug'),
+				'master'		=> 'portfolio-filter-type-category',
+			);
+			$portfolio_options['portfolio-tags-list'] = array(
+				'type'			=> 'select',
+				'title'			=> __('Portfolio filter tags list', 'cherry'),
+				'label'			=> '',
+				'description'	=> '',
+				'multiple'		=> true,
+				'value'			=> array('select-1','select-2'),
+				'class'			=> 'cherry-multi-select',
+				'options'		=> $this->get_terms( CHERRY_PORTFOLIO_NAME.'_tag', 'slug'),
+				'master'		=> 'portfolio-filter-type-tag',
 			);
 			$portfolio_options['portfolio-filter-visible'] = array(
 				'type'			=> 'switcher',
@@ -160,6 +191,40 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 				'title'			=> __('Order filters', 'cherry-portfolio'),
 				'description'	=> __('Enable/disable order filters', 'cherry-portfolio'),
 				'value'			=> 'false'
+			);
+			$portfolio_options['portfolio-order-filter-default-value'] = array(
+				'type'			=> 'radio',
+				'title'			=> 'Order filter default value',
+				'value'			=> 'desc',
+				'display-input'	=> true,
+				'options'		=> array(
+					'desc' => array(
+						'label' => __('DESC', 'cherry-portfolio'),
+					),
+					'asc' => array(
+						'label' => __('ASC', 'cherry-portfolio'),
+					),
+				)
+			);
+			$portfolio_options['portfolio-orderby-filter-default-value'] = array(
+				'type'			=> 'radio',
+				'title'			=> 'Order by filter default value',
+				'value'			=> 'date',
+				'display-input'	=> true,
+				'options'		=> array(
+					'date' => array(
+						'label' => __('Date', 'cherry-portfolio'),
+					),
+					'name' => array(
+						'label' => __('Name', 'cherry-portfolio'),
+					),
+					'modified' => array(
+						'label' => __('Modified', 'cherry-portfolio'),
+					),
+					'comment_count' => array(
+						'label' => __('Comments', 'cherry-portfolio'),
+					),
+				)
 			);
 			$portfolio_options['portfolio-column-number'] = array(
 				'type'			=> 'slider',
