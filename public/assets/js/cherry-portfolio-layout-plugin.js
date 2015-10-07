@@ -173,7 +173,7 @@
 						template: template,
 						posts_format: postsFormat
 					};
-					console.log(order);
+
 					hidePortfolioList();
 
 					if( ajaxGetNewRequest != null && ajaxRequestSuccess){

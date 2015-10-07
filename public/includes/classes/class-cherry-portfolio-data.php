@@ -514,7 +514,10 @@ class Cherry_Portfolio_Data {
 				$date     = sprintf( '<time class="post-date" datetime="%1$s">%2$s</time>', esc_attr( get_the_date( 'c' ) ), esc_html( $date ) );
 				$author   = sprintf( '<span class="post-author vcard"><a href="%1$s" rel="author">%2$s</a></span>', esc_url( $author_url ), $author );
 				$excerpt  = ( !empty( $excerpt ) ) ? sprintf( '<div class="post-excerpt">%s</div>', $excerpt ) : '';
-				$externallink  = ( !empty( $externallink ) ) ? sprintf( '<a class="item-link externallink" href="%1$s">%2$s</a>', $externallink, $post_meta['external-link-text'] ) : '';
+
+				$link_target = ( isset( $post_meta['external-link-target'] ) ) ? $post_meta['external-link-target'] : '_black';
+				$externallink  = ( !empty( $externallink ) ) ? sprintf( '<a class="item-link externallink" href="%1$s" target="%3$s">%2$s</a>', $externallink, $post_meta['external-link-text'], $link_target ) : '';
+
 				$permalink  = sprintf( '<a class="item-link permalink" href="%1$s">%2$s</a>', $permalink, $permalink_text );
 				$zoomlink  = sprintf( '<a class="item-link zoomlink magnific-popup-link" href="%1$s">%2$s</a>', $attachment_image_data[0], $zoomlink_text );
 				$postformat = sprintf( '<span class="post-format">%s</span>', $format );
@@ -806,7 +809,8 @@ class Cherry_Portfolio_Data {
 		$taxonomy_list_text = sprintf( '%s', $taxonomy_name_list );
 		$videoplayer = ( isset($videoplayer) ) ? $videoplayer : '';
 		$slider_html = ( isset( $slider_html ) ) ? $slider_html : '';
-		$externallink  = ( !empty( $externallink ) ) ? sprintf( '<a class="external-link-button" href="%1$s"><span class="dashicons dashicons-admin-links"></span>%2$s</a>', $externallink, $post_meta['external-link-text'] ) : '';
+		$link_target = ( isset( $post_meta['external-link-target'] ) ) ? $post_meta['external-link-target'] : '_black';
+		$externallink  = ( !empty( $externallink ) ) ? sprintf( '<a class="external-link-button" href="%1$s" target="%3$s"><span class="dashicons dashicons-admin-links"></span>%2$s</a>', $externallink, $post_meta['external-link-text'], $link_target ) : '';
 
 		// Prepare a current post data array.
 		$_postdata['title']    = $title;
@@ -909,19 +913,19 @@ class Cherry_Portfolio_Data {
 
 		$categories = get_categories( $args );
 		$tax_list = ( 'category' === $filter_type ) ? $options['category_list'] : $options['tag_list'];
+
 		$html .= '<div class="portfolio-filter with-ajax" data-order-default="' . $options['order_filter_default'] . '" data-orderby-default="' . $options['orderby_filter_default'] . '">';
 			$html .= apply_filters('cherry-portfolio-before-filters-html', '');
 			$html .= '<ul class="filter filter-' . $filter_type . '">';
 			if( $categories ){
 				$html .= '<li class="active"><a href="javascript:void(0)" data-cat-id="" data-slug="">'. apply_filters( 'cherry_portfolio_show_all_text', __( 'Show all', 'cherry-portfolio' ) ) .'</a></li>';
 				foreach( $categories as $category ){
-					if( in_array($category->slug, $tax_list) ){
+					if( in_array($category->slug, $tax_list) || empty( $tax_list ) ){
 						$html .= '<li><a href="javascript:void(0)" data-cat-id="' .  $category->cat_ID . '" data-slug="' .  $category->slug . '">'. $category->name .'</a></li>';
 					}
 				}
 			}
 			$html .= '</ul>';
-
 			$html .= apply_filters('cherry-portfolio-after-filters-html', '');
 			if( 'true' == self::$options['order_filter_visible'] ){
 				$html .= '<ul class="order-filter">';

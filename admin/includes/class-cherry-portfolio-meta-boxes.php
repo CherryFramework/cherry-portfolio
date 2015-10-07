@@ -65,6 +65,23 @@ class Cherry_Portfolio_Meta_Boxes {
 					'description'	=> __( "Enter link text.", 'cherry-portfolio' ),
 					'value'			=> '',
 				),
+				array(
+					'id'			=> 'external-link-target',
+					'type'			=> 'radio',
+					'label'			=> __('Link target', 'cherry-portfolio'),
+					'description'	=> __('Choose link target', 'cherry-portfolio'),
+					'value'			=> '_blank',
+					'options'		=> array(
+						'_self' => array(
+							'label' => __('Self', 'cherry-portfolio'),
+							'img_src' => ''
+						),
+						'_blank' => array(
+							'label' => __('Blank', 'cherry-portfolio'),
+							'img_src' => ''
+						),
+					)
+				),
 			)
 		));
 
