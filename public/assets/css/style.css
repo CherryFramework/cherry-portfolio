@@ -539,6 +539,13 @@ body.single-portfolio article.type-portfolio .cherry-portfolio-single-post .exte
 body.single-portfolio article.type-portfolio .cherry-portfolio-single-post .external-link-button:hover {
   text-decoration: none;
 }
+body.single-portfolio article.type-portfolio .cherry-portfolio-single-post .embed-container {
+  position: relative;
+}
+body.single-portfolio article.type-portfolio .cherry-portfolio-single-post .embed-container iframe {
+  width: 100%;
+  height: 500px;
+}
 body.single-portfolio article.type-portfolio .cherry-portfolio-single-post.cherry-portfolio-video-post .video-player-container {
   width: 100%;
 }

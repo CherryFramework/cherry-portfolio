@@ -681,7 +681,7 @@ class Cherry_Portfolio_Data {
 				$videoplayer = do_shortcode('[video mp4="' . $mp4_video_src . '" webm="' . $webm_video_src . '" ogv="' . $ogv_video_src . '" width="1170" height="720"]');
 				break;
 			case 'portfolio-video-type-embed':
-				$videoplayer = do_shortcode('[video src="' . $embed_video_src . '" width="1170" height="720"]');
+				$videoplayer = sprintf( '<div class="embed-container">%1$s</div>', wp_oembed_get( $embed_video_src, array('width' => '100%') ) );
 				break;
 		}
 

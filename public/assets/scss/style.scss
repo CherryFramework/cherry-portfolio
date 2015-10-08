@@ -536,6 +536,13 @@ body.single-portfolio{
 						text-decoration: none;
 					}
 			}
+			.embed-container{
+				position: relative;
+				iframe{
+					width: 100%;
+					height: 500px;
+				}
+			}
 			&.cherry-portfolio-video-post{
 				.video-player-container{
 					width: 100%;
