@@ -459,11 +459,13 @@ class Cherry_Portfolio_Meta_Boxes {
 							'options'		=> array(
 								'portfolio-video-type-embed' => array(
 									'label' => __('Embed video type', 'cherry-portfolio'),
-									'img_src' => ''
+									'img_src' => '',
+									'slave'		=> 'embed-setting-items'
 								),
 								'portfolio-video-type-html5' => array(
 									'label' => __('HTML5 video type', 'cherry-portfolio'),
-									'img_src' => ''
+									'img_src' => '',
+									'slave'		=> 'html-setting-items'
 								),
 							)
 						),
@@ -473,6 +475,7 @@ class Cherry_Portfolio_Meta_Boxes {
 							'label'			=> __('Embed video source', 'cherry-portfolio'),
 							'description'	=> __('Enter source for embed video', 'cherry-portfolio'),
 							'value'			=> 'https://www.youtube.com/watch?v=2kodXWejuy0',
+							'master'		=> 'embed-setting-items'
 						),
 						array(
 							'id'				=> 'portfolio-mp4-video-id',
@@ -481,7 +484,8 @@ class Cherry_Portfolio_Meta_Boxes {
 							'description'		=> __('Enter source for MP4 video', 'cherry-portfolio'),
 							'value'				=> '',
 							'multi_upload'		=> false,
-							'library_type'		=> 'video'
+							'library_type'		=> 'video',
+							'master'			=> 'html-setting-items'
 						),
 						array(
 							'id'				=> 'portfolio-webm-video-id',
@@ -490,7 +494,8 @@ class Cherry_Portfolio_Meta_Boxes {
 							'description'		=> __('Enter source for WEBM video', 'cherry-portfolio'),
 							'value'				=> '',
 							'multi_upload'		=> false,
-							'library_type'		=> 'video'
+							'library_type'		=> 'video',
+							'master'			=> 'html-setting-items'
 						),
 						array(
 							'id'				=> 'portfolio-ogv-video-id',
@@ -499,7 +504,8 @@ class Cherry_Portfolio_Meta_Boxes {
 							'description'		=> __('Enter source for OGV video', 'cherry-portfolio'),
 							'value'				=> '',
 							'multi_upload'		=> false,
-							'library_type'		=> 'video'
+							'library_type'		=> 'video',
+							'master'			=> 'html-setting-items'
 						),
 					)
 				);
