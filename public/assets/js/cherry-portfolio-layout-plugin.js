@@ -57,9 +57,11 @@
 
 					ajaxLoaderContainer.css({"display":"block"}).fadeTo(500, 1);
 
-					orderSetting = {
-						order: $('.portfolio-filter', _this).data('order-default').toUpperCase(),
-						orderby: $('.portfolio-filter', _this).data('orderby-default')
+					if( $('.portfolio-filter', _this)[0] ){
+						orderSetting = {
+							order: $('.portfolio-filter', _this).data('order-default').toUpperCase(),
+							orderby: $('.portfolio-filter', _this).data('orderby-default')
+						}
 					}
 
 					ajaxGetNewContent( currentSlug, currentPaginationPage, orderSetting );
@@ -204,7 +206,8 @@
 								isotopeOptions = {
 									itemSelector : '.portfolio-item',
 									resizable: false,
-									layoutMode: ( 'masonry-layout' == listLayout ) ? 'masonry' : 'fitRows' ,
+									//layoutMode: ( 'masonry-layout' == listLayout ) ? 'masonry' : 'fitRows' ,
+									layoutMode: 'masonry' ,
 									masonry: {
 										columnWidth: Math.floor( $('.portfolio-list', portfolioContainer).width() / widthLayoutChanger() )
 									}
