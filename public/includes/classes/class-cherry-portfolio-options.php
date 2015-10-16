@@ -33,9 +33,26 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 
 		public function get_terms( $tax = 'category', $key = 'id' ) {
 			$terms = array();
-			if ( $key === 'id' ) foreach ( (array) get_terms( $tax, array( 'hide_empty' => false ) ) as $term ) $terms[$term->term_id] = $term->name;
+			/*if ( $key === 'id' ) foreach ( (array) get_terms( $tax, array( 'hide_empty' => false ) ) as $term ) $terms[$term->term_id] = $term->name;
 				elseif ( $key === 'slug' ) foreach ( (array) get_terms( $tax, array( 'hide_empty' => false ) ) as $term ) $terms[$term->slug] = $term->name;
-					return $terms;
+					return $terms;*/
+			$_tems = get_terms( $tax, array( 'hide_empty' => false ) );
+
+			if( empty( $_tems ) || is_wp_error( $_tems ) ){
+				return $terms;
+			}
+
+			if ( $key === 'id' ) {
+				foreach ( (array) $_tems as $term ) {
+					$terms[ $term->term_id ] = $term->name;
+				}
+			}elseif ( $key === 'slug' ) {
+				foreach ( (array) $_tems as $term ) {
+					$terms[ $term->slug ] = $term->name;
+				}
+			}
+
+			return $terms;
 		}
 
 		function cherry_portfolio_settings( $result_array ) {
