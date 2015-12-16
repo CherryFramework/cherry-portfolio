@@ -185,6 +185,9 @@ class Cherry_Portfolio_Data {
 				case 'portfolio-more-button-mode':
 						$loading_mode = 'more-button';
 					break;
+				case 'portfolio-none-mode':
+						$loading_mode = 'none';
+					break;
 			}
 
 			$container_attr = '';
@@ -280,7 +283,6 @@ class Cherry_Portfolio_Data {
 				'orderby'                         => 'date',
 				'posts_per_page'                  => -1,
 				'paged'                           => $paged,
-				'offset'                          => 0,
 				'post_status'                     => 'publish',
 			)
 		);
@@ -1314,6 +1316,9 @@ function get_new_items() {
 					break;
 				case 'more-button':
 						$html .= $data->build_ajax_more_button( $posts_query->query_vars['paged'], $post_per_page );
+					break;
+				case 'none':
+						$html .= '';
 					break;
 			}
 		$html .= '</div>';

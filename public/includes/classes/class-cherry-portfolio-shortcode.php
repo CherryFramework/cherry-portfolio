@@ -99,6 +99,7 @@ class Cherry_Portfolio_Shortcode extends Cherry_Portfolio_Data {
 				'loading_mode' => array(
 					'type'    => 'select',
 					'values'  => array(
+						'portfolio-none-mode'				=> __( 'None', 'cherry-portfolio' ),
 						'portfolio-ajax-pagination-mode'	=> __('Ajax pagination', 'cherry-portfolio'),
 						'portfolio-more-button-mode'		=> __('More button', 'cherry-portfolio'),
 					),
