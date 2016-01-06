@@ -259,8 +259,6 @@ div.portfolio-wrap .portfolio-container.loading-animation-fall-perspective .port
 div.portfolio-wrap .portfolio-list {
   position: relative;
   min-height: 100px;
-  -webkit-transition: all 0.5s ease-out;
-  transition: all 0.5s ease-out;
 }
 div.portfolio-wrap div.portfolio-item .inner-wrap {
   position: relative;

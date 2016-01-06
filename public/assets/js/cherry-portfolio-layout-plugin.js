@@ -202,14 +202,15 @@
 
 								beforeItemLength = 0;
 
-								portfolioList = $('.portfolio-list', portfolioContainer);
+								portfolioList = $('.portfolio-container .portfolio-list', _this);
+
 								isotopeOptions = {
 									itemSelector : '.portfolio-item',
 									resizable: false,
 									//layoutMode: ( 'masonry-layout' == listLayout ) ? 'masonry' : 'fitRows' ,
 									layoutMode: 'masonry' ,
 									masonry: {
-										columnWidth: Math.floor( $('.portfolio-list', portfolioContainer).width() / widthLayoutChanger() )
+										//columnWidth: Math.floor( portfolioList.width() / widthLayoutChanger() )
 									}
 								}
 
@@ -227,7 +228,8 @@
 									case 'grid-layout':
 
 										$('.inner-wrap', elementsList).css({ "margin": Math.floor( itemMargin * 0.5 ) });
-										$(elementsList).css({ "width": Math.floor( $('.portfolio-list', portfolioContainer).width() / widthLayoutChanger() ) });
+
+										$(elementsList).css({ "width": Math.floor( portfolioList.width() / widthLayoutChanger() ) });
 
 										portfolioList.html('').isotope( isotopeOptions ).isotope( 'insert', elementsList );
 										portfolioContainer.append( pagePagination );
@@ -364,6 +366,8 @@
 									$(this).css({"display":"none"});
 								});
 
+								portfolioList = $('.portfolio-list', portfolioContainer);
+
 								beforeItemLength = $('.portfolio-list .portfolio-item', portfolioContainer).length;
 
 								var
@@ -378,12 +382,14 @@
 									case 'masonry-layout':
 									case 'grid-layout':
 										var $elems = $(response);
-										elementsList.css({ "width": Math.floor( $('.portfolio-list', portfolioContainer).width() / column ) });
+
+										elementsList.css({ "width": Math.floor( $('.portfolio-list', portfolioContainer).width() / widthLayoutChanger() ) });
 										$('.inner-wrap', elementsList).css({ "margin": Math.floor( itemMargin * 0.5 ) });
 										portfolioList.append( elementsList ).isotope( 'appended', elementsList );
 										portfolioList.imagesLoaded( function() {
 											portfolioList.isotope( isotopeOptions )
 											showPortfolioList( beforeItemLength );
+											jQuery(window).trigger('resize.portfolio_layout_resize');
 										});
 									break;
 									case 'justified-layout':
@@ -435,7 +441,7 @@
 								// ajax_success - trigger
 								_this.trigger( 'ajax_success' );
 
-								CHERRY_API.cherry_portfolio.magnific_popap_init();
+								//CHERRY_API.cherry_portfolio.magnific_popap_init();
 							},
 							dataType: 'html'
 					});
