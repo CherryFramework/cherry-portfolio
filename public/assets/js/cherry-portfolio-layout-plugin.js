@@ -441,7 +441,7 @@
 								// ajax_success - trigger
 								_this.trigger( 'ajax_success' );
 
-								//CHERRY_API.cherry_portfolio.magnific_popap_init();
+								CHERRY_API.cherry_portfolio.magnific_popap_init();
 							},
 							dataType: 'html'
 					});
