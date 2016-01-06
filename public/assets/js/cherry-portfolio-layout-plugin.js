@@ -210,7 +210,7 @@
 									//layoutMode: ( 'masonry-layout' == listLayout ) ? 'masonry' : 'fitRows' ,
 									layoutMode: 'masonry' ,
 									masonry: {
-										//columnWidth: Math.floor( portfolioList.width() / widthLayoutChanger() )
+										columnWidth: Math.floor( portfolioList.width() / widthLayoutChanger() )
 									}
 								}
 
