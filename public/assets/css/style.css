@@ -59,6 +59,7 @@ div.portfolio-wrap .portfolio-container.justified-layout .portfolio-list .justif
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 50% 50%;
+  overflow: inherit;
 }
 div.portfolio-wrap .portfolio-container.justified-layout .portfolio-list .justified-layout-item .justified-image {
   position: relative;

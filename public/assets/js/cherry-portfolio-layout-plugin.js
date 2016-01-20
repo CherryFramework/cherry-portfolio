@@ -402,22 +402,33 @@
 											,	image_width = $this.data('image-width')
 											,	image_height = $this.data('image-height')
 											,	image_ratio = $this.data('image-ratio')
-											,	flex_value = Math.round( image_ratio * 100 )
+											,	flex_value = Math.round( image_ratio*100 )
 											,	new_width = Math.round( fixedHeight * image_ratio )
 											;
 
+											if( $('.justified-image', $this)[0] ){
+												new_height = 'auto';
+												$('.justified-image', $this).css({
+													'width': '100%'
+												,	'height': fixedHeight
+												,	'background-image': 'url(' + image_src + ')'
+												})
+											}else{
+												new_height = fixedHeight;
+												$('.inner-wrap', $this).css({
+													'background-image': 'url(' + image_src + ')'
+												})
+											}
+
 											$this.css({
 												'width': new_width + 'px'
-											,	'height': fixedHeight
+											,	'height': new_height
 											,	'-webkit-flex': flex_value + ' 1 ' + new_width + 'px'
 											,	'-ms-flex': flex_value + ' 1 ' + new_width + 'px'
 											,	'flex': flex_value + ' 1 ' + new_width + 'px'
 											,	margin: Math.ceil(itemMargin*0.5) + 'px'
 											});
 
-											$('.inner-wrap', $this).css({
-												'background-image': 'url(' + image_src + ')'
-											})
 										})
 
 										portfolioList.imagesLoaded( function() {
