@@ -191,14 +191,14 @@ class Cherry_Portfolio_Data {
 			}
 
 			$container_attr = '';
-			$container_attr .= 'data-post-per-page="' . self::$options['posts_per_page'] . '"';
-			$container_attr .= 'data-column="' . self::$options['grid_col'] .'"';
-			$container_attr .= 'data-list-layout="' . self::$options['listing_layout'] .'"';
-			$container_attr .= 'data-loading-mode="' . $loading_mode .'"';
-			$container_attr .= 'data-item-margin="' . self::$options['item_margin'] . '"';
-			$container_attr .= 'data-fixed-height="' . self::$options['fixed_height'] . '"';
-			$container_attr .= 'data-template="' . self::$options['template'] . '"';
-			$container_attr .= 'data-posts-format="' . self::$options['posts_format'] . '"';
+			$container_attr .= ' data-post-per-page="' . self::$options['posts_per_page'] . '"';
+			$container_attr .= ' data-column="' . self::$options['grid_col'] .'"';
+			$container_attr .= ' data-list-layout="' . self::$options['listing_layout'] .'"';
+			$container_attr .= ' data-loading-mode="' . $loading_mode .'"';
+			$container_attr .= ' data-item-margin="' . self::$options['item_margin'] . '"';
+			$container_attr .= ' data-fixed-height="' . self::$options['fixed_height'] . '"';
+			$container_attr .= ' data-template="' . self::$options['template'] . '"';
+			$container_attr .= ' data-posts-format="' . self::$options['posts_format'] . '"';
 
 			$output .= '<div class="portfolio-container ' . self::$options['listing_layout'] . ' ' . self::$options['loading_animation'] . '" ' . $container_attr . '>';
 				$output .= '<div class="portfolio-list"  data-all-posts-count="' . $this->posts_query->found_posts . '">';
