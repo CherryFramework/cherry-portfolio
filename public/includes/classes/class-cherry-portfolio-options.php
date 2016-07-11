@@ -305,6 +305,18 @@ if ( !class_exists( 'Portfolio_Options' ) ) {
 				'description'	=> __('Set text for portfolio "read more" buttons.', 'cherry-portfolio'),
 				'value'			=> __('Read more', 'cherry-portfolio'),
 			);
+			$portfolio_options['portfolio-prev-button-text'] = array(
+				'type'			=> 'text',
+				'title'			=> __( 'Prev page text', 'cherry-portfolio' ),
+				'description'	=> __( 'Set text for portfolio `Prev page` buttons.', 'cherry-portfolio' ),
+				'value'			=> __( 'Prev page', 'cherry-portfolio' ),
+			);
+			$portfolio_options['portfolio-next-button-text'] = array(
+				'type'			=> 'text',
+				'title'			=> __( 'Next page text', 'cherry-portfolio' ),
+				'description'	=> __( 'Set text for portfolio `Next page` buttons.', 'cherry-portfolio' ),
+				'value'			=> __( 'Next page', 'cherry-portfolio' ),
+			);
 			$portfolio_options['portfolio-masonry-template'] = array(
 				'type'			=> 'text',
 				'title'			=> __('Masonry template', 'cherry-portfolio'),
