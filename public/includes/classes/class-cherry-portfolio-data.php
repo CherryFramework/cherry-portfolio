@@ -51,6 +51,7 @@ class Cherry_Portfolio_Data {
 			'wrap_class'						=> 'portfolio-wrap',
 			'before_title'						=> '<h3>',
 			'after_title'						=> '</h3>',
+			'single_term'						=> self::cherry_portfolio_get_option( 'single-term', '' ),
 			'masonry_template'					=> self::cherry_portfolio_get_option('portfolio-masonry-template', 'masonry-default.tmpl'),
 			'grid_template'						=> self::cherry_portfolio_get_option('portfolio-grid-template', 'grid-default.tmpl'),
 			'list_template'						=> self::cherry_portfolio_get_option('portfolio-list-template', 'list-default.tmpl'),
@@ -201,6 +202,7 @@ class Cherry_Portfolio_Data {
 			$container_attr .= ' data-fixed-height="' . self::$options['fixed_height'] . '"';
 			$container_attr .= ' data-template="' . self::$options['template'] . '"';
 			$container_attr .= ' data-posts-format="' . self::$options['posts_format'] . '"';
+			$container_attr .= ' data-single-term="' . self::$options['single_term'] . '"';
 
 			$output .= '<div class="portfolio-container ' . self::$options['listing_layout'] . ' ' . self::$options['loading_animation'] . '" ' . $container_attr . '>';
 				$output .= '<div class="portfolio-list"  data-all-posts-count="' . $this->posts_query->found_posts . '">';
@@ -280,12 +282,12 @@ class Cherry_Portfolio_Data {
 		$defaults_query_args = apply_filters( 'cherry_the_portfolio_default_query_args',
 			array(
 				'post_type'                       => CHERRY_PORTFOLIO_NAME,
-				CHERRY_PORTFOLIO_NAME.'_category' => '',
+				CHERRY_PORTFOLIO_NAME.'_category' => 'macro',
 				'order'                           => 'DESC',
 				'orderby'                         => 'date',
 				'posts_per_page'                  => -1,
 				'paged'                           => $paged,
-				'post_status'                     => 'publish',
+				'post_status'                     => 'publish'
 			)
 		);
 

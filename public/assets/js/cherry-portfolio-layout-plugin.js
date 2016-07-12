@@ -35,7 +35,7 @@
 						resizable: false,
 						masonry: { columnWidth: Math.floor( $('.portfolio-list', portfolioContainer).width() / column ) }
 					},
-					currentSlug = '',
+					currentSlug = portfolioContainer.data('single-term'),
 					currentPaginationPage = 1,
 					allPageLenght = 0,
 					allPageLenght_temp = 0,

@@ -11,8 +11,17 @@
 <article <?php if ( function_exists( 'cherry_attr' ) ) cherry_attr( 'post' ); ?>>
 
 	<?php
+		global $wp_query;
+
+		$filter_visible = ( is_tax() ) ? 'no' : 'yes';
+
+		$attr = array(
+			'filter_visible' => $filter_visible,
+			'single_term'    => ! empty( $wp_query->query_vars['term'] ) ? $wp_query->query_vars['term'] : '',
+		);
+
 		$data = new Cherry_Portfolio_Data;
-		$data->the_portfolio();
+		$data->the_portfolio( $attr );
 	?>
 
 </article>
