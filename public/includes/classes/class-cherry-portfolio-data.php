@@ -544,6 +544,7 @@ class Cherry_Portfolio_Data {
 				$_postdata['postformat']    = $postformat;
 				$_postdata['gallerythumbnails']    = $gallery_thumbnails;
 				$_postdata['thumbnailscount']    = $thumbnails_count;
+				$_postdata['excerpt'] = $excerpt;
 
 				/**
 				 * Filters the array with a current post data.
@@ -830,7 +831,8 @@ class Cherry_Portfolio_Data {
 		$_postdata['image']    = $figure_image;
 		$_postdata['slider']    = $slider_html;
 		$_postdata['externallink']    = $externallink;
-
+		$_postdata['excerpt'] = $excerpt;
+		
 		/**
 		 * Filters the array with a current post data.
 		 *
