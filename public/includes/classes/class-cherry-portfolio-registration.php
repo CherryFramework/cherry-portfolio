@@ -79,6 +79,7 @@ class Cherry_Portfolio_Registration {
 			'cherry-layouts',
 			'page-attributes',
 			'cherry-grid-type',
+			'excerpt'
 		);
 
 		$args = array(
@@ -86,7 +87,7 @@ class Cherry_Portfolio_Registration {
 			'supports'        => $supports,
 			'public'          => true,
 			'capability_type' => 'post',
-			'rewrite'         => array( 'slug' => 'portfolio-archive', ), // Permalinks format
+			'rewrite'         => array( 'slug' => 'recipe-inspirations', ), // Permalinks format
 			'menu_position'   => null,
 			'menu_icon'       => ( version_compare( $GLOBALS['wp_version'], '3.8', '>=' ) ) ? 'dashicons-portfolio' : '',
 			'can_export'      => true,
