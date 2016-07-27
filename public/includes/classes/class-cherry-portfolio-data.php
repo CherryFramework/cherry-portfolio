@@ -545,6 +545,7 @@ class Cherry_Portfolio_Data {
 				$_postdata['gallerythumbnails']    = $gallery_thumbnails;
 				$_postdata['thumbnailscount']    = $thumbnails_count;
 				$_postdata['excerpt'] = $excerpt;
+				
 
 				/**
 				 * Filters the array with a current post data.
