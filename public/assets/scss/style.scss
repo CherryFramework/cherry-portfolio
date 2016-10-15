@@ -197,26 +197,27 @@ div.portfolio-wrap{
 			}
 			&.loading-animation-fall-perspective{
 				.portfolio-list{
-				@include perspective(1000px);
-				@include perspective-origin(50% 50%);
 					.portfolio-item{
+						perspective: 1500px;
+						perspective-origin: 50% 50%;
 						.inner-wrap{
-							@include preserve-3d();
-							@include multiTranslate(translateZ(0px) translateY(0px) rotateX(0deg));
+							transform-style: preserve-3d;
+							transform: translateZ(0px) translateY(0px) rotateX(0deg);
 							@include opacity(1);
-							@include transition(all 1s ease);
+							@include transition(transform 1s ease);
 						}
 						&.animate-cycle-show{
 							.inner-wrap{
-								@include multiTranslate(translateZ(400px) translateY(300px) rotateX(-65deg));
+								transform: translateZ(400px) translateY(300px) rotateX(-65deg);
 								@include opacity(0);
+								@include transition(transform 1s ease);
 							}
 						}
 						&.animate-cycle-hide{
 							.inner-wrap{
-								@include multiTranslate(translateZ(-200px) translateY(-250px) rotateX(60deg));
+								transform: translateZ(-200px) translateY(-250px) rotateX(60deg);
 								@include opacity(0);
-								@include transition(all 0.5s ease);
+								@include transition(transform 0.3s ease);
 							}
 						}
 					}

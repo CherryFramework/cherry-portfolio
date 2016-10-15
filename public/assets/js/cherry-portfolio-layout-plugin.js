@@ -28,14 +28,14 @@
 					loadingMode = portfolioContainer.data('loading-mode'),
 					fixedHeight = portfolioContainer.data('fixed-height'),
 					listLayout = portfolioContainer.data('list-layout'),
-					template = portfolioContainer.data('template'),
-					postsFormat = portfolioContainer.data('posts-format'),
+					template = portfolioContainer.data('template') || '',
+					postsFormat = portfolioContainer.data('posts-format') || 'post-format-all',
 					isotopeOptions = {
 						itemSelector : '.portfolio-item',
 						resizable: false,
 						masonry: { columnWidth: Math.floor( $('.portfolio-list', portfolioContainer).width() / column ) }
 					},
-					currentSlug = portfolioContainer.data('single-term'),
+					currentSlug = portfolioContainer.data('single-term') || 'all',
 					currentPaginationPage = 1,
 					allPageLenght = 0,
 					allPageLenght_temp = 0,
@@ -164,6 +164,7 @@
 
 				// ajax filter
 				function ajaxGetNewContent( slug, page, order ){
+					console.log(order);
 					var data = {
 						action: 'get_new_items',
 						value_slug: slug,
