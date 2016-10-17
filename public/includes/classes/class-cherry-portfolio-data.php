@@ -1355,6 +1355,8 @@ function get_more_items() {
 		$template = $_POST['template'];
 		$posts_format = $_POST['posts_format'];
 
+		( $value_slug !== 'all' ) ? $value_slug : $value_slug = '';
+
 		$data = new Cherry_Portfolio_Data;
 		$query_args = array(
 			( Cherry_Portfolio_Data::$default_options['filter_type'] == 'category' ) ? CHERRY_PORTFOLIO_NAME.'_category' : CHERRY_PORTFOLIO_NAME.'_tag' => $value_slug,

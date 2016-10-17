@@ -204,20 +204,20 @@ div.portfolio-wrap{
 							transform-style: preserve-3d;
 							transform: translateZ(0px) translateY(0px) rotateX(0deg);
 							@include opacity(1);
-							@include transition(transform 1s ease);
+							@include transition(all 1s ease);
 						}
 						&.animate-cycle-show{
 							.inner-wrap{
 								transform: translateZ(400px) translateY(300px) rotateX(-65deg);
 								@include opacity(0);
-								@include transition(transform 1s ease);
+								@include transition(all 1s ease);
 							}
 						}
 						&.animate-cycle-hide{
 							.inner-wrap{
 								transform: translateZ(-200px) translateY(-250px) rotateX(60deg);
 								@include opacity(0);
-								@include transition(transform 0.3s ease);
+								@include transition(all 0.3s ease);
 							}
 						}
 					}
