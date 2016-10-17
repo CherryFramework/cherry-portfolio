@@ -13,7 +13,7 @@
 	<?php
 		global $wp_query;
 
-		$filter_visible = ( is_tax() ) ? 'no' : 'yes';
+		$filter_visible = ( is_tax() ) ? 'false' : 'true';
 
 		$attr = array(
 			'filter_visible' => $filter_visible,
