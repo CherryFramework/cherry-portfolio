@@ -53,6 +53,8 @@ class Cherry_Portfolio_Page_Template {
 		// Add a filter to load a custom template for a given post.
 		add_filter( 'single_template', array( $this, 'get_single_template' ) );
 
+		add_filter( 'theme_page_templates', array( $this, 'add_templates' ) );
+
 		// Add your templates to this array.
 		$this->templates = array(
 			'template-portfolio.php' => __( 'Portfolio', 'cherry-portfolio' ),
@@ -64,6 +66,15 @@ class Cherry_Portfolio_Page_Template {
 
 	}
 
+	/**
+	 * Add services page templates.
+	 *
+	 * @param  array $templates Existing templates array.
+	 * @return array
+	 */
+	public function add_templates( $templates = array() ) {
+		return array_merge( $templates, $this->templates );
+	}
 
 	/**
 	 * Adds our template to the pages cache in order to trick WordPress
