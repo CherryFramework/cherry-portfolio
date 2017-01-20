@@ -281,13 +281,13 @@ class Cherry_Portfolio_Data {
 
 		$defaults_query_args = apply_filters( 'cherry_the_portfolio_default_query_args',
 			array(
-				'post_type'                       => CHERRY_PORTFOLIO_NAME,
-				CHERRY_PORTFOLIO_NAME.'_category' => 'macro',
-				'order'                           => 'DESC',
-				'orderby'                         => 'date',
-				'posts_per_page'                  => -1,
-				'paged'                           => $paged,
-				'post_status'                     => 'publish'
+				'post_type'                         => CHERRY_PORTFOLIO_NAME,
+				CHERRY_PORTFOLIO_NAME . '_category' => '',
+				'order'                             => 'DESC',
+				'orderby'                           => 'date',
+				'posts_per_page'                    => -1,
+				'paged'                             => $paged,
+				'post_status'                       => 'publish',
 			)
 		);
 
