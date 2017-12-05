@@ -184,7 +184,7 @@
 
 		hover_init: function () {
 			var $portfolioItem = $( '.portfolio-container .portfolio-item');
-			console.log($portfolioItem);
+
 			$portfolioItem.each( function() {
 				var $target      = $( this ),
 					toogleEvents = 'mouseenter mouseleave',
