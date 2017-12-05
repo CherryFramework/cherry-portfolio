@@ -332,6 +332,7 @@
 								_this.trigger( 'ajax_success' );
 
 								CHERRY_API.cherry_portfolio.magnific_popap_init();
+								CHERRY_API.cherry_portfolio.hover_init();
 							},
 							dataType: 'html'
 					});
@@ -454,6 +455,7 @@
 								_this.trigger( 'ajax_success' );
 
 								CHERRY_API.cherry_portfolio.magnific_popap_init();
+								CHERRY_API.cherry_portfolio.hover_init();
 							},
 							dataType: 'html'
 					});

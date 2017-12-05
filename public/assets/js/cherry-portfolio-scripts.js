@@ -8,6 +8,7 @@
 	CHERRY_API.cherry_portfolio = {
 		init: function () {
 			var self = this;
+
 			if( CHERRY_API.status.document_ready ){
 				self.render();
 			}else{
@@ -70,6 +71,8 @@
 
 			self.single_gallery_init();
 			self.magnific_popap_init();
+
+			self.hover_init();
 		},// end render
 		magnific_popap_init: function () {
 			if( $('.magnific-popup-link')[0] ){
@@ -177,7 +180,43 @@
 					})
 				})
 			}
+		},
+
+		hover_init: function () {
+			var $portfolioItem = $( '.portfolio-container .portfolio-item');
+			console.log($portfolioItem);
+			$portfolioItem.each( function() {
+				var $target      = $( this ),
+					toogleEvents = 'mouseenter mouseleave',
+					scrollOffset = $( window ).scrollTop();
+
+				if ( ! $target.length ) {
+					return;
+				}
+
+				if ( 'ontouchend' in window || 'ontouchstart' in window ) {
+					$target.on( 'touchstart', function( event ) {
+						scrollOffset = $( window ).scrollTop();
+					} );
+
+					$target.on( 'touchend', function( event ) {
+
+						if ( scrollOffset !== $( window ).scrollTop() ) {
+							return false;
+						}
+
+						$( this ).toggleClass( 'hover-state' );
+					} );
+
+				} else {
+					$target.on( toogleEvents, function( event ) {
+						$( this ).toggleClass( 'hover-state' );
+					} );
+				}
+
+			} );
 		}
+
 	}
 	CHERRY_API.cherry_portfolio.init();
 }(jQuery));
